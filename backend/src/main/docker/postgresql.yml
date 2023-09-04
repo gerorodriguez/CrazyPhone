@@ -1,0 +1,12 @@
+version: '3.8'
+services:
+  crazyphone-postgresql:
+    image: postgres:14.2
+    environment:
+      - POSTGRES_USER=crazyphone
+      - POSTGRES_PASSWORD=
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_DB=crazyphone
+
+    ports:
+      - 127.0.0.1:5432:5432
