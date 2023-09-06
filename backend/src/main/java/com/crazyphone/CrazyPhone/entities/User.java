@@ -13,16 +13,21 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
+
     @Column(name = "id")
     private Long id;
     @Column(name = "full_name")
     private String fullName;
+
     @Column(name = "email")
     private String email;
+
     @Column(name = "password")
     private String password;
+
     @Column (name = "phone_number")
     private String phoneNumber;
+
     @OneToMany(mappedBy = "user")
     private List<Publication> publications = new ArrayList<>();
 

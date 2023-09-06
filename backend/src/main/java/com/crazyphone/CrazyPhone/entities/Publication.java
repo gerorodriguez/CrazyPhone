@@ -35,6 +35,10 @@ public class Publication {
     @JoinColumn(foreignKey = @ForeignKey(name = "fk_publication__user_id) "))
     private User user;
 
+    @ManyToOne
+    @JoinColumn(foreignKey = @ForeignKey(name = "fk_publication__brand_id) "))
+    private Brand brand;
+
     public Long getId() {
         return id;
     }
