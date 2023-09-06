@@ -19,13 +19,29 @@ public class Brand {
     private String brandName;
 
     @OneToMany(mappedBy = "brand")
-    private List<Publication> publications;
+    private List<Model> models;
+
+    public Long getId() {
+        return id;
+    }
 
     public void setId(Long id) {
         this.id = id;
     }
 
-    public Long getId() {
-        return id;
+    public String getBrandName() {
+        return brandName;
+    }
+
+    public void setBrandName(String brandName) {
+        this.brandName = brandName;
+    }
+
+    public List<Model> getModels() {
+        return models;
+    }
+
+    public void setModels(List<Model> models) {
+        this.models = models;
     }
 }
