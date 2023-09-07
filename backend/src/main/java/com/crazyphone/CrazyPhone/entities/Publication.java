@@ -8,23 +8,43 @@ public class Publication {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
-    private Long Id;
+
+    @Column (name = "id")
+    private Long id;
+    @Column (name = "title")
     private String title;
+
+    @Column (name = "price")
     private Float price;
+
+    @Column (name = "storage")
     private Integer storage;
+
+    @Column (name = "description")
     private String description;
+
+    @Column (name = "phone_number")
     private String phoneNumber;
+
+    @Column (name = "instagram_account")
     private String instagramAccount;
+
+    @Column (name = "state")
     private String state;
+    @ManyToOne
+    @JoinColumn(foreignKey = @ForeignKey(name = "fk_publication__user_id) "))
+    private User user;
 
-
-
-    public void setId(Long id) {
-        this.Id = id;
-    }
+    @ManyToOne
+    @JoinColumn(foreignKey = @ForeignKey(name = "fk_publication__brand_id) "))
+    private Brand brand;
 
     public Long getId() {
-        return Id;
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -81,6 +101,13 @@ public class Publication {
 
     public void setState(String state) {
         this.state = state;
+    }
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
 
