@@ -1,27 +1,11 @@
-/* eslint-disable react/jsx-no-target-blank */
-import {
-  Navigate,
-  RouterProvider,
-  createBrowserRouter,
-} from "react-router-dom";
+import router from './routes';
 import './App.css'
-import Login from "./components/login/login";
-
+import { RouterProvider } from 'react-router-dom';
 
 const App = () => {
 
-  const router = createBrowserRouter([
-    { path: "/", element: <Login /> },
-    {
-      path: "/login",
-      element: <Login />,
-    },
-  ]);
-
   return (
-    <div>
-      <RouterProvider router={router} />
-    </div>
+    <RouterProvider router={router}/>
   );
 };
 
