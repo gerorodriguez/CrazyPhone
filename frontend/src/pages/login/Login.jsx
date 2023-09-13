@@ -25,7 +25,7 @@ const Login = () => {
             <button className="btn btn-primary">Sign in</button>
           </div>
           <p className='text-end mt-2'>
-            Forgot <a href="">password?</a><Link to='/login' className='ms-2'>Sign up</Link>
+            Forgot <a href="">password?</a><Link to='/register' className='ms-2'>Sign up</Link>
           </p>
         </form>
       </div>
