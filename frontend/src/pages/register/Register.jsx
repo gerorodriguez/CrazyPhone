@@ -11,65 +11,17 @@ const Register = () => {
     confirmPassword: "",
   });
 
-  const [errors, setErrors] = useState({});
-
   const handleChange = (e) => {
-    if (errors[e.target.name]) {
-      setErrors({
-        ...errors,
-        [e.target.name]: "",
-      });
-    }
-
     setForm({
       ...form,
       [e.target.name]: e.target.value,
     });
   };
 
-
-  const validateForm = () => {
-    const newErrors = {};
-
-    if (form.name.trim() === "") {
-      newErrors.name = "Name is required";
-    }
-
-    if (form.email.trim() === "") {
-      newErrors.email = "Email is required";
-    } else if (!/^\S+@\S+\.\S+$/.test(form.email)) {
-      newErrors.email = "Invalid email address";
-    }
-
-    if (form.confirmEmail.trim() === "") {
-      newErrors.confirmEmail = "Confirm Email is required";
-    } else if (form.email !== form.confirmEmail) {
-      newErrors.confirmEmail = "Emails do not match";
-    }
-
-    if (form.password.trim() === "") {
-      newErrors.password = "Password is required";
-    }
-
-    if (form.confirmPassword.trim() === "") {
-      newErrors.confirmPassword = "Confirm Password is required";
-    } else if (form.password !== form.confirmPassword) {
-      newErrors.confirmPassword = "Passwords do not match";
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log(form);
-    const isValid = validateForm();
-    if (isValid) {
-      console.log("Form submitted", form);
-    }
   };
-
 
   return (
     <Container
@@ -104,18 +56,7 @@ const Register = () => {
                           minLength={field.minLength}
                           maxLength={field.maxLength}
                           onChange={handleChange}
-                          onFocus={() => {
-                            if (errors[field.name]) {
-                              setErrors({
-                                ...errors,
-                                [field.name]: "",
-                              });
-                            }
-                          }}
                         />
-                        {errors[field.name] && (
-                          <p className="text-danger">{errors[field.name]}</p>
-                        )}
                       </div>
                     ))}
                   </Form.Group>
