@@ -22,42 +22,40 @@ const Register = () => {
 
   const validateForm = () => {
     const newErrors = {};
-  
-  
+
     if (form.fullName.trim() === "") {
-      newErrors.fullName = "Name is required";
+      newErrors.fullName = "Por favor, ingrese su nombre";
     }
 
     if (form.email.trim() === "") {
-      newErrors.email = "Email is required";
+      newErrors.email = "Email invalido";
     } else if (!/^\S+@\S+\.\S+$/.test(form.email)) {
-      newErrors.email = "Invalid email address";
+      newErrors.email = "Email invalido";
     }
 
     if (form.phoneNumber.trim() === "") {
-      newErrors.phoneNumber = "Phone number is required";
+      newErrors.phoneNumber = "Ingrese su número de teléfono";
     }
 
     if (form.password.trim() === "") {
-      newErrors.password = "Password is required";
+      newErrors.password = "Por favor, ingrese su contraseña";
     }
 
     if (form.confirmPassword.trim() === "") {
-      newErrors.confirmPassword = "Confirm Password is required";
+      newErrors.confirmPassword = "Por favor, repita su contraseña";
     } else if (form.password !== form.confirmPassword) {
-      newErrors.confirmPassword = "Passwords do not match";
+      newErrors.confirmPassword = "La contraseña no coincide";
     }
 
-  
     return newErrors;
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-  
-    const newErrors = validateForm(); 
+
+    const newErrors = validateForm();
     setErrors(newErrors);
-  
+
     if (Object.keys(newErrors).length === 0) {
       console.log("Form submitted", form);
     }
@@ -81,7 +79,7 @@ const Register = () => {
               <Col md="6">
                 <Form>
                   <Form.Label className="d-flex justify-content-center align-items-center">
-                    <h3>Registro</h3>
+                    <h3>Registrarse</h3>
                   </Form.Label>
 
                   <Form.Group>
@@ -96,6 +94,11 @@ const Register = () => {
                           minLength={field.minLength}
                           maxLength={field.maxLength}
                           onChange={handleChange}
+                          onInput={() => {
+                            const updatedErrors = { ...errors };
+                            delete updatedErrors[field.name];
+                            setErrors(updatedErrors);
+                          }}
                           className={errors[field.name] ? "is-invalid" : ""}
                         />
                         {errors[field.name] && (
@@ -112,9 +115,9 @@ const Register = () => {
                       variant="primary"
                       type="submit"
                       onClick={handleSubmit}
-                      className="mb-4 w-100 "
+                      className="mb-4 w-100"
                     >
-                      Submit
+                      Entrar
                     </Button>
                   </div>
 
