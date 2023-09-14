@@ -76,16 +76,16 @@ const Register = () => {
               boxShadow="0 4px 8px 0 rgba(0, 0, 0, 0.2)"
               zIndex="100"
             >
-              <Col md="6">
+              <Col md="9">
                 <Form>
                   <Form.Label className="d-flex justify-content-center align-items-center">
                     <h3>Registrarse</h3>
                   </Form.Label>
 
-                  <Form.Group>
+                  <Form.Group style={{position: "relative"}}>
                     {formFields.map((field) => (
-                      <div key={field.name} className="mb-2 ">
-                        <Form.Label>{field.label}</Form.Label>
+                      <div key={field.name} className="mb-4 ">
+                        <Form.Label className="mb-0">{field.label}</Form.Label>
                         <Form.Control
                           type={field.type}
                           name={field.name}
@@ -102,7 +102,7 @@ const Register = () => {
                           className={errors[field.name] ? "is-invalid" : ""}
                         />
                         {errors[field.name] && (
-                          <Form.Control.Feedback type="invalid">
+                          <Form.Control.Feedback className="mb-3 mt-0" style={{position: "absolute"}} type="invalid">
                             {errors[field.name]}
                           </Form.Control.Feedback>
                         )}
@@ -115,7 +115,7 @@ const Register = () => {
                       variant="primary"
                       type="submit"
                       onClick={handleSubmit}
-                      className="mb-4 w-100"
+                      className="mb-4 w-100 mt-3"
                     >
                       Entrar
                     </Button>

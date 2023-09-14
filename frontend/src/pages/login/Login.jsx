@@ -55,14 +55,14 @@ const Login = () => {
               boxShadow="0 4px 8px 0 rgba(0, 0, 0, 0.2)"
               zIndex="100"
             >
-              <Col md="6">
+              <Col md="9">
                 <Form>
                   <Form.Label className="d-flex justify-content-center align-items-center">
                     <h3>Iniciar sesión</h3>
                   </Form.Label>
 
-                  <Form.Group controlId="formBasicEmail">
-                    <Form.Label>Correo electrónico</Form.Label>
+                  <Form.Group style={{position: "relative"}} controlId="formBasicEmail">
+                    <Form.Label className="mb-0">Correo electrónico</Form.Label>
                     <Form.Control
                       type="email"
                       name="email"
@@ -71,13 +71,13 @@ const Login = () => {
                       onChange={handleInputChange}
                       isInvalid={errors.email}
                     />
-                    <Form.Control.Feedback type="invalid">
+                    <Form.Control.Feedback className="mb-3 mt-0" style={{position: "absolute"}} type="invalid">
                       Por favor, ingrese su correo electrónico.
                     </Form.Control.Feedback>
                   </Form.Group>
 
-                  <Form.Group controlId="formBasicPassword">
-                    <Form.Label>Contraseña</Form.Label>
+                  <Form.Group style={{position: "relative"}} controlId="formBasicPassword">
+                    <Form.Label className="mb-0 mt-4">Contraseña</Form.Label>
                     <Form.Control
                       type="password"
                       name="password"
@@ -86,7 +86,7 @@ const Login = () => {
                       onChange={handleInputChange}
                       isInvalid={errors.password}
                     />
-                    <Form.Control.Feedback type="invalid">
+                    <Form.Control.Feedback className="mb-3 mt-0" style={{position: "absolute"}} type="invalid">
                       Por favor, ingrese su contraseña.
                     </Form.Control.Feedback>
                   </Form.Group>
@@ -95,7 +95,7 @@ const Login = () => {
                     <Button
                       variant="primary"
                       type="submit"
-                      className="mb-4 w-100"
+                      className="mb-4 w-100 mt-3"
                       onClick={handleSubmit}
                     >
                       Entrar
