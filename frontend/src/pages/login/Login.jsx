@@ -1,11 +1,11 @@
-import "bootstrap/dist/css/bootstrap.min.css";
-import { useState } from "react";
-import { Form, Button, Container, Col, Card } from "react-bootstrap";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { useState } from 'react';
+import { Button, Card, Col, Container, Form } from 'react-bootstrap';
 
 const Login = () => {
   const [form, setForm] = useState({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
 
   const [errors, setErrors] = useState({});
@@ -36,7 +36,7 @@ const Login = () => {
     if (Object.keys(errors).length > 0) {
       setErrors(errors);
     } else {
-      console.log("Formulario válido", form);
+      console.log('Formulario válido', form);
     }
   };
 
@@ -61,7 +61,10 @@ const Login = () => {
                     <h3>Iniciar sesión</h3>
                   </Form.Label>
 
-                  <Form.Group style={{position: "relative"}} controlId="formBasicEmail">
+                  <Form.Group
+                    style={{ position: 'relative' }}
+                    controlId="formBasicEmail"
+                  >
                     <Form.Label className="mb-0">Correo electrónico</Form.Label>
                     <Form.Control
                       type="email"
@@ -71,12 +74,19 @@ const Login = () => {
                       onChange={handleInputChange}
                       isInvalid={errors.email}
                     />
-                    <Form.Control.Feedback className="mb-3 mt-0" style={{position: "absolute"}} type="invalid">
+                    <Form.Control.Feedback
+                      className="mb-3 mt-0"
+                      style={{ position: 'absolute' }}
+                      type="invalid"
+                    >
                       Por favor, ingrese su correo electrónico.
                     </Form.Control.Feedback>
                   </Form.Group>
 
-                  <Form.Group style={{position: "relative"}} controlId="formBasicPassword">
+                  <Form.Group
+                    style={{ position: 'relative' }}
+                    controlId="formBasicPassword"
+                  >
                     <Form.Label className="mb-0 mt-4">Contraseña</Form.Label>
                     <Form.Control
                       type="password"
@@ -86,7 +96,11 @@ const Login = () => {
                       onChange={handleInputChange}
                       isInvalid={errors.password}
                     />
-                    <Form.Control.Feedback className="mb-3 mt-0" style={{position: "absolute"}} type="invalid">
+                    <Form.Control.Feedback
+                      className="mb-3 mt-0"
+                      style={{ position: 'absolute' }}
+                      type="invalid"
+                    >
                       Por favor, ingrese su contraseña.
                     </Form.Control.Feedback>
                   </Form.Group>

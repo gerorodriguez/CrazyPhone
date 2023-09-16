@@ -1,14 +1,14 @@
-import { useState } from "react";
-import { Form, Button, Container, Col, Card } from "react-bootstrap";
-import { formFields } from "./FormFields";
+import { useState } from 'react';
+import { Button, Card, Col, Container, Form } from 'react-bootstrap';
+import { formFields } from './FormFields.js';
 
 const Register = () => {
   const [form, setForm] = useState({
-    fullName: "",
-    phoneNumber: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
+    fullName: '',
+    phoneNumber: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
   });
 
   const [errors, setErrors] = useState({});
@@ -23,28 +23,28 @@ const Register = () => {
   const validateForm = () => {
     const newErrors = {};
 
-    if (form.fullName.trim() === "") {
-      newErrors.fullName = "Por favor, ingrese su nombre";
+    if (form.fullName.trim() === '') {
+      newErrors.fullName = 'Por favor, ingrese su nombre';
     }
 
-    if (form.email.trim() === "") {
-      newErrors.email = "Email invalido";
+    if (form.email.trim() === '') {
+      newErrors.email = 'Email invalido';
     } else if (!/^\S+@\S+\.\S+$/.test(form.email)) {
-      newErrors.email = "Email invalido";
+      newErrors.email = 'Email invalido';
     }
 
-    if (form.phoneNumber.trim() === "") {
-      newErrors.phoneNumber = "Ingrese su número de teléfono";
+    if (form.phoneNumber.trim() === '') {
+      newErrors.phoneNumber = 'Ingrese su número de teléfono';
     }
 
-    if (form.password.trim() === "") {
-      newErrors.password = "Por favor, ingrese su contraseña";
+    if (form.password.trim() === '') {
+      newErrors.password = 'Por favor, ingrese su contraseña';
     }
 
-    if (form.confirmPassword.trim() === "") {
-      newErrors.confirmPassword = "Por favor, repita su contraseña";
+    if (form.confirmPassword.trim() === '') {
+      newErrors.confirmPassword = 'Por favor, repita su contraseña';
     } else if (form.password !== form.confirmPassword) {
-      newErrors.confirmPassword = "La contraseña no coincide";
+      newErrors.confirmPassword = 'La contraseña no coincide';
     }
 
     return newErrors;
@@ -57,7 +57,7 @@ const Register = () => {
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
-      console.log("Form submitted", form);
+      console.log('Form submitted', form);
     }
   };
 
@@ -82,9 +82,9 @@ const Register = () => {
                     <h3>Registrarse</h3>
                   </Form.Label>
 
-                  <Form.Group style={{position: "relative"}}>
+                  <Form.Group style={{ position: 'relative' }}>
                     {formFields.map((field) => (
-                      <div key={field.name} className="mb-4 ">
+                      <div key={field.name} className="mb-4">
                         <Form.Label className="mb-0">{field.label}</Form.Label>
                         <Form.Control
                           type={field.type}
@@ -99,10 +99,14 @@ const Register = () => {
                             delete updatedErrors[field.name];
                             setErrors(updatedErrors);
                           }}
-                          className={errors[field.name] ? "is-invalid" : ""}
+                          className={errors[field.name] ? 'is-invalid' : ''}
                         />
                         {errors[field.name] && (
-                          <Form.Control.Feedback className="mb-3 mt-0" style={{position: "absolute"}} type="invalid">
+                          <Form.Control.Feedback
+                            className="mb-3 mt-0"
+                            style={{ position: 'absolute' }}
+                            type="invalid"
+                          >
                             {errors[field.name]}
                           </Form.Control.Feedback>
                         )}
