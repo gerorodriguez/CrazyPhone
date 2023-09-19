@@ -51,7 +51,7 @@ const Register = () => {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+     e.preventDefault();
 
     const newErrors = validateForm();
     setErrors(newErrors);
@@ -77,7 +77,7 @@ const Register = () => {
               zIndex="100"
             >
               <Col md="9">
-                <Form>
+                <Form  onSubmit={handleSubmit}>
                   <Form.Label className="d-flex justify-content-center align-items-center">
                     <h3>Registrarse</h3>
                   </Form.Label>
@@ -117,8 +117,7 @@ const Register = () => {
                   <div className="mt-3">
                     <Button
                       variant="primary"
-                      type="submit"
-                      onClick={handleSubmit}
+                      type='submit'
                       className="mb-4 w-100 mt-3"
                     >
                       Entrar

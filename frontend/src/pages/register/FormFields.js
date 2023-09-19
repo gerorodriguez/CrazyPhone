@@ -10,7 +10,6 @@ export const formFields = [
     label: 'Número de telefono',
     name: 'phoneNumber',
     type: 'tel',
-    pattern: '[789][0-9]{10}',
     placeholder: '(+54) 4562-7890',
   },
   {
