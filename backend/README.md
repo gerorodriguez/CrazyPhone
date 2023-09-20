@@ -22,10 +22,10 @@
 
         4- Once the container is up and running, you can verify that the PostgreSQL service is functioning correctly using a PostgreSQL client or a database management tool like pgAdmin.
 
-        ✓Host: 127.0.0.1 (localhost)
-        ✓Port: 5432
-        ✓User: crazyphone
-        ✓Password: The password should be configured in the YAML file (replace <your_password> in the YAML file with the desired password).
+        ✓ Host: 127.0.0.1 (localhost)
+        ✓ Port: 5432
+        ✓ User: crazyphone
+        ✓ Password: The password should be configured in the YAML file (replace <your_password> in the YAML file with the desired password).
 
         5- When you are done using the PostgreSQL service, you can stop and remove the container by running the following command:
 
