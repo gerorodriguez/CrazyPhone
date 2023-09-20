@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/publications")
 public class PublicationController {
@@ -26,6 +28,11 @@ public class PublicationController {
     @PostMapping
     public ResponseEntity<PublicationDTO> save(@RequestBody PublicationDTO publicationDTO) {
         return new ResponseEntity<>(publicationService.save(publicationDTO), HttpStatus.CREATED);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<PublicationDTO>> getAll() {
+        return new ResponseEntity<>(publicationService.getAll(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
