@@ -2,7 +2,6 @@ package com.crazyphone.CrazyPhone.controllers;
 
 import com.crazyphone.CrazyPhone.services.BrandService;
 import com.crazyphone.CrazyPhone.services.dto.BrandDTO;
-import com.crazyphone.CrazyPhone.services.dto.PublicationDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
