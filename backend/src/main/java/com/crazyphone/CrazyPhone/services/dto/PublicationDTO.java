@@ -1,6 +1,5 @@
 package com.crazyphone.CrazyPhone.services.dto;
 
-import jakarta.persistence.Column;
 
 public class PublicationDTO {
     private Long id;
