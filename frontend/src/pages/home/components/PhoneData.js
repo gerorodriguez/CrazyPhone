@@ -1,0 +1,32 @@
+export const phonedata = [
+{
+    id: 1,
+    title: 'Phone Data',
+    price: 100,
+    storage: 128,
+    description: 'Esta es la descripcion',
+    phoneNumber: '1234567890',
+    instagramAccount: '@instagram',
+    state: 'Santa Fe',
+},
+{
+    id: 2,
+    title: 'Phone Data',
+    price: 100,
+    storage: 128,
+    description: 'Esta es la descripcion',
+    phoneNumber: '1234567890',
+    instagramAccount: '@instagram',
+    state: 'Santa Fe',
+},
+{
+    id: 3,
+    title: 'Phone Data',
+    price: 100,
+    storage: 128,
+    description: 'Esta es la descripcion',
+    phoneNumber: '1234567890',
+    instagramAccount: '@instagram',
+    state: 'Santa Fe',
+},
+];
