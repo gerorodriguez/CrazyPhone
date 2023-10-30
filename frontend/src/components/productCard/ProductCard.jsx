@@ -10,8 +10,9 @@ function ProductCard() {
         <Card.Text className='d-flex justify-content-center align-items-center'>
           Some quick example text to build on the card title and make.
         </Card.Text>
-        <Card.Text className='price ' style={{ fontSize: '19px', margin: '1% 0' }}>
-            $230,00
+        <Card.Text className='d-flex justify-content-between align-items-center price' style={{ fontSize: '19px', margin: '1% 0' }}>
+          $230,00
+          <Button className='ml-auto'>Ver</Button>
         </Card.Text>
       </Card.Body>
     </Card>
