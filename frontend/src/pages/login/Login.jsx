@@ -1,6 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState } from 'react';
 import { Button, Card, Col, Container, Form } from 'react-bootstrap';
+import ToggleTheme from '../../toggleTheme/ToggleTheme';
 
 const Login = () => {
   const [form, setForm] = useState({
@@ -43,8 +44,16 @@ const Login = () => {
   return (
     <Container
       fluid
-      className="d-flex justify-content-center align-items-center vh-100 bg-primary"
+      className="d-flex justify-content-center align-items-center vh-100 bg-dark"
     >
+      <Button
+        size="lg"
+        className="m-3"
+        variant="primary"
+        onClick={ToggleTheme}
+        style={{ display: 'flex', alignItems: 'center' }}
+      ></Button>
+
       <Col md="4">
         <Card>
           <Card.Body className="my-4">
