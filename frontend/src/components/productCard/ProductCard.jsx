@@ -1,8 +1,12 @@
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import { useContext } from 'react';
 
 function ProductCard() {
+  const { theme } = useContext(ThemeContext);
+
   return (
+
     <Card style={{ width: '18rem' }} className='rounded-3 mx-2 shadow'>
       <Card.Img variant="top" src="https://cdn.dxomark.com/wp-content/uploads/medias/post-155689/Apple-iPhone-15-Pro-Max_-blue-titanium_featured-image-packshot-review.jpg" />
       <Card.Body>

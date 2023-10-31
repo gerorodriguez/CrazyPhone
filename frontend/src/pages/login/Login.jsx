@@ -1,9 +1,14 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button, Card, Col, Container, Form } from 'react-bootstrap';
-import ToggleTheme from '../../toggleTheme/ToggleTheme';
+import ToggleTheme from '../../components/toggleTheme/ToggleTheme';
+import { useContext } from "react";
+import { ThemeContext } from "../../contexts/theme/theme.context";
+
 
 const Login = () => {
+  const { theme } = useContext(ThemeContext);
+
   const [form, setForm] = useState({
     email: '',
     password: '',
@@ -41,18 +46,22 @@ const Login = () => {
     }
   };
 
+  useEffect(() => {
+    console.log(theme, "soy el use effect")
+  }, [theme]);
+
+  useEffect(() => {
+    console.log("re render")
+  }, []);
+
   return (
+  
     <Container
-      fluid
-      className="d-flex justify-content-center align-items-center vh-100 bg-dark"
+      data-bs-theme={theme}
+      fluidS
+      className="d-flex justify-content-center align-items-center vh-100"
     >
-      <Button
-        size="lg"
-        className="m-3"
-        variant="primary"
-        onClick={ToggleTheme}
-        style={{ display: 'flex', alignItems: 'center' }}
-      ></Button>
+      <ToggleTheme />
 
       <Col md="4">
         <Card>
