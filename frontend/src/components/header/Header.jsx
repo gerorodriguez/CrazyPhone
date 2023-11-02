@@ -7,25 +7,28 @@ import { BsFillPersonFill } from 'react-icons/bs';
 const Header = () => {
   return (
     <>
-      <Navbar bg="light" data-bs-theme="light">
-        <Container>
-          <Navbar.Brand>Crazy Phone</Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav" />
+      <Navbar bg="dark" variant={"dark"} expand="lg">
+      <Container>
+        <Navbar.Brand href="#home">Crazy Phone</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <NavDropdown
-              title={<BsFillPersonFill />}
+            <Nav.Link>Telefonos</Nav.Link>
+          </Nav>
+          <Nav className="ms-auto">
+            <NavDropdown title={<BsFillPersonFill />}
               style={{ fontSize: '20px' }}
               id="basic-nav-dropdown"
-            >
-              <NavDropdown.Item>Mis publicaciones</NavDropdown.Item>
-              <NavDropdown.Item>Lista de deseos</NavDropdown.Item>
+              >
+              <NavDropdown.Item href="#action/3.1">Mis publicaciones</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.2">Lista de deseos</NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item>Salir</NavDropdown.Item>
             </NavDropdown>
-          </Nav>
-        </Container>
-      </Navbar>
+            </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
     </>
   );
 };
