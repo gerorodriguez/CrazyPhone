@@ -39,8 +39,9 @@ export default function AuthContextProvider({ children }) {
       login,
       logout,
       isAuthenticated,
+      userRole,
     }),
-    [isAuthenticated, login, logout],
+    [isAuthenticated, login, logout, userRole],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
