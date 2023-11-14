@@ -1,8 +1,12 @@
 import { useState } from 'react';
 import { Button, Card, Col, Container, Form } from 'react-bootstrap';
 import { formFields } from './FormFields.js';
+import { getAccount, register } from '../../services/AccountService.js';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
+  const navigate = useNavigate();
+
   const [form, setForm] = useState({
     fullName: '',
     phoneNumber: '',
@@ -51,14 +55,21 @@ const Register = () => {
   };
 
   const handleSubmit = (e) => {
-     e.preventDefault();
+    e.preventDefault();
 
     const newErrors = validateForm();
     setErrors(newErrors);
 
     if (Object.keys(newErrors).length === 0) {
       console.log('Form submitted', form);
+      registerNewUser(form);
     }
+  };
+
+  const registerNewUser = async (newUser) => {
+    const savedUser = await register(newUser);
+    navigate('/login');
+    console.log(savedUser);
   };
 
   return (
@@ -77,7 +88,7 @@ const Register = () => {
               zIndex="100"
             >
               <Col md="9">
-                <Form  onSubmit={handleSubmit}>
+                <Form onSubmit={handleSubmit}>
                   <Form.Label className="d-flex justify-content-center align-items-center">
                     <h3>Registrarse</h3>
                   </Form.Label>
@@ -117,7 +128,7 @@ const Register = () => {
                   <div className="mt-3">
                     <Button
                       variant="primary"
-                      type='submit'
+                      type="submit"
                       className="mb-4 w-100 mt-3"
                     >
                       Entrar
