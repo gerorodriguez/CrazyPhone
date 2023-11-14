@@ -1,9 +1,15 @@
 import router from './routes';
 import './App.css';
 import { RouterProvider } from 'react-router-dom';
+import Header from './components/header/Header';
 
 const App = () => {
-  return <RouterProvider router={router} />;
+  return (
+    <>
+      <Header />
+      <RouterProvider router={router} />
+    </>
+  );
 };
 
 export default App;
