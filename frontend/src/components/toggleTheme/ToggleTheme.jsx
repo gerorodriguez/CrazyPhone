@@ -10,14 +10,14 @@ const ToggleTheme = () => {
   const buttonStyles = {
     backgroundColor: 'transparent',
     border: 'none',
-    color: 'black', // Color del icono
+    color: 'black',
   };
 
   return (
     <Button
       size="lg"
       style={buttonStyles}
-      className="position-absolute top-0 end-0 mx-2"
+      className="position-absolute top-0 end-0 mx-2 mt-2"
       onClick={toggleTheme}
     >
       {theme === 'light' ? <BsMoon /> : <BsFillMoonFill />}
