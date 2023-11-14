@@ -1,8 +1,14 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState } from 'react';
 import { Button, Card, Col, Container, Form } from 'react-bootstrap';
+import { authenticate } from '../../services/AuthService.js';
+import { getAccount } from '../../services/AccountService.js';
+import { useNavigate } from 'react-router-dom';
+import { useAuthContext } from '../../contexts/AuthContext.jsx';
 
 const Login = () => {
+  const navigate = useNavigate();
+  const { login } = useAuthContext();
   const [form, setForm] = useState({
     email: '',
     password: '',
@@ -23,7 +29,7 @@ const Login = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const errors = {};
     if (!form.email.trim()) {
@@ -35,9 +41,16 @@ const Login = () => {
 
     if (Object.keys(errors).length > 0) {
       setErrors(errors);
-    } else {
-      console.log('Formulario válido', form);
+      return;
     }
+
+    const token = await authenticate(form);
+
+    const role = await getAccount();
+
+    login(token, role);
+
+    navigate('/home');
   };
 
   return (
