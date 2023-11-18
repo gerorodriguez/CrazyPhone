@@ -3,6 +3,7 @@ import Login from './pages/login/Login.jsx';
 import Register from './pages/register/Register.jsx';
 import './App.css';
 import Home from './pages/home/Home.jsx';
+import Publication from './pages/publication/Publication.jsx';
 
 const router = createBrowserRouter([
   {
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
   {
     path: '/home',
     element: <Home />,
+  },
+  {
+    path: '/publication',
+    element: <Publication />,
   }
 ]);
 
