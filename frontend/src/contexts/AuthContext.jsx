@@ -32,6 +32,7 @@ export default function AuthContextProvider({ children }) {
     localStorage.removeItem(MY_AUTH_APP);
     localStorage.removeItem(ROLE);
     setIsAuthenticated(false);
+    setUserRole('');
   }, []);
 
   const value = useMemo(
