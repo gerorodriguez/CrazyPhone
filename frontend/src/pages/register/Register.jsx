@@ -1,10 +1,13 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Button, Card, Col, Container, Form } from 'react-bootstrap';
 import { formFields } from './FormFields.js';
-import { getAccount, register } from '../../services/AccountService.js';
+import { ThemeContext } from '../../contexts/theme/theme.context';
+import ToggleTheme from '../../components/toggleTheme/ToggleTheme.jsx';
+import { register } from '../../services/AccountService.js';
 import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
+  const { theme } = useContext(ThemeContext);
   const navigate = useNavigate();
 
   const [form, setForm] = useState({
@@ -55,7 +58,7 @@ const Register = () => {
   };
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+     e.preventDefault();
 
     const newErrors = validateForm();
     setErrors(newErrors);
@@ -74,9 +77,11 @@ const Register = () => {
 
   return (
     <Container
+      data-bs-theme={theme}
       fluid
-      className="d-flex justify-content-center align-items-center vh-100 bg-primary"
+      className="d-flex justify-content-center align-items-center vh-100 "
     >
+      <ToggleTheme />
       <Col md="4">
         <Card>
           <Card.Body>
