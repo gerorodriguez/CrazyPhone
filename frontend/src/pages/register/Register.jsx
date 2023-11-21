@@ -1,8 +1,11 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Button, Card, Col, Container, Form } from 'react-bootstrap';
 import { formFields } from './FormFields.js';
+import { ThemeContext } from '../../contexts/theme/theme.context';
+import ToggleTheme from '../../components/toggleTheme/ToggleTheme.jsx';
 
 const Register = () => {
+  const { theme } = useContext(ThemeContext);
   const [form, setForm] = useState({
     fullName: '',
     phoneNumber: '',
@@ -51,7 +54,7 @@ const Register = () => {
   };
 
   const handleSubmit = (e) => {
-     e.preventDefault();
+    e.preventDefault();
 
     const newErrors = validateForm();
     setErrors(newErrors);
@@ -63,9 +66,11 @@ const Register = () => {
 
   return (
     <Container
+      data-bs-theme={theme}
       fluid
-      className="d-flex justify-content-center align-items-center vh-100 bg-primary"
+      className="d-flex justify-content-center align-items-center vh-100 "
     >
+      <ToggleTheme />
       <Col md="4">
         <Card>
           <Card.Body>
@@ -77,7 +82,7 @@ const Register = () => {
               zIndex="100"
             >
               <Col md="9">
-                <Form  onSubmit={handleSubmit}>
+                <Form onSubmit={handleSubmit}>
                   <Form.Label className="d-flex justify-content-center align-items-center">
                     <h3>Registrarse</h3>
                   </Form.Label>
@@ -117,7 +122,7 @@ const Register = () => {
                   <div className="mt-3">
                     <Button
                       variant="primary"
-                      type='submit'
+                      type="submit"
                       className="mb-4 w-100 mt-3"
                     >
                       Entrar
