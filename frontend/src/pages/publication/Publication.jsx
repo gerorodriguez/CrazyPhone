@@ -1,16 +1,85 @@
+import { useState } from 'react';
 import { Button, Form, Container } from 'react-bootstrap';
 
+// ... (importaciones y useState)
+
 const Publication = () => {
+  const [formValues, setFormValues] = useState({
+    titulo: '',
+    marca: '',
+    precio: '',
+    capacidad: '',
+    instagram: '',
+    descripcion: '',
+    telefono: '',
+    provincia: '',
+  });
+
+  const [formErrors, setFormErrors] = useState({
+    titulo: '',
+    marca: '',
+    precio: '',
+    capacidad: '',
+    instagram: '',
+    descripcion: '',
+    telefono: '',
+    provincia: '',
+  });
+
+  const handleInputChange = (e) => {
+    const { id, value } = e.target;
+    setFormValues({ ...formValues, [id]: value });
+    // Clear the corresponding error when the user starts typing
+    setFormErrors({ ...formErrors, [id]: '' });
+  };
+
+  const validateForm = () => {
+    let isValid = true;
+    const newFormErrors = { ...formErrors };
+
+    // Perform your validation logic here
+    Object.keys(formValues).forEach((key) => {
+      if (!formValues[key]) {
+        newFormErrors[key] = 'Este campo es obligatorio';
+        isValid = false;
+      }
+    });
+
+    setFormErrors(newFormErrors);
+    return isValid;
+  };
+
+  const addImage = () => {
+    // Implement the logic for adding an image
+    console.log('Adding image...');
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    if (validateForm()) {
+      // Perform the submit action here
+      console.log('Form submitted:', formValues);
+    } else {
+      console.log('Form validation failed.');
+    }
+  };
+
   return (
     <Container>
-      <Form>
+      <Form onSubmit={handleSubmit}>
         <Form.Group controlId="titulo" className="mb-3">
           <Form.Label>Título de la publicación</Form.Label>
-          <Form.Control type="text" placeholder="Ingrese un título" />
+          <Form.Control
+            type="text"
+            placeholder="Ingrese un título"
+            onChange={handleInputChange}
+          />
+          <Form.Text className="text-danger">{formErrors.titulo}</Form.Text>
         </Form.Group>
         <Form.Group controlId="marca" className="mb-3">
           <Form.Label>Marca</Form.Label>
-          <Form.Select>
+          <Form.Select onChange={handleInputChange}>
             <option value="">Seleccione una marca</option>
             <option value="Apple">Apple</option>
             <option value="Samsung">Samsung</option>
@@ -20,15 +89,15 @@ const Publication = () => {
         </Form.Group>
         <Form.Group controlId="precio" className="mb-3">
           <Form.Label>Precio</Form.Label>
-          <Form.Control type="number" placeholder="Ingrese un precio" />
+          <Form.Control type="number" placeholder="Ingrese un precio" onChange={handleInputChange} />
         </Form.Group>
         <Form.Group controlId="capacidad" className="mb-3">
           <Form.Label>Capacidad</Form.Label>
-          <Form.Control type="number" placeholder="Ingrese una capacidad" />
+          <Form.Control type="number" placeholder="Ingrese una capacidad" onChange={handleInputChange} />
         </Form.Group>
         <Form.Group controlId="instagram" className="mb-3">
           <Form.Label>Instagram</Form.Label>
-          <Form.Control type="text" placeholder="@instagram" />
+          <Form.Control type="text" placeholder="@instagram" onChange={handleInputChange} />
         </Form.Group>
         <Form.Group controlId="descripcion" className="mb-3">
           <Form.Label>Descripción</Form.Label>
@@ -50,23 +119,23 @@ const Publication = () => {
         </Form.Group>
         <Form.Group controlId="imagenes">
           <Form.Label>Imágenes</Form.Label>
-          <div>
+          <div className="d-flex justify-content-between align-items-center mb-3">
             <Button
-              className="mb-3"
-              onClick={() => this.addImage()}
+              onClick={() => addImage()}
               type="button"
-              variant="primary"
+              variant="secondary"
             >
               Agregar imagen
             </Button>
+            <Button variant="secondary" type="submit">
+              Publicar
+            </Button>
           </div>
         </Form.Group>
-        <Button variant="primary" type="submit">
-          Publicar
-        </Button>
       </Form>
     </Container>
   );
 };
 
 export default Publication;
+
