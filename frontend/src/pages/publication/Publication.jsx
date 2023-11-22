@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Button, Form, Row, Col } from 'react-bootstrap';
+import { BiImageAdd } from 'react-icons/bi';
 
 const Publication = () => {
   const [formValues, setFormValues] = useState({
@@ -40,7 +41,6 @@ const Publication = () => {
   const handleInputChange = (e) => {
     const { id, value } = e.target;
     setFormValues({ ...formValues, [id]: value });
-    // Clear the corresponding error when the user starts typing
     setFormErrors({ ...formErrors, [id]: '' });
   };
 
@@ -48,7 +48,6 @@ const Publication = () => {
     let isValid = true;
     const newFormErrors = { ...formErrors };
 
-    // Perform your validation logic here
     Object.keys(formValues).forEach((key) => {
       if (!formValues[key]) {
         newFormErrors[key] = 'Este campo es obligatorio';
@@ -61,7 +60,7 @@ const Publication = () => {
   };
 
   const addImage = () => {
-    // Implement the logic for adding an image
+    // Agregar logica 
     console.log('Adding image...');
   };
 
@@ -69,7 +68,6 @@ const Publication = () => {
     e.preventDefault();
 
     if (validateForm()) {
-      // Perform the submit action here
       console.log('Form submitted:', formValues);
     } else {
       console.log('Form validation failed.');
@@ -98,6 +96,7 @@ const Publication = () => {
               <option value="Xiaomi">Xiaomi</option>
               <option value="Oppo">Oppo</option>
             </Form.Select>
+            <Form.Text className="text-danger">{formErrors.marca}</Form.Text>
           </Form.Group>
         </Col>
         <Col md={6}>
@@ -108,6 +107,7 @@ const Publication = () => {
               placeholder="Ingrese un precio"
               onChange={handleInputChange}
             />
+            <Form.Text className="text-danger">{formErrors.precio}</Form.Text>
           </Form.Group>
         </Col>
       </Row>
@@ -125,6 +125,7 @@ const Publication = () => {
                 </option>
               ))}
             </Form.Select>
+            <Form.Text className="text-danger">{formErrors.modelo}</Form.Text>
           </Form.Group>
         </Col>
         <Col md={6}>
@@ -137,6 +138,9 @@ const Publication = () => {
               <option value="128">128GB</option>
               <option value="256">256GB</option>
             </Form.Select>
+            <Form.Text className="text-danger">
+              {formErrors.capacidad}
+            </Form.Text>
           </Form.Group>
         </Col>
       </Row>
@@ -149,6 +153,9 @@ const Publication = () => {
               placeholder="@instagram"
               onChange={handleInputChange}
             />
+            <Form.Text className="text-danger">
+              {formErrors.instagram}
+            </Form.Text>
           </Form.Group>
         </Col>
         <Col md={6}>
@@ -158,34 +165,44 @@ const Publication = () => {
               type="textarea"
               placeholder="Ingrese una descripción"
             />
+            <Form.Text className="text-danger">
+              {formErrors.descripcion}
+            </Form.Text>
           </Form.Group>
         </Col>
       </Row>
       <Row>
-      <Col md={6}>
-      <Form.Group controlId="telefono" className="mb-3">
-        <Form.Label>Teléfono</Form.Label>
-        <Form.Control type="tel" placeholder="Ingrese un número de teléfono" />
-      </Form.Group>
-      </Col>
-      <Col md={6}>
-      <Form.Group controlId="provincia" className="mb-3 ">
-        <Form.Label>Provincia</Form.Label>
-        <Form.Select>
-          <option value="">Seleccione una provincia</option>
-          <option value="Santa Fe">Santa Fe</option>
-          <option value="Buenos Aires">Buenos Aires</option>
-          <option value="Córdoba">Córdoba</option>
-          <option value="Mendoza">Mendoza</option>
-        </Form.Select>
-      </Form.Group>
-      </Col>
+        <Col md={6}>
+          <Form.Group controlId="telefono" className="mb-3">
+            <Form.Label>Teléfono</Form.Label>
+            <Form.Control
+              type="tel"
+              placeholder="Ingrese un número de teléfono"
+            />
+            <Form.Text className="text-danger">{formErrors.telefono}</Form.Text>
+          </Form.Group>
+        </Col>
+        <Col md={6}>
+          <Form.Group controlId="provincia" className="mb-3 ">
+            <Form.Label>Provincia</Form.Label>
+            <Form.Select>
+              <option value="">Seleccione una provincia</option>
+              <option value="Santa Fe">Santa Fe</option>
+              <option value="Buenos Aires">Buenos Aires</option>
+              <option value="Córdoba">Córdoba</option>
+              <option value="Mendoza">Mendoza</option>
+            </Form.Select>
+            <Form.Text className="text-danger">
+              {formErrors.provincia}
+            </Form.Text>
+          </Form.Group>
+        </Col>
       </Row>
       <Form.Group controlId="imagenes">
         <Form.Label>Imágenes</Form.Label>
         <div className="d-flex justify-content-between align-items-center mb-3">
           <Button onClick={() => addImage()} type="button" variant="secondary">
-            Agregar imagen
+            <BiImageAdd />
           </Button>
           <div>
             <Button variant="danger" type="submit" className="mx-2">
