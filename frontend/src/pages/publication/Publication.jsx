@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import { Button, Form, Row, Col } from 'react-bootstrap';
-import { BiImageAdd } from 'react-icons/bi';
-
 const Publication = () => {
   const [formValues, setFormValues] = useState({
     titulo: '',
@@ -60,7 +58,7 @@ const Publication = () => {
   };
 
   const addImage = () => {
-    // Agregar logica 
+    // Agregar logica
     console.log('Adding image...');
   };
 
@@ -76,16 +74,18 @@ const Publication = () => {
 
   return (
     <Form onSubmit={handleSubmit} className="p-3">
-      <Form.Group controlId="titulo" className="mb-3">
-        <Form.Label>Título de la publicación</Form.Label>
-        <Form.Control
-          type="text"
-          placeholder="Ingrese un título"
-          onChange={handleInputChange}
-        />
-        <Form.Text className="text-danger">{formErrors.titulo}</Form.Text>
-      </Form.Group>
       <Row>
+        <Col md={6}>
+          <Form.Group controlId="titulo" className="mb-3">
+            <Form.Label>Título de la publicación</Form.Label>
+            <Form.Control
+              type="text"
+              placeholder="Ingrese un título"
+              onChange={handleInputChange}
+            />
+            <Form.Text className="text-danger">{formErrors.titulo}</Form.Text>
+          </Form.Group>
+        </Col>
         <Col md={6}>
           <Form.Group controlId="marca" className="mb-3">
             <Form.Label>Marca</Form.Label>
@@ -99,6 +99,8 @@ const Publication = () => {
             <Form.Text className="text-danger">{formErrors.marca}</Form.Text>
           </Form.Group>
         </Col>
+      </Row>
+      <Row>
         <Col md={6}>
           <Form.Group controlId="precio" className="mb-3">
             <Form.Label>Precio</Form.Label>
@@ -110,8 +112,6 @@ const Publication = () => {
             <Form.Text className="text-danger">{formErrors.precio}</Form.Text>
           </Form.Group>
         </Col>
-      </Row>
-      <Row>
         <Col md={6}>
           <Form.Group controlId="modelo" className="mb-3">
             <Form.Label>Modelo</Form.Label>
@@ -128,6 +128,8 @@ const Publication = () => {
             <Form.Text className="text-danger">{formErrors.modelo}</Form.Text>
           </Form.Group>
         </Col>
+      </Row>
+      <Row>
         <Col md={6}>
           <Form.Group controlId="capacidad" className="mb-3">
             <Form.Label>Capacidad</Form.Label>
@@ -143,8 +145,6 @@ const Publication = () => {
             </Form.Text>
           </Form.Group>
         </Col>
-      </Row>
-      <Row>
         <Col md={6}>
           <Form.Group controlId="instagram" className="mb-3">
             <Form.Label>Instagram</Form.Label>
@@ -158,32 +158,55 @@ const Publication = () => {
             </Form.Text>
           </Form.Group>
         </Col>
+      </Row>
+      <Row>
         <Col md={6}>
           <Form.Group controlId="descripcion" className="mb-3">
             <Form.Label>Descripción</Form.Label>
             <Form.Control
-              type="textarea"
+              type="text"
               placeholder="Ingrese una descripción"
+              onChange={handleInputChange}
             />
             <Form.Text className="text-danger">
               {formErrors.descripcion}
             </Form.Text>
           </Form.Group>
         </Col>
-      </Row>
-      <Row>
         <Col md={6}>
           <Form.Group controlId="telefono" className="mb-3">
             <Form.Label>Teléfono</Form.Label>
             <Form.Control
               type="tel"
               placeholder="Ingrese un número de teléfono"
+              onChange={handleInputChange}
             />
             <Form.Text className="text-danger">{formErrors.telefono}</Form.Text>
           </Form.Group>
         </Col>
+      </Row>
+      <Row>
         <Col md={6}>
-          <Form.Group controlId="provincia" className="mb-3 ">
+          <Form.Group controlId="imagenes" className="mb-3">
+            <Form.Label>Imágenes</Form.Label>
+            <Row className="mb-2">
+              <Col md={6}>
+                <Form.Control
+                  type="file"
+                  id="file"
+                  accept="image/png, image/jpeg"
+                  multiple
+                />
+              </Col>
+            </Row>
+          </Form.Group>
+        </Col>
+        <Col md={6}>
+          <Form.Group
+            controlId="provincia"
+            className="mb-3 "
+            onChange={handleInputChange}
+          >
             <Form.Label>Provincia</Form.Label>
             <Form.Select>
               <option value="">Seleccione una provincia</option>
@@ -198,22 +221,16 @@ const Publication = () => {
           </Form.Group>
         </Col>
       </Row>
-      <Form.Group controlId="imagenes">
-        <Form.Label>Imágenes</Form.Label>
-        <div className="d-flex justify-content-between align-items-center mb-3">
-          <Button onClick={() => addImage()} type="button" variant="secondary">
-            <BiImageAdd />
+      <Row className="justify-content-end mb-3">
+        <Col xs="auto">
+          <Button variant="danger" href='/home' className="mx-3">
+            Cancelar
           </Button>
-          <div>
-            <Button variant="danger" type="submit" className="mx-2">
-              Cancelar
-            </Button>
-            <Button variant="secondary" type="submit">
-              Publicar
-            </Button>
-          </div>
-        </div>
-      </Form.Group>
+          <Button variant="success" type="submit">
+            Publicar
+          </Button>
+        </Col>
+      </Row>
     </Form>
   );
 };
