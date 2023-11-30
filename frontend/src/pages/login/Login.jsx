@@ -58,8 +58,8 @@ const Login = () => {
   
     <Container
       data-bs-theme={theme}
-      fluidS
-      className="d-flex justify-content-center align-items-center vh-100"
+      fluid
+      className={`d-flex justify-content-center align-items-center vh-100 ${theme === 'dark' ? 'bg-dark' : 'bg-light'}`}
     >
       <ToggleTheme />
 
