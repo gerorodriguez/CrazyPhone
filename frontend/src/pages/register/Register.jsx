@@ -68,7 +68,7 @@ const Register = () => {
     <Container
       data-bs-theme={theme}
       fluid
-      className="d-flex justify-content-center align-items-center vh-100 "
+      className={`d-flex justify-content-center align-items-center vh-100 ${theme === 'dark' ? 'bg-dark' : 'bg-light'}`}
     >
       <ToggleTheme />
       <Col md="4">
