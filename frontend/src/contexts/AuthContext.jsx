@@ -13,19 +13,27 @@ export const AuthContext = createContext();
 
 export default function AuthContextProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(
-    () => !!localStorage.getItem(MY_AUTH_APP),
+    () => !!JSON.parse(localStorage.getItem(MY_AUTH_APP)),
   );
 
-  const [userRole, setUserRole] = useState(() => localStorage.getItem(ROLE));
+  const [userRole, setUserRole] = useState(() =>
+    JSON.parse(localStorage.getItem(ROLE)),
+  );
 
   const login = useCallback(
-    function (token, role) {
-      localStorage.setItem(MY_AUTH_APP, token);
-      localStorage.setItem(ROLE, role);
+    function (token) {
+      localStorage.setItem(MY_AUTH_APP, JSON.stringify(token));
       setIsAuthenticated(true);
-      setUserRole(role);
     },
-    [setIsAuthenticated, setUserRole],
+    [setIsAuthenticated],
+  );
+
+  const saveAuthorities = useCallback(
+    function (authorities) {
+      setUserRole(authorities);
+      localStorage.setItem(ROLE, JSON.stringify(authorities));
+    },
+    [setUserRole],
   );
 
   const logout = useCallback(function () {
@@ -41,8 +49,9 @@ export default function AuthContextProvider({ children }) {
       logout,
       isAuthenticated,
       userRole,
+      saveAuthorities,
     }),
-    [isAuthenticated, login, logout, userRole],
+    [isAuthenticated, login, logout, userRole, saveAuthorities],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
