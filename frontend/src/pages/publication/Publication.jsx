@@ -26,11 +26,77 @@ const Publication = () => {
   });
 
   const availableModels = {
-    Apple: ['Iphone 13', 'Iphone 12', 'Iphone X'],
+    Apple: [
+    'iPhone 5',
+    'iPhone 5s',
+    'iPhone 5c',
+    'iPhone 6',
+    'iPhone 6 Plus',
+    'iPhone 6s',
+    'iPhone 6s Plus',
+    'iPhone SE (primera generación)',
+    'iPhone 7',
+    'iPhone 7 Plus',
+    'iPhone 8',
+    'iPhone 8 Plus',
+    'iPhone X',
+    'iPhone XS',
+    'iPhone XS Max',
+    'iPhone XR',
+    'iPhone 11',
+    'iPhone 11 Pro',
+    'iPhone 11 Pro Max',
+    'iPhone SE (segunda generación)',
+    'iPhone 12 mini',
+    'iPhone 12',
+    'iPhone 12 Pro',
+    'iPhone 12 Pro Max',
+    'iPhone 13 mini',
+    'iPhone 13',
+    'iPhone 13 Pro',
+    'iPhone 13 Pro Max',
+    'Iphone 14',
+    'Iphone 14 Plus',
+    'Iphone 14 Pro',  
+    'Iphone 14 Pro Max',
+    'Iphone 15',
+    'Iphone 15 Plus',
+    'Iphone 15 Pro',
+    'Iphone 15 Pro Max',
+    ],
     Samsung: [
-      'Samsung Galaxy S21',
-      'Samsung Galaxy S20',
-      'Samsung Galaxy Note 20',
+      'Samsung Galaxy S4 (2013)',
+      'Samsung Galaxy Note 3 (2013)',
+      'Samsung Galaxy S5 (2014)',
+      'Samsung Galaxy Note 4 (2014)',
+      'Samsung Galaxy S6 (2015)',
+      'Samsung Galaxy S6 Edge (2015)',
+      'Samsung Galaxy Note 5 (2015)',
+      'Samsung Galaxy S7 (2016)',
+      'Samsung Galaxy S7 Edge (2016)',
+      'Samsung Galaxy Note 7 (2016)',
+      'Samsung Galaxy S8 (2017)',
+      'Samsung Galaxy S8+ (2017)',
+      'Samsung Galaxy Note 8 (2017)',
+      'Samsung Galaxy S9 (2018)',
+      'Samsung Galaxy S9+ (2018)',
+      'Samsung Galaxy Note 9 (2018)',
+      'Samsung Galaxy S10e (2019)',
+      'Samsung Galaxy S10 (2019)',
+      'Samsung Galaxy S10+ (2019)',
+      'Samsung Galaxy Note 10 (2019)',
+      'Samsung Galaxy Note 10+ (2019)',
+      'Samsung Galaxy S20 (2020)',
+      'Samsung Galaxy S20+ (2020)',
+      'Samsung Galaxy S20 Ultra (2020)',
+      'Samsung Galaxy Note 20 (2020)',
+      'Samsung Galaxy Note 20 Ultra (2020)',
+      'Samsung Galaxy S21 (2021)',
+      'Samsung Galaxy S21+ (2021)',
+      'Samsung Galaxy S21 Ultra (2021)',
+      'Samsung Galaxy Z Fold 2 (2020)',
+      'Samsung Galaxy Z Flip (2020)',
+      'Samsung Galaxy Z Fold 3 (2021)',
     ],
     Xiaomi: ['Mi 11', 'Mi 10', 'Redmi Note 10'],
     Oppo: ['Oppo Find X3', 'Oppo Reno 6', 'Oppo A94'],
@@ -70,6 +136,22 @@ const Publication = () => {
     } else {
       console.log('Form validation failed.');
     }
+  };
+
+  const [imagenes, setImagenes] = useState([]);
+
+  const handleFileChange = (event) => {
+    const archivos = event.target.files;
+    const nuevasImagenes = Array.from(archivos).map((archivo) => ({
+      src: URL.createObjectURL(archivo),
+      id: Math.random().toString(36).substr(2, 9), // Generar un ID único para la imagen
+    }));
+    setImagenes((prevImagenes) => [...prevImagenes, ...nuevasImagenes]);
+  };
+
+  const handleEliminarImagen = (id) => {
+    // Filtrar las imágenes para mantener solo las que no tienen el ID dado
+    setImagenes((prevImagenes) => prevImagenes.filter((imagen) => imagen.id !== id));
   };
 
   return (
@@ -128,8 +210,8 @@ const Publication = () => {
             <Form.Text className="text-danger">{formErrors.modelo}</Form.Text>
           </Form.Group>
         </Col>
-      </Row>
-      <Row>
+        </Row>
+     	<Row>
         <Col md={6}>
           <Form.Group controlId="capacidad" className="mb-3">
             <Form.Label>Capacidad</Form.Label>
@@ -158,8 +240,8 @@ const Publication = () => {
             </Form.Text>
           </Form.Group>
         </Col>
-      </Row>
-      <Row>
+      	</Row>
+      	<Row>
         <Col md={6}>
           <Form.Group controlId="descripcion" className="mb-3">
             <Form.Label>Descripción</Form.Label>
@@ -184,53 +266,78 @@ const Publication = () => {
             <Form.Text className="text-danger">{formErrors.telefono}</Form.Text>
           </Form.Group>
         </Col>
-      </Row>
-      <Row>
+      	</Row>
+      	{/* Cuadrado para agregar imágenes */}
+      	{imagenes.length === 0 && (
         <Col md={6}>
           <Form.Group controlId="imagenes" className="mb-3">
             <Form.Label>Imágenes</Form.Label>
             <Row className="mb-2">
               <Col md={6}>
-                <Form.Control
+                <label htmlFor="file" style={{ width: '171px', height: '180px' }}>
+                  <div
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      border: '2px dashed #ccc',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <span
+                      style={{ fontSize: '24px', marginBottom: '8px' }}
+                      onClick={() => document.getElementById('file').click()}
+                    >
+                      +
+                    </span>
+                    <span>Agregar Imágenes</span>
+                  </div>
+                </label>
+                <input
                   type="file"
                   id="file"
                   accept="image/png, image/jpeg"
                   multiple
+                  style={{ display: 'none' }}
+                  onChange={handleFileChange}
                 />
               </Col>
             </Row>
           </Form.Group>
         </Col>
-        <Col md={6}>
-          <Form.Group
-            controlId="provincia"
-            className="mb-3 "
-            onChange={handleInputChange}
-          >
-            <Form.Label>Provincia</Form.Label>
-            <Form.Select>
-              <option value="">Seleccione una provincia</option>
-              <option value="Santa Fe">Santa Fe</option>
-              <option value="Buenos Aires">Buenos Aires</option>
-              <option value="Córdoba">Córdoba</option>
-              <option value="Mendoza">Mendoza</option>
-            </Form.Select>
-            <Form.Text className="text-danger">
-              {formErrors.provincia}
-            </Form.Text>
-          </Form.Group>
+      )}
+
+
+
+      {/* Visualizar imágenes con opción de eliminar */}
+      {imagenes.map((imagen) => (
+        <Col key={imagen.id} md={2}>
+          <div style={{ position: 'relative', marginBottom: '10px' }}>
+            <span
+              style={{
+                position: 'absolute',
+                top: '5px',
+                right: '5px',
+                cursor: 'pointer',
+                fontSize: '18px',
+                color: 'red',
+              }}
+              onClick={() => handleEliminarImagen(imagen.id)}
+            >
+              X
+            </span>
+            <img
+              src={imagen.src}
+              alt={`Imagen ${imagen.id}`}
+              style={{ width: '100%', height: 'auto' }}
+            />
+          </div>
         </Col>
-      </Row>
-      <Row className="justify-content-end mb-3">
-        <Col xs="auto">
-          <Button variant="danger" href='/home' className="mx-3">
-            Cancelar
-          </Button>
-          <Button variant="success" type="submit">
-            Publicar
-          </Button>
-        </Col>
-      </Row>
+      ))}
+        
     </Form>
   );
 };
