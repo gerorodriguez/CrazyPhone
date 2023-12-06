@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { Button, Card, Col, Container, Form } from 'react-bootstrap';
+import { Alert, Button, Card, Col, Container, Form } from 'react-bootstrap';
 import { formFields } from './FormFields.js';
 import { ThemeContext } from '../../contexts/theme/theme.context';
 import ToggleTheme from '../../components/toggleTheme/ToggleTheme.jsx';
@@ -19,6 +19,7 @@ const Register = () => {
   });
 
   const [errors, setErrors] = useState({});
+  const [registerError, setRegisterError] = useState();
 
   const handleChange = (e) => {
     setForm({
@@ -58,7 +59,7 @@ const Register = () => {
   };
 
   const handleSubmit = (e) => {
-     e.preventDefault();
+    e.preventDefault();
 
     const newErrors = validateForm();
     setErrors(newErrors);
@@ -70,9 +71,12 @@ const Register = () => {
   };
 
   const registerNewUser = async (newUser) => {
-    const savedUser = await register(newUser);
-    navigate('/login');
-    console.log(savedUser);
+    try {
+      const savedUser = await register(newUser);
+      navigate('/login');
+    } catch (error) {
+      setRegisterError(error.message);
+    }
   };
 
   return (
@@ -93,12 +97,22 @@ const Register = () => {
               zIndex="100"
             >
               <Col md="9">
-                <Form onSubmit={handleSubmit}>
-                  <Form.Label className="d-flex justify-content-center align-items-center">
-                    <h3>Registrarse</h3>
-                  </Form.Label>
+                <h3 className="d-flex justify-content-center align-items-center">
+                  Registrarse
+                </h3>
+                {registerError && (
+                  <Alert
+                    className="mt-4 d-flex justify-content-center align-items-center"
+                    variant="danger"
+                    onClose={() => setRegisterError(false)}
+                    dismissible
+                  >
+                    {registerError}
+                  </Alert>
+                )}
 
-                  <Form.Group style={{ position: 'relative' }}>
+                <Form onSubmit={handleSubmit}>
+                  <Form.Group style={{ position: 'relative' }} className="mt-5">
                     {formFields.map((field) => (
                       <div key={field.name} className="mb-4">
                         <Form.Label className="mb-0">{field.label}</Form.Label>

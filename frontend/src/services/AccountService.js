@@ -10,8 +10,13 @@ export const register = (newUser) => {
   })
     .then((response) => {
       if (!response.ok) {
-        throw new Error(`Error ${response.status}: ${response.statusText}`);
+        if (response.status === 409) {
+          throw new Error('El mail ya se encuentra ya registrado');
+        } else {
+          throw new Error('Error en la solicitud.');
+        }
       }
+      return response.json();
     })
     .catch((error) => {
       console.error('Error durante el registro:', error);
