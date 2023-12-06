@@ -1,9 +1,9 @@
 package com.crazyphone.CrazyPhone.services.dto;
 
-import org.antlr.v4.runtime.misc.NotNull;
-import com.crazyphone.CrazyPhone.entities.User;
+import com.crazyphone.CrazyPhone.entities.Authority;
 
+import java.util.Set;
 
-
-public record UserDTO(Long id, @NotNull String username, String password, String email, String phoneNumber, String instagramAccount) {
+public record UserDTO(Long id, String fullName, String email, String password, String phoneNumber,
+                      Set<Authority> authorities) {
 }
