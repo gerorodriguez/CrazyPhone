@@ -15,7 +15,7 @@ const Header = () => {
 
   return (
     <>
-      <Navbar bg="dark" variant="dark" expand="lg" className="mb-3">
+      <Navbar bg="dark" variant="dark" expand="lg" >
         <Container>
           <Navbar.Brand href="#home">Crazy Phone</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -28,7 +28,7 @@ const Header = () => {
                 title={<BsFillPersonFill />}
                 style={{ fontSize: '20px' }}
                 id="basic-nav-dropdown"
-                drop={'start'}
+                drop={"start"}
               >
                 {isAuthenticated ? (
                   <>

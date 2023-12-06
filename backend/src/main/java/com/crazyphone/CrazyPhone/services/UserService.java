@@ -5,6 +5,8 @@ import com.crazyphone.CrazyPhone.entities.User;
 import com.crazyphone.CrazyPhone.exceptions.UserAlreadyExistsException;
 import com.crazyphone.CrazyPhone.repositories.AuthorityRepository;
 import com.crazyphone.CrazyPhone.repositories.UserRepository;
+import com.crazyphone.CrazyPhone.services.mapper.UserMapper;
+import com.crazyphone.CrazyPhone.services.dto.UserDTO;
 import com.crazyphone.CrazyPhone.services.dto.RegisterDTO;
 import com.crazyphone.CrazyPhone.utils.AuthoritiesConstants;
 import com.crazyphone.CrazyPhone.utils.SecurityUtils;
@@ -14,18 +16,32 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.List;
 
 @Service
 public class UserService {
 
+    private final UserRepository userRepository;
+    private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final UserRepository userRepository;
     private final AuthorityRepository authorityRepository;
 
-    public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository, AuthorityRepository roleRepository) {
+    public UserService(PasswordEncoder passwordEncoder, UserRepository userRepository, AuthorityRepository roleRepository, UserMapper userMapper) {
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.authorityRepository = roleRepository;
+        this.userMapper = userMapper;
+    }
+
+
+    public List<UserDTO> getAll() {
+        return userMapper.toDto(userRepository.findAll());
+    }
+
+    public UserDTO findById(Long id) {
+        User user = userRepository.findById(id).orElseThrow();
+        return userMapper.toDto(user);
     }
 
     public void registerUser(RegisterDTO registerDTO) {
@@ -48,5 +64,4 @@ public class UserService {
     public Optional<User> getUserWithAuthorities() {
         return SecurityUtils.getCurrentUserLogin().flatMap(userRepository::findByEmail);
     }
-
 }
