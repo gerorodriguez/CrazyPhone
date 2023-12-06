@@ -30,14 +30,4 @@ public class UserController {
     public ResponseEntity<UserDTO> findById(@PathVariable Long id) {
         return new ResponseEntity<>(userService.findById(id), HttpStatus.OK);
     }
-
-
-
-
-
-
-
-
-
-
 }
