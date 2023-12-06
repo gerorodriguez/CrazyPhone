@@ -20,7 +20,7 @@ export const register = (newUser) => {
     })
     .catch((error) => {
       console.error('Error durante el registro:', error);
-      throw error;
+      throw new Error('Ah ocurrido un error :(');
     });
 };
 

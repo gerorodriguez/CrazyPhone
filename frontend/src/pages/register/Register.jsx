@@ -1,10 +1,11 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Alert, Button, Card, Col, Container, Form } from 'react-bootstrap';
 import { formFields } from './FormFields.js';
 import { ThemeContext } from '../../contexts/theme/theme.context';
 import ToggleTheme from '../../components/toggleTheme/ToggleTheme.jsx';
 import { register } from '../../services/AccountService.js';
 import { useNavigate } from 'react-router-dom';
+import autoAnimate from '@formkit/auto-animate';
 
 const Register = () => {
   const { theme } = useContext(ThemeContext);
@@ -79,11 +80,18 @@ const Register = () => {
     }
   };
 
+  useEffect(() => {
+    const parent = document.getElementById('container-alert');
+    if (parent) autoAnimate(parent);
+  }, []);
+
   return (
     <Container
       data-bs-theme={theme}
       fluid
-      className={`d-flex justify-content-center align-items-center vh-100 ${theme === 'dark' ? 'bg-dark' : 'bg-light'}`}
+      className={`d-flex justify-content-center align-items-center vh-100 ${
+        theme === 'dark' ? 'bg-dark' : 'bg-light'
+      }`}
     >
       <ToggleTheme />
       <Col md="4">
@@ -94,9 +102,8 @@ const Register = () => {
               className="d-flex justify-content-center align-items-center"
               direction="vertical"
               boxShadow="0 4px 8px 0 rgba(0, 0, 0, 0.2)"
-              zIndex="100"
             >
-              <Col md="9">
+              <Col md="9" id="container-alert">
                 <h3 className="d-flex justify-content-center align-items-center">
                   Registrarse
                 </h3>
