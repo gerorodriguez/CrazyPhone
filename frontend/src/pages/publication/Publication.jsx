@@ -1,30 +1,32 @@
 import { useState } from 'react';
 import { Button, Form, Row, Col } from 'react-bootstrap';
+import { addPublication } from '../../services/publicationService';
 const Publication = () => {
   const [formValues, setFormValues] = useState({
-    titulo: '',
-    marca: '',
-    modelo: '',
-    precio: '',
-    capacidad: '',
-    instagram: '',
-    descripcion: '',
-    telefono: '',
-    provincia: '',
+    title: '',
+    brand: '',
+    model: '',
+    price: '',
+    storage: '',
+    instagramAccount: '',
+    description: '',
+    phoneNumber: '',
+    state: '',
   });
 
   const [formErrors, setFormErrors] = useState({
-    titulo: '',
-    marca: '',
-    modelo: '',
-    precio: '',
-    capacidad: '',
-    instagram: '',
-    descripcion: '',
-    telefono: '',
-    provincia: '',
+    title: '',
+    brand: '',
+    model: '',
+    price: '',
+    storage: '',
+    instagramAccount: '',
+    description: '',
+    phoneNumber: '',
+    state: '',
   });
 
+  const [publicationErrors, setPublicationErrors] = useState();
   const [imagePreview, setImagePreview] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
 
@@ -152,8 +154,18 @@ const Publication = () => {
 
     if (validateForm()) {
       console.log('Form submitted:', formValues);
+      registerNewPublication(formValues);
     } else {
       console.log('Form validation failed.');
+    }
+  };
+
+  const registerNewPublication = async (newPublication) => {
+    try {
+      const savedPublication = await addPublication(newPublication);
+      console.log('Publication saved:', savedPublication);
+    } catch (error) {
+      setPublicationErrors(error.message);
     }
   };
 
@@ -161,18 +173,33 @@ const Publication = () => {
     <Form onSubmit={handleSubmit} className="p-3">
       <Row>
         <Col md={6}>
-          <Form.Group controlId="titulo" className="mb-3">
+          <Form.Group controlId="title" className="mb-3">
             <Form.Label>Título de la publicación</Form.Label>
             <Form.Control
+            controlId="titulo"
               type="text"
               placeholder="Ingrese un título"
               onChange={handleInputChange}
             />
-            <Form.Text className="text-danger">{formErrors.titulo}</Form.Text>
+            <Form.Text className="text-danger">{formErrors.title}</Form.Text>
           </Form.Group>
         </Col>
         <Col md={6}>
-          <Form.Group controlId="marca" className="mb-3">
+        <Form.Group controlId="price" className="mb-3">
+            <Form.Label>Precio</Form.Label>
+            <Form.Control
+              type="number"
+              placeholder="Ingrese un precio"
+              onChange={handleInputChange}
+            />
+            <Form.Text className="text-danger">{formErrors.price}</Form.Text>
+          </Form.Group>
+          
+        </Col>
+      </Row>
+      <Row>
+        <Col md={6}>
+        <Form.Group controlId="brand" className="mb-3">
             <Form.Label>Marca</Form.Label>
             <Form.Select onChange={handleInputChange}>
               <option value="">Seleccione una marca</option>
@@ -181,42 +208,29 @@ const Publication = () => {
               <option value="Xiaomi">Xiaomi</option>
               <option value="Oppo">Oppo</option>
             </Form.Select>
-            <Form.Text className="text-danger">{formErrors.marca}</Form.Text>
-          </Form.Group>
-        </Col>
-      </Row>
-      <Row>
-        <Col md={6}>
-          <Form.Group controlId="precio" className="mb-3">
-            <Form.Label>Precio</Form.Label>
-            <Form.Control
-              type="number"
-              placeholder="Ingrese un precio"
-              onChange={handleInputChange}
-            />
-            <Form.Text className="text-danger">{formErrors.precio}</Form.Text>
+            <Form.Text className="text-danger">{formErrors.brand}</Form.Text>
           </Form.Group>
         </Col>
         <Col md={6}>
-          <Form.Group controlId="modelo" className="mb-3">
+          <Form.Group controlId="model" className="mb-3">
             <Form.Label>Modelo</Form.Label>
             <Form.Select
               onChange={handleInputChange}
-              disabled={!formValues.marca}
+              disabled={!formValues.brand}
             >
-              {availableModels[formValues.marca]?.map((model, index) => (
+              {availableModels[formValues.brand]?.map((model, index) => (
                 <option key={index} value={model}>
                   {model}
                 </option>
               ))}
             </Form.Select>
-            <Form.Text className="text-danger">{formErrors.modelo}</Form.Text>
+            <Form.Text className="text-danger">{formErrors.model}</Form.Text>
           </Form.Group>
         </Col>
       </Row>
       <Row>
         <Col md={6}>
-          <Form.Group controlId="capacidad" className="mb-3">
+          <Form.Group controlId="storage" className="mb-3">
             <Form.Label>Capacidad</Form.Label>
             <Form.Select onChange={handleInputChange}>
               <option value="">Seleccione su capacidad</option>
@@ -226,12 +240,12 @@ const Publication = () => {
               <option value="256">256GB</option>
             </Form.Select>
             <Form.Text className="text-danger">
-              {formErrors.capacidad}
+              {formErrors.storage}
             </Form.Text>
           </Form.Group>
         </Col>
         <Col md={6}>
-          <Form.Group controlId="instagram" className="mb-3">
+          <Form.Group controlId="instagramAccount" className="mb-3">
             <Form.Label>Instagram</Form.Label>
             <Form.Control
               type="text"
@@ -239,14 +253,14 @@ const Publication = () => {
               onChange={handleInputChange}
             />
             <Form.Text className="text-danger">
-              {formErrors.instagram}
+              {formErrors.instagramAccount}
             </Form.Text>
           </Form.Group>
         </Col>
       </Row>
       <Row>
         <Col md={6}>
-          <Form.Group controlId="descripcion" className="mb-3">
+          <Form.Group controlId="description" className="mb-3">
             <Form.Label>Descripción</Form.Label>
             <Form.Control
               type="text"
@@ -254,26 +268,26 @@ const Publication = () => {
               onChange={handleInputChange}
             />
             <Form.Text className="text-danger">
-              {formErrors.descripcion}
+              {formErrors.description}
             </Form.Text>
           </Form.Group>
         </Col>
         <Col md={6}>
-          <Form.Group controlId="telefono" className="mb-3">
+          <Form.Group controlId="phoneNumber" className="mb-3">
             <Form.Label>Teléfono</Form.Label>
             <Form.Control
               type="tel"
               placeholder="Ingrese un número de teléfono"
               onChange={handleInputChange}
             />
-            <Form.Text className="text-danger">{formErrors.telefono}</Form.Text>
+            <Form.Text className="text-danger">{formErrors.phoneNumber}</Form.Text>
           </Form.Group>
         </Col>
       </Row>
       <Row>
         <Col md={6}>
           <Form.Group
-            controlId="provincia"
+            controlId="state"
             className="mb-3 "
             onChange={handleInputChange}
           >
@@ -286,7 +300,7 @@ const Publication = () => {
               <option value="Mendoza">Mendoza</option>
             </Form.Select>
             <Form.Text className="text-danger">
-              {formErrors.provincia}
+              {formErrors.state}
             </Form.Text>
           </Form.Group>
         </Col>
