@@ -1,4 +1,4 @@
-import { Container, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col  } from 'react-bootstrap';
 import ToggleTheme from '../../components/toggleTheme/ToggleTheme';
 import { ThemeContext } from '../../contexts/theme/theme.context';
 import { useContext, useState } from 'react';
@@ -92,7 +92,7 @@ const Home = () => {
   : publicationsList;
 
   const publicationsMapped = filteredPublications.map((publication) => (
-    <Col key={publication.id}>
+    <Col key={publication.id} xs={12} sm={6} md={4} lg={3}>
       <PublicationCard className="mb-3" 
         key={publication.id} 
         title={publication.title}
@@ -110,20 +110,18 @@ const Home = () => {
     <Container
       data-bs-theme={theme}
       fluid
-      className="d-flex flex-column align-items-center mb-2"
-      style={{ maxWidth: '1200px' }}
+      className="d-flex flex-row align-items-center mb-2"
+      //style={{ maxWidth: '1200px' }}
     >
       <ToggleTheme />
-      <Row className="g-2">
-        <Col sm={3} className="mb-3">
+      <Col sm={3} className="mb-3" style={{ maxWidth: '100px' }}>
           <BrandFilter brands={brands} onFilterChange={handleFilterBrand} />
-        </Col>
-        <Col sm={9}>
+      </Col>
+      <Col sm={9}>
           <Row className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-2">
-              {publicationsMapped}
+            {publicationsMapped}
           </Row>
-        </Col>
-      </Row>
+      </Col>
     </Container>
   );
 };
