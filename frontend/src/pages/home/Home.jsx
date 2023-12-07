@@ -1,9 +1,9 @@
-import { Container, Row, Col  } from 'react-bootstrap';
-import ToggleTheme from '../../components/toggleTheme/ToggleTheme';
+import { Container, Row, Col, Form, Button  } from 'react-bootstrap';
+
 import { ThemeContext } from '../../contexts/theme/theme.context';
 import { useContext, useState } from 'react';
 import PublicationCard from '../../components/publicationCard/PublicationCard';
-import BrandFilter from '../../components/brandFilter/BrandFilter';
+import FilterList from '../../components/filterList/filterList';
 
 const Home = () => {
 
@@ -79,13 +79,10 @@ const Home = () => {
     },
   ];
 
-  const brands = [...new Set(publicationsList.map((publication) => publication.brand))];
-
+ 
   const [filteredBrand, setFilteredBrand] = useState('');
 
-  const handleFilterBrand = (brand) => {
-    setFilteredBrand(brand);
-  };
+ 
 
   const filteredPublications = filteredBrand
   ? publicationsList.filter((publication) => publication.brand === filteredBrand)
@@ -107,21 +104,23 @@ const Home = () => {
   ));
 
   return (
-    <Container
-      data-bs-theme={theme}
-      fluid
-      className="d-flex flex-row align-items-center mb-2"
-      //style={{ maxWidth: '1200px' }}
-    >
-      <ToggleTheme />
-      <Col sm={3} className="mb-3" style={{ maxWidth: '100px' }}>
-          <BrandFilter brands={brands} onFilterChange={handleFilterBrand} />
-      </Col>
-      <Col sm={9}>
-          <Row className="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-2">
-            {publicationsMapped}
+    <Container fluid>
+      <Row>
+        <Col md={3} lg={2} className="sidebar">
+          <Form>
+            <FilterList/>
+          </Form>
+        </Col>
+        <Col md={9} lg={10}>
+          <Row>
+            {[...Array(12)].map((_, index) => (
+              <Col key={index} sm={12} md={6} lg={4} xl={3} className="mb-4">
+                {publicationsMapped}
+              </Col>
+            ))}
           </Row>
-      </Col>
+        </Col>
+      </Row>
     </Container>
   );
 };

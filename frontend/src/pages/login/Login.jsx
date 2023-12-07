@@ -1,12 +1,17 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { Button, Card, Col, Container, Form } from 'react-bootstrap';
+import { authenticate } from '../../services/AuthService.js';
+import { useNavigate } from 'react-router-dom';
+import { useAuthContext } from '../../contexts/AuthContext.jsx';
 import ToggleTheme from '../../components/toggleTheme/ToggleTheme';
-import { useContext } from "react";
-import { ThemeContext } from "../../contexts/theme/theme.context";
-
+import { ThemeContext } from '../../contexts/theme/theme.context';
+import { getAccount } from '../../services/AccountService.js';
+import styled from 'styled-components';
 
 const Login = () => {
+  const navigate = useNavigate();
+  const { login, saveAuthorities } = useAuthContext();
   const { theme } = useContext(ThemeContext);
 
   const [form, setForm] = useState({
@@ -15,6 +20,7 @@ const Login = () => {
   });
 
   const [errors, setErrors] = useState({});
+  const [authError, setAuthError] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -29,7 +35,7 @@ const Login = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const errors = {};
     if (!form.email.trim()) {
@@ -41,25 +47,30 @@ const Login = () => {
 
     if (Object.keys(errors).length > 0) {
       setErrors(errors);
-    } else {
-      console.log('Formulario válido', form);
+      return;
+    }
+
+    try {
+      const token = await authenticate(form);
+
+      login(token);
+
+      const account = await getAccount();
+
+      saveAuthorities(account.authorities);
+
+      navigate('/');
+    } catch (error) {
+      console.error('Error durante la autenticación');
+      setAuthError(true);
     }
   };
 
-  useEffect(() => {
-    console.log(theme, "soy el use effect")
-  }, [theme]);
-
-  useEffect(() => {
-    console.log("re render")
-  }, []);
-
   return (
-  
     <Container
       data-bs-theme={theme}
-      fluidS
-      className="d-flex justify-content-center align-items-center vh-100"
+      fluid
+      className={`d-flex justify-content-center align-items-center vh-100 ${theme === 'dark' ? 'bg-dark' : 'bg-light'}`}
     >
       <ToggleTheme />
 
@@ -99,6 +110,11 @@ const Login = () => {
                     >
                       Por favor, ingrese su correo electrónico.
                     </Form.Control.Feedback>
+                    {authError && !errors.email && !errors.password && (
+                      <ErrorStyled>
+                        Email y/o contraseña incorrectos
+                      </ErrorStyled>
+                    )}
                   </Form.Group>
 
                   <Form.Group
@@ -123,7 +139,7 @@ const Login = () => {
                     </Form.Control.Feedback>
                   </Form.Group>
 
-                  <div className="mt-3">
+                  <div className="mt-5">
                     <Button
                       variant="primary"
                       type="submit"
@@ -151,3 +167,13 @@ const Login = () => {
 };
 
 export default Login;
+
+const ErrorStyled = styled.span`
+  position: absolute;
+  top: 170px;
+  white-space: nowrap;
+  color: #dc3545;
+  font-size: 14px;
+  width: 100%;
+  text-align: center;
+`;
