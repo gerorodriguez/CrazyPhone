@@ -3,12 +3,15 @@ package com.crazyphone.CrazyPhone.entities;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "cp_user")
-public class User {
+public class User implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
@@ -16,6 +19,7 @@ public class User {
 
     @Column(name = "id")
     private Long id;
+
     @Column(name = "full_name")
     private String fullName;
 
@@ -30,6 +34,14 @@ public class User {
 
     @OneToMany(mappedBy = "user")
     private List<Publication> publications = new ArrayList<>();
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "cp_user_authority",
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "authority_name", referencedColumnName = "name")
+    )
+    private Set<Authority> authorities = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -76,5 +88,13 @@ public class User {
 
     public void setPublications(List<Publication> publications) {
         this.publications = publications;
+    }
+
+    public Set<Authority> getAuthorities() {
+        return authorities;
+    }
+
+    public void setAuthorities(Set<Authority> authorities) {
+        this.authorities = authorities;
     }
 }
