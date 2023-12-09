@@ -2,7 +2,6 @@ import { useContext, useEffect, useState } from 'react';
 import { Alert, Button, Card, Col, Container, Form } from 'react-bootstrap';
 import { formFields } from './FormFields.js';
 import { ThemeContext } from '../../contexts/theme/theme.context';
-import ToggleTheme from '../../components/toggleTheme/ToggleTheme.jsx';
 import { register } from '../../services/AccountService.js';
 import { useNavigate } from 'react-router-dom';
 import autoAnimate from '@formkit/auto-animate';
@@ -93,7 +92,6 @@ const Register = () => {
         theme === 'dark' ? 'bg-dark' : 'bg-light'
       }`}
     >
-      <ToggleTheme />
       <Col md="4">
         <Card>
           <Card.Body>

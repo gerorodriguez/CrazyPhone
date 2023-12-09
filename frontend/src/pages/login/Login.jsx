@@ -4,7 +4,6 @@ import { Button, Card, Col, Container, Form } from 'react-bootstrap';
 import { authenticate } from '../../services/AuthService.js';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../../contexts/AuthContext.jsx';
-import ToggleTheme from '../../components/toggleTheme/ToggleTheme';
 import { ThemeContext } from '../../contexts/theme/theme.context';
 import { getAccount } from '../../services/AccountService.js';
 import styled from 'styled-components';
@@ -70,10 +69,10 @@ const Login = () => {
     <Container
       data-bs-theme={theme}
       fluid
-      className={`d-flex justify-content-center align-items-center vh-100 ${theme === 'dark' ? 'bg-dark' : 'bg-light'}`}
+      className={`d-flex justify-content-center align-items-center vh-100 ${
+        theme === 'dark' ? 'bg-dark' : 'bg-light'
+      }`}
     >
-      <ToggleTheme />
-
       <Col md="4">
         <Card>
           <Card.Body className="my-4">
