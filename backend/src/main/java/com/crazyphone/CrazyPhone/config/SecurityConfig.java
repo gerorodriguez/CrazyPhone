@@ -89,7 +89,7 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults()) // by default use bean by the name of corsConfigurationSource
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/swagger-ui/**", "/api/register", "/api/authenticate").permitAll()
+                        .requestMatchers("/swagger-ui/**", "/api/register", "/api/authenticate", "/v3/api-docs/**").permitAll()
                         .requestMatchers("api/admin/**").hasAnyAuthority(AuthoritiesConstants.ADMIN)
                         .requestMatchers("/api/**").authenticated()
                 )
