@@ -69,9 +69,7 @@ const Login = () => {
     <Container
       data-bs-theme={theme}
       fluid
-      className={`d-flex justify-content-center align-items-center vh-100 ${
-        theme === 'dark' ? 'bg-dark' : 'bg-light'
-      }`}
+      className="d-flex justify-content-center align-items-center vh-100"
     >
       <Col md="4">
         <Card>
