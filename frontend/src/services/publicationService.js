@@ -6,12 +6,14 @@ export const addPublication = async (newPublication) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        Authorization:
+          'Bearer ' + JSON.parse(localStorage.getItem('AUTH_TOKEN')),
       },
       body: JSON.stringify(newPublication),
     });
 
     if (!response.ok) {
-     throw new Error('Response is NOT ok');
+      throw new Error('Response is NOT ok');
     }
 
     return response.json();
