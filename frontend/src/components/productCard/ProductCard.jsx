@@ -1,5 +1,6 @@
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import { Link } from 'react-router-dom';
 
 function ProductCard() {
   return (
@@ -20,7 +21,9 @@ function ProductCard() {
           style={{ fontSize: '19px', margin: '1% 0' }}
         >
           $230,00
-          <Button className="ml-auto">Ver</Button>
+          <Link to="/detail">
+          <Button className='ml-auto'>Ver</Button>
+          </Link>
         </Card.Text>
       </Card.Body>
     </Card>

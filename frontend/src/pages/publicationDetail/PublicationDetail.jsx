@@ -1,8 +1,54 @@
+import { useContext, useEffect, useState } from 'react';
 import { Col, Row, Button } from 'react-bootstrap';
+import { ThemeContext } from '../../contexts/theme/theme.context';
+import { getPublicationById } from '../../services/publicationService';
+import { useParams } from 'react-router-dom';
 
-const Detail = () => {
+const PublicationDetail = () => {
+
+  const { id } = useParams();
+
+  const { theme } = useContext(ThemeContext);
+
+  const buttonClasses =
+    theme === 'dark'
+      ? 'btn-dark border border-light text-light'
+      : 'btn-dark border border-light text-light';
+
+  const [publicationDetails, setPublicationDetails] = useState();
+  const [publicationDetailsErrors, setPublicationDetailErrors] = useState();
+
+  const getPublication = async (publicationId) => {
+    try {
+      const publication = await getPublicationById(publicationId);
+      setPublicationDetails(publication);
+    } catch (error) {
+      setPublicationDetailErrors(error.message);
+    }
+  };
+
+  useEffect(() => {
+    if (id) {
+      getPublication(id);
+    }
+  }, []);
+
+  if (publicationDetailsErrors) {
+    return <div>Error: {publicationDetailsErrors}</div>;
+  }
+
+  if (!publicationDetails) {
+    return <div>Loading...</div>;
+  }
+
+
+
   return (
-    <Row className="mb-4 p-3" >
+    <Row
+      className={`mt-5 py-4 px-xl-5 mx-2 ${
+        theme === 'dark' ? 'bg-dark text-light' : ''
+      }`}
+    >
       <Col lg={1} className="d-none d-lg-block">
         <div className="image-vertical-scroller">
           <div className="d-flex flex-column">
@@ -36,12 +82,15 @@ const Detail = () => {
 
       <Col lg={5}>
         <div className="d-flex flex-column h-100">
-          <h2 className="mb-1">Nillkin iPhone X cover</h2>
+          <h2 className="mb-1">{publicationDetails.title}</h2>
           <h4 className="text-muted mb-4">$500</h4>
 
           <Row className="g-3 mb-4">
             <Col>
-              <Button variant="dark" className="py-2 w-100">
+              <Button
+                variant="primary"
+                className={`py-2 w-100 ${buttonClasses}`}
+              >
                 Contact
               </Button>
             </Col>
@@ -50,30 +99,24 @@ const Detail = () => {
           <h4 className="mb-0">Details</h4>
           <hr />
           <dl className="row">
-            <Col sm={4}>
-              Brand
-            </Col>
+            <Col sm={4}>Brand</Col>
             <Col sm={8} as="dd" className="mb-3">
-              iPhone X
+              Apple
             </Col>
 
-            <Col sm={4}>
-              Manufacturer
-            </Col>
+            <Col sm={4}>Model</Col>
             <Col sm={8} className="mb-3">
-              Nillkin
+              Iphone 15 pro
             </Col>
 
-            <Col sm={4} className="mb-3" >
+            <Col sm={4} className="mb-3">
               Color
             </Col>
             <Col sm={8} className="mb-3">
               Red, Green, Blue, Pink
             </Col>
 
-            <Col sm={4}>
-              Status
-            </Col>
+            <Col sm={4}>Status</Col>
             <Col sm={8} className="mb-3">
               Instock
             </Col>
@@ -83,14 +126,7 @@ const Detail = () => {
           <hr />
           <p className="lead flex-shrink-0">
             <small>
-              Nature (TPU case) use environmental non-toxic TPU, silky smooth
-              and ultrathin. Glittering and translucent, arbitrary rue reserved
-              volume button cutouts, easy to operate. Side frosted texture
-              anti-slipping, details show its concern; transparent frosted logo
-              shows its taste. The release of self, the flavor of life. Nillkin
-              launched Nature transparent soft cover, only to retain the
-              original phone style. Subverting tradition, redefinition. Thinner
-              design Environmental texture better hand feeling.
+              {publicationDetails.description}
             </small>
           </p>
         </div>
@@ -99,4 +135,4 @@ const Detail = () => {
   );
 };
 
-export default Detail;
+export default PublicationDetail;
