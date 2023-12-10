@@ -83,7 +83,7 @@ const PublicationDetail = () => {
       <Col lg={5}>
         <div className="d-flex flex-column h-100">
           <h2 className="mb-1">{publicationDetails.title}</h2>
-          <h4 className="text-muted mb-4">$500</h4>
+          <h4 className="text-muted mb-4">${publicationDetails.price}</h4>
 
           <Row className="g-3 mb-4">
             <Col>
