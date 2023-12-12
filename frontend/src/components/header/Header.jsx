@@ -3,6 +3,7 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { BsFillPersonFill } from 'react-icons/bs';
+import Button from 'react-bootstrap/esm/Button';
 
 const Header = () => {
   return (
@@ -16,6 +17,7 @@ const Header = () => {
             <Nav.Link>Telefonos</Nav.Link>
           </Nav>
           <Nav className="ms-auto">
+          <Button variant="success" style={{ marginRight: '20px' }}>Publicar</Button>
             <NavDropdown title={<BsFillPersonFill />}
               style={{ fontSize: '20px' }}
               id="basic-nav-dropdown"
