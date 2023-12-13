@@ -3,7 +3,9 @@ import Card from 'react-bootstrap/Card';
 
 function PublicationCard({ id, title, price, description }) {
   return (
-    <Card key={id} style={{ width: '18rem', margin: '10px 0' }} className="rounded-3 shadow">
+    <Card key={id} 
+    //style={{ width: '18rem', margin: '10px 0' }} 
+    className="rounded-3 shadow">
       <Card.Img
         variant="top"
         src="https://cdn.dxomark.com/wp-content/uploads/medias/post-155689/Apple-iPhone-15-Pro-Max_-blue-titanium_featured-image-packshot-review.jpg"
