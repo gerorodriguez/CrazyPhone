@@ -7,11 +7,13 @@ import { useAuthContext } from '../../contexts/AuthContext.jsx';
 import { ThemeContext } from '../../contexts/theme/theme.context';
 import { getAccount } from '../../services/AccountService.js';
 import styled from 'styled-components';
+import { APIContext } from '../../services/ApiContext.jsx';
 
 const Login = () => {
   const navigate = useNavigate();
   const { login, saveAuthorities } = useAuthContext();
   const { theme } = useContext(ThemeContext);
+  const { isLoading, toggleLoading } = useContext(APIContext);
 
   const [form, setForm] = useState({
     email: '',
@@ -49,6 +51,8 @@ const Login = () => {
       return;
     }
 
+    toggleLoading(true);
+
     try {
       const token = await authenticate(form);
 
@@ -58,7 +62,10 @@ const Login = () => {
 
       saveAuthorities(account.authorities);
 
+      toggleLoading(false);
+
       navigate('/');
+
     } catch (error) {
       console.error('Error durante la autenticación');
       setAuthError(true);
