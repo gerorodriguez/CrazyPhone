@@ -1,12 +1,11 @@
 import { Form } from 'react-bootstrap';
 
-const FilterItem = ({ filtros, name, options, onChange }) => {
+const FilterItem = ({ filter, name, options, onChange }) => {
   const handleCheckBox = (option) => {
     onChange(name, option);
   };
 
   return (
-    <li className="list-group-item">
       <div className="d-flex flex-column">
         {options.map((option, index) => (
           <div key={index} className="form-check">
@@ -16,12 +15,11 @@ const FilterItem = ({ filtros, name, options, onChange }) => {
               type="radio"
               id={`radio-${index}`}
               label={option}
-              checked={filtros[name] === option}
+              checked={filter[name] === option}
             />
           </div>
         ))}
       </div>
-    </li>
   );
 };
 

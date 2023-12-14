@@ -1,35 +1,44 @@
 import { useEffect, useState } from 'react';
-import { Button, InputGroup } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import FilterItem from './filterItem/FilterItem';
+import PriceRangeFilter from './priceRangeFilter/PriceRangeFilter';
 
 function FilterList({ publications, setFilteredPublications }) {
   const storages = ['64 GB', '128 GB', '256 GB', '512 GB'];
-  const BRANDS = ['Apple', 'Samsung', 'Motorola', 'Xiaomi', 'HOLA'];
+  const BRANDS = ['Apple', 'Samsung', 'Motorola', 'Xiaomi'];
 
   const initialState = {
-    brands: '',
+    brand: '',
     storage: '',
     priceRange: { min: 0, max: 0 },
   };
 
-  const [filtros, setFiltros] = useState(initialState);
+  const [filter, setFilter] = useState(initialState);
 
   const applyFilters = () => {
     let result = publications;
 
-    if (filtros.brands) {
+    if (filter.brand) {
       result = result.filter(
-        (publication) => filtros.brands === publication.brand,
+        (publication) => filter.brand === publication.brand,
       );
     }
 
-    if (filtros.storage) {
+    if (filter.storage) {
       result = result.filter(
-        (publication) => filtros.storage === publication.storage,
+        (publication) => filter.storage === publication.storage,
       );
     }
 
-    // Aquí podrías agregar más lógica de filtrado, como por rango de precios
+    result = result.filter((publication) => {
+      if (filter.priceRange.min === 0 && filter.priceRange.max === 0) {
+        return true;
+      }
+      return (
+        publication.price >= filter.priceRange.min &&
+        publication.price <= filter.priceRange.max
+      );
+    });
 
     return result;
   };
@@ -37,10 +46,10 @@ function FilterList({ publications, setFilteredPublications }) {
   useEffect(() => {
     const filtered = applyFilters();
     setFilteredPublications(filtered);
-  }, [filtros, publications]);
+  }, [filter, publications]);
 
   const handleFilterChange = (filterCategory, value) => {
-    setFiltros((prevFiltros) => {
+    setFilter((prevFiltros) => {
       const updated = { ...prevFiltros };
       updated[filterCategory] = updated[filterCategory] === value ? '' : value;
       return updated;
@@ -48,7 +57,7 @@ function FilterList({ publications, setFilteredPublications }) {
   };
 
   const clearFilters = () => {
-    setFiltros(initialState);
+    setFilter(initialState);
   };
 
   return (
@@ -63,9 +72,9 @@ function FilterList({ publications, setFilteredPublications }) {
         <h5 className="mt-1 mb-1">Marcas</h5>
         <div className="d-flex flex-column">
           <FilterItem
-            filtros={filtros}
-            setFiltros={setFiltros}
-            name={'brands'}
+            filter={filter}
+            setFilter={setFilter}
+            name={'brand'}
             options={BRANDS}
             onChange={handleFilterChange}
           />
@@ -75,38 +84,15 @@ function FilterList({ publications, setFilteredPublications }) {
         <h5 className="mt-1 mb-1">Storage</h5>
         <div className="d-flex flex-column">
           <FilterItem
-            filtros={filtros}
-            setFiltros={setFiltros}
+            filter={filter}
+            setFilter={setFilter}
             name={'storage'}
             options={storages}
             onChange={handleFilterChange}
           />
         </div>
       </li>
-      <li className="list-group-item">
-        <h5 className="mt-1 mb-2">Price Range</h5>
-        <div className="d-grid d-block mb-3">
-          <div className="form-floating mb-2">
-            <input
-              type="text"
-              className="form-control"
-              placeholder="Min"
-              defaultValue="100000"
-            />
-            <label htmlFor="floatingInput">Min Price</label>
-          </div>
-          <div className="form-floating mb-2">
-            <InputGroup
-              type="text"
-              className="form-control"
-              placeholder="Max"
-              defaultValue="500000"
-            />
-            <label htmlFor="floatingInput">Max Price</label>
-          </div>
-          <button className="btn btn-dark">Apply</button>
-        </div>
-      </li>
+      <PriceRangeFilter setFilter={setFilter} />
     </ul>
   );
 }

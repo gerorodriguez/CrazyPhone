@@ -67,7 +67,7 @@ const Publication = () => {
       'iPhone 6',
       'iPhone 5c',
       'iPhone 5s',
-      'iPhone 5'
+      'iPhone 5',
     ],
     Samsung: [
       'Samsung Galaxy Z Fold 3',
@@ -176,7 +176,7 @@ const Publication = () => {
           <Form.Group controlId="title" className="mb-3">
             <Form.Label>Título de la publicación</Form.Label>
             <Form.Control
-            controlId="titulo"
+              controlId="titulo"
               type="text"
               placeholder="Ingrese un título"
               onChange={handleInputChange}
@@ -185,7 +185,7 @@ const Publication = () => {
           </Form.Group>
         </Col>
         <Col md={6}>
-        <Form.Group controlId="price" className="mb-3">
+          <Form.Group controlId="price" className="mb-3">
             <Form.Label>Precio</Form.Label>
             <Form.Control
               type="number"
@@ -194,12 +194,11 @@ const Publication = () => {
             />
             <Form.Text className="text-danger">{formErrors.price}</Form.Text>
           </Form.Group>
-          
         </Col>
       </Row>
       <Row>
         <Col md={6}>
-        <Form.Group controlId="brand" className="mb-3">
+          <Form.Group controlId="brand" className="mb-3">
             <Form.Label>Marca</Form.Label>
             <Form.Select onChange={handleInputChange}>
               <option value="">Seleccione una marca</option>
@@ -239,9 +238,7 @@ const Publication = () => {
               <option value="128">128GB</option>
               <option value="256">256GB</option>
             </Form.Select>
-            <Form.Text className="text-danger">
-              {formErrors.storage}
-            </Form.Text>
+            <Form.Text className="text-danger">{formErrors.storage}</Form.Text>
           </Form.Group>
         </Col>
         <Col md={6}>
@@ -280,7 +277,9 @@ const Publication = () => {
               placeholder="Ingrese un número de teléfono"
               onChange={handleInputChange}
             />
-            <Form.Text className="text-danger">{formErrors.phoneNumber}</Form.Text>
+            <Form.Text className="text-danger">
+              {formErrors.phoneNumber}
+            </Form.Text>
           </Form.Group>
         </Col>
       </Row>
@@ -299,9 +298,7 @@ const Publication = () => {
               <option value="Córdoba">Córdoba</option>
               <option value="Mendoza">Mendoza</option>
             </Form.Select>
-            <Form.Text className="text-danger">
-              {formErrors.state}
-            </Form.Text>
+            <Form.Text className="text-danger">{formErrors.state}</Form.Text>
           </Form.Group>
         </Col>
         <Col md={6}>
@@ -350,7 +347,7 @@ const Publication = () => {
       </Row>
       <Row className="justify-content-end mb-3">
         <Col xs="auto">
-          <Button variant="danger" href="/home" className="mx-3">
+          <Button variant="danger" href="/" className="mx-3">
             Cancelar
           </Button>
           <Button variant="success" type="submit">

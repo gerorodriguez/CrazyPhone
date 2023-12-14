@@ -1,31 +1,54 @@
+import { useState } from "react"
+import { Button, Form } from "react-bootstrap"
 
-const PriceRangeFilter = () => {
+const PriceRangeFilter = ({setFilter}) => {
+
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
+
+  const handleMinPriceChange = (e) => {
+    setMinPrice(e.target.value)
+  }
+  const handleMaxPriceChange = (e) => {
+    setMaxPrice(e.target.value)
+  }
+
+  const handleClick = () => {
+    setFilter((prevFilter) => {
+      const updated = { ...prevFilter };
+      updated.priceRange = {min: minPrice, max: maxPrice};
+      return updated;
+    });
+  }
+
   return (
     <>
-      <li className="list-group-item">
-        <h5 className="mt-1 mb-2">Price Range</h5>
+    <li className="list-group-item">
+      <h5 className="mt-1 mb-2">Price Range</h5>
+      <Form>
         <div className="d-grid d-block mb-3">
-          <div className="form-floating mb-2">
-            <input
+          <Form.Group className="mb-2">
+            <Form.Control
               type="text"
-              className="form-control"
               placeholder="Min"
-              defaultValue="100000"
+              onChange={handleMinPriceChange}
+              value={minPrice}
             />
-            <label htmlFor="floatingInput">Min Price</label>
-          </div>
-          <div className="form-floating mb-2">
-            <input
+            <Form.Label>Min Price</Form.Label>
+          </Form.Group>
+          <Form.Group className="mb-2">
+            <Form.Control
               type="text"
-              className="form-control"
               placeholder="Max"
-              defaultValue="500000"
+              onChange={handleMaxPriceChange}
+              value={maxPrice}
             />
-            <label htmlFor="floatingInput">Max Price</label>
-          </div>
-          <button className="btn btn-dark">Apply</button>
+            <Form.Label>Max Price</Form.Label>
+          </Form.Group>
+          <Button disabled={maxPrice <= minPrice || (maxPrice == 0 || minPrice == 0 )} onClick={handleClick} variant="dark">Apply</Button>
         </div>
-      </li>
+      </Form>
+    </li>
     </>
   )
 }
