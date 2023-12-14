@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,6 +39,12 @@ public class PublicationController {
     @GetMapping("/{id}")
     public ResponseEntity<PublicationDTO> findById(@PathVariable Long id) {
         return new ResponseEntity<>(publicationService.findById(id), HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PublicationDTO> update(@PathVariable Long id, @RequestBody PublicationDTO updatedPublicationDTO) {
+        PublicationDTO updatedPublication = publicationService.update(id, updatedPublicationDTO);
+        return new ResponseEntity<>(updatedPublication, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
