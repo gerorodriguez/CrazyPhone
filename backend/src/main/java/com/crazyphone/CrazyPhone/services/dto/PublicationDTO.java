@@ -1,7 +1,9 @@
 package com.crazyphone.CrazyPhone.services.dto;
 
 
-public class PublicationDTO {
+import java.io.Serializable;
+
+public class PublicationDTO implements Serializable {
     private Long id;
 
     private String title;
