@@ -1,7 +1,10 @@
 package com.crazyphone.CrazyPhone.services.dto;
 
 
-public class PublicationDTO {
+import java.io.Serializable;
+import java.util.Set;
+
+public class PublicationDTO implements Serializable {
     private Long id;
 
     private String title;
@@ -17,6 +20,18 @@ public class PublicationDTO {
     private String instagramAccount;
 
     private String state;
+
+    private Set<ImageDTO> images;
+
+    private UserIdDTO user;
+
+    public Set<ImageDTO> getImages() {
+        return images;
+    }
+
+    public void setImages(Set<ImageDTO> images) {
+        this.images = images;
+    }
 
     public Long getId() {
         return id;
@@ -80,5 +95,13 @@ public class PublicationDTO {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public UserIdDTO getUser() {
+        return user;
+    }
+
+    public void setUser(UserIdDTO user) {
+        this.user = user;
     }
 }

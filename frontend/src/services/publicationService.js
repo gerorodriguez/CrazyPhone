@@ -1,15 +1,22 @@
 const apiUrl = 'http://localhost:8080/api';
 
-export const addPublication = async (newPublication) => {
+export const addPublication = async (newPublication, images) => {
   try {
+    const formData = new FormData();
+
+    formData.append('data', JSON.stringify(newPublication));
+
+    images.forEach((image) => {
+      formData.append(`files`, image);
+    });
+
     const response = await fetch(apiUrl + '/publications', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
         Authorization:
-          'Bearer ' + JSON.parse(localStorage.getItem('AUTH_TOKEN')),
+            'Bearer ' + JSON.parse(localStorage.getItem('AUTH_TOKEN')),
       },
-      body: JSON.stringify(newPublication),
+      body: formData,
     });
 
     if (!response.ok) {
@@ -96,13 +103,10 @@ export const getLoggedInUserId = () => {
   return null;
 };
 
-const userId = getLoggedInUserId();
-
-
 export const getMyPublications = async () => {
 
   try {
-    const response = await fetch(`${apiUrl}/publications?userId=${userId}`, {
+    const response = await fetch(`${apiUrl}/publications/by-user`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

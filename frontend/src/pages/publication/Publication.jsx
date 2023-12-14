@@ -5,7 +5,7 @@ import {
   getPublicationById,
   updatePublication,
 } from '../../services/publicationService';
-import { useParams } from 'react-router-dom';
+import { redirect, useNavigate, useParams } from 'react-router-dom';
 const Publication = () => {
   const { id } = useParams();
 
@@ -36,6 +36,7 @@ const Publication = () => {
   const [imagePreview, setImagePreview] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
   const [successMessage, setSuccessMessage] = useState('');
+  const [publicationErrors, setPublicationErrors] = useState('');
 
   const availableModels = {
     Apple: [
@@ -105,6 +106,8 @@ const Publication = () => {
     Oppo: ['Oppo Find X3', 'Oppo Reno 6', 'Oppo A94'],
   };
 
+  const navigate = useNavigate();
+
   const handleImageRemove = (index) => {
     const newSelectedImages = [...selectedImages];
     const newImagePreview = [...imagePreview];
@@ -121,7 +124,7 @@ const Publication = () => {
 
     // Create an array of objects URL for image preview
     const previewImages = Array.from(files).map((file) =>
-      URL.createObjectURL(file),
+        URL.createObjectURL(file),
     );
 
     // Update the state with both selected and preview images
@@ -180,16 +183,29 @@ const Publication = () => {
         if (id) {
           await updatePublication(id, formValues);
           setSuccessMessage('Publicación actualizada con éxito.');
-        } else {
-          const savedPublication = await addPublication(formValues);
+          navigate('/myPublications');
+        } else { 
+          registerNewPublication(formValues);
           setSuccessMessage('Nueva publicación creada con éxito.');
-          console.log('Nueva publicación creada:', savedPublication);
+          navigate('/');
         }
       } catch (error) {
         console.error('Error al actualizar/crear la publicación:', error);
       }
     } else {
       console.log('Form validation failed.');
+    }
+  };
+
+  const registerNewPublication = async (newPublication) => {
+    try {
+      const savedPublication = await addPublication(
+          newPublication,
+          selectedImages,
+      );
+      console.log('Publication saved:', savedPublication);
+    } catch (error) {
+      setPublicationErrors(error.message);
     }
   };
 
@@ -263,7 +279,6 @@ const Publication = () => {
               onChange={handleInputChange}
             >
               <option value="">Seleccione su capacidad</option>
-              <option value="32">32GB</option>
               <option value="64">64GB</option>
               <option value="128">128GB</option>
               <option value="256">256GB</option>

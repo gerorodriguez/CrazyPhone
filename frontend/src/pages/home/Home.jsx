@@ -43,6 +43,7 @@ const Home = () => {
         phoneNumber={publication.phoneNumber}
         instagram={publication.instagram}
         state={publication.state}
+        userId={publication.user.id}
       />
     </Col>
   ));
