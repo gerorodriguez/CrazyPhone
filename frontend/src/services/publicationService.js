@@ -1,5 +1,3 @@
-import { useContext } from "react";
-import { APIContext } from "./ApiContext";
 
 const apiUrl = 'http://localhost:8080/api';
 
@@ -7,10 +5,7 @@ const apiUrl = 'http://localhost:8080/api';
 
 
 export const addPublication = async (newPublication, images) => {
-  const { toggleLoading } = useContext(APIContext);
-
   try {
-    toggleLoading(true);
 
     const formData = new FormData();
 
@@ -37,7 +32,5 @@ export const addPublication = async (newPublication, images) => {
   } catch (error) {
     console.error('Error durante el registro:', error);
     throw error;
-  } finally {
-    toggleLoading(false);
   }
 };

@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import {useContext, useState} from 'react';
 import { Button, Col, Form, Row } from 'react-bootstrap';
 import { addPublication } from '../../services/publicationService';
 import { APIContext } from '../../services/ApiContext';
@@ -31,7 +31,7 @@ const Publication = () => {
   const [publicationErrors, setPublicationErrors] = useState();
   const [imagePreview, setImagePreview] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
-  const { isLoading } = useContext(APIContext);
+  const { isLoading, toggleLoading } = useContext(APIContext);
 
   const availableModels = {
     Apple: [
@@ -157,6 +157,7 @@ const Publication = () => {
 
     if (validateForm()) {
       console.log('Form submitted:', formValues);
+      toggleLoading(true);
       registerNewPublication(formValues);
     } else {
       console.log('Form validation failed.');
@@ -169,9 +170,11 @@ const Publication = () => {
           newPublication,
           selectedImages,
       );
+      toggleLoading(false)
       console.log('Publication saved:', savedPublication);
     } catch (error) {
       setPublicationErrors(error.message);
+      toggleLoading(false)
     }
   };
 
