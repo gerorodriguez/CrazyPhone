@@ -1,8 +1,11 @@
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
+import { getLoggedInUserId } from '../../services/publicationService';
 
-function PublicationCard({ id, title, price, description }) {
+function PublicationCard({ id, title, price, description, userId }) {
+  const loggedInUserId = getLoggedInUserId();
+
   return (
     <Card key={id} className="rounded-3 shadow">
       <Card.Img
@@ -11,13 +14,14 @@ function PublicationCard({ id, title, price, description }) {
         style={{ height: '200px', objectFit: 'cover' }}
       />
       <Card.Body>
-        {/* Enlace a la página de edición de la publicación */}
-        <Link
-          to={`/publication/${id}/edit`}
-          className="btn btn-outline-secondary btn-edit"
-        >
-          Editar
-        </Link>
+        {loggedInUserId === userId && (
+          <Link
+            to={`/publication/${id}/edit`}
+            className="btn btn-outline-secondary btn-edit"
+          >
+            Editar
+          </Link>
+        )}
         <Card.Title className="d-flex justify-content-center mb-3 title">
           {title}
         </Card.Title>

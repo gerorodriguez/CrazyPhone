@@ -75,7 +75,7 @@ export const updatePublication = async (publicationId, updatedPublication) => {
   }
 };
 
-const getLoggedInUserId = () => {
+export const getLoggedInUserId = () => {
   const authToken = localStorage.getItem('AUTH_TOKEN');
 
   // Verifica si el token existe
@@ -120,4 +120,25 @@ export const getMyPublications = async () => {
     console.error('Error al obtener mis publicaciones:', error);
     throw error;
   }
+};
+
+export const getAllPublications = async () => {
+  const response = await fetch(`${apiUrl}/publications`, {
+    method: "GET",
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${JSON.parse(localStorage.getItem('AUTH_TOKEN'))}`,
+    },
+  });
+
+  if (!response.ok) {
+    if (response.status === 401) {
+      throw new Error("No autorizado. Por favor, inicia sesión.");
+    } else {
+      throw new Error(`Error ${response.status}: ${response.statusText}`);
+    }
+  }
+
+  const data = await response.json();
+  return data;
 };
