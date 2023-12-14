@@ -101,6 +101,11 @@ const Register = () => {
               <h3 className="d-flex justify-content-center align-items-center">
                 Registrarse
               </h3>
+              {successMessage && (
+                <Alert variant="success" className="mb-3">
+                  {successMessage}
+                </Alert>
+              )}
 
               {/* {registerError && (
                 <Alert
@@ -154,11 +159,6 @@ const Register = () => {
                   >
                     Entrar
                   </Button>
-                  {/* {successMessage && (
-                    <Alert variant="success" className="mb-3">
-                      {successMessage}
-                    </Alert>
-                  )} */}
                 </div>
 
                 <div className="d-flex justify-content-between align-items-center">
