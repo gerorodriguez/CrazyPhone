@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { Button, Form, Row, Col } from 'react-bootstrap';
+import { Button, Col, Form, Row } from 'react-bootstrap';
 import { addPublication } from '../../services/publicationService';
+
 const Publication = () => {
   const [formValues, setFormValues] = useState({
     title: '',
@@ -67,7 +68,7 @@ const Publication = () => {
       'iPhone 6',
       'iPhone 5c',
       'iPhone 5s',
-      'iPhone 5'
+      'iPhone 5',
     ],
     Samsung: [
       'Samsung Galaxy Z Fold 3',
@@ -114,7 +115,7 @@ const Publication = () => {
 
     // Create an array of objects URL for image preview
     const previewImages = Array.from(files).map((file) =>
-      URL.createObjectURL(file),
+        URL.createObjectURL(file),
     );
 
     // Update the state with both selected and preview images
@@ -162,7 +163,10 @@ const Publication = () => {
 
   const registerNewPublication = async (newPublication) => {
     try {
-      const savedPublication = await addPublication(newPublication);
+      const savedPublication = await addPublication(
+          newPublication,
+          selectedImages,
+      );
       console.log('Publication saved:', savedPublication);
     } catch (error) {
       setPublicationErrors(error.message);
