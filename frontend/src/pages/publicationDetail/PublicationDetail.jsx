@@ -91,38 +91,47 @@ const PublicationDetail = () => {
                 variant="primary"
                 className={`py-2 w-100 ${buttonClasses}`}
               >
-                Contact
+                Contactar
               </Button>
             </Col>
           </Row>
 
-          <h4 className="mb-0">Details</h4>
+          <h4 className="mb-0">Detalles</h4>
           <hr />
           <dl className="row">
-            <Col sm={4}>Brand</Col>
+            <Col sm={4}>Marca</Col>
             <Col sm={8} as="dd" className="mb-3">
-              Apple
+              {publicationDetails.brand}
             </Col>
 
-            <Col sm={4}>Model</Col>
+            <Col sm={4}>Modelo</Col>
             <Col sm={8} className="mb-3">
-              Iphone 15 pro
+              {publicationDetails.model}
             </Col>
 
             <Col sm={4} className="mb-3">
-              Color
+              Almacenamiento
             </Col>
+            
             <Col sm={8} className="mb-3">
-              Red, Green, Blue, Pink
+              {publicationDetails.storage}GB
             </Col>
 
-            <Col sm={4}>Status</Col>
+            <Col sm={4}>Numero de celular</Col>
             <Col sm={8} className="mb-3">
-              Instock
+              {publicationDetails.phoneNumber}
+            </Col>
+            <Col sm={4}>Instagram</Col>
+            <Col sm={8} className="mb-3">
+              @{publicationDetails.instagramAccount}
+            </Col>
+            <Col sm={4}>Provincia</Col>
+            <Col sm={8} className="mb-3">
+              {publicationDetails.state}
             </Col>
           </dl>
 
-          <h4 className="mb-0">Description</h4>
+          <h4 className="mb-0">Descripcion</h4>
           <hr />
           <p className="lead flex-shrink-0">
             <small>

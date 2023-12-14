@@ -66,7 +66,7 @@ const Header = () => {
                   </>
                 ) : (
                   <>
-                    <NavDropdown.Item href="login">Ingresar</NavDropdown.Item>
+                    <NavDropdown.Item href="/login">Ingresar</NavDropdown.Item>
                   </>
                 )}
               </NavDropdown>

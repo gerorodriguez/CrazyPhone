@@ -27,6 +27,7 @@ public class PublicationService {
     }
 
     public List<PublicationDTO> getAll() {
+        var publications = publicationRepository.findAll();
         return publicationMapper.toDto(publicationRepository.findAll());
     }
 
