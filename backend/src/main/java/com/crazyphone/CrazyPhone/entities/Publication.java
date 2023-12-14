@@ -1,9 +1,13 @@
 package com.crazyphone.CrazyPhone.entities;
 
 import jakarta.persistence.*;
+
+import java.io.Serializable;
+import java.util.Set;
+
 @Entity
 @Table(name = "publication")
-public class Publication {
+public class Publication implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
@@ -38,6 +42,9 @@ public class Publication {
     @ManyToOne
     @JoinColumn(foreignKey = @ForeignKey(name = "fk_publication__brand_id) "))
     private Brand brand;
+
+    @OneToMany(mappedBy = "publication", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Image> images;
 
     public Long getId() {
         return id;
@@ -110,5 +117,19 @@ public class Publication {
         this.user = user;
     }
 
+    public Brand getBrand() {
+        return brand;
+    }
 
+    public void setBrand(Brand brand) {
+        this.brand = brand;
+    }
+
+    public Set<Image> getImages() {
+        return images;
+    }
+
+    public void setImages(Set<Image> images) {
+        this.images = images;
+    }
 }
