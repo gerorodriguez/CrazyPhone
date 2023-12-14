@@ -1,5 +1,5 @@
 import {useContext, useState} from 'react';
-import { Button, Col, Form, Row } from 'react-bootstrap';
+import { Button, Col, Form, Row, Spinner } from 'react-bootstrap';
 import { addPublication } from '../../services/publicationService';
 import { APIContext } from '../../services/ApiContext';
 
@@ -313,7 +313,7 @@ const Publication = () => {
           </Form.Group>
         </Col>
         <Col md={6}>
-          <Form.Group controlId="image" className="mb-3">
+          <Form.Group controlId="imagenes" className="mb-3">
             <Form.Label>Imágenes</Form.Label>
             <Row className="mb-2">
               <Col md={6}>
@@ -368,7 +368,7 @@ const Publication = () => {
       </Row>
       </>
       ) : (
-        <div>hola</div>
+        <Spinner style={{position: 'absolute', left: 0, right: 0, bottom: 0, top: 0, margin: "auto"}}/>
       )}
     </Form>
   );

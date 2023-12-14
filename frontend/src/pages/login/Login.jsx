@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useContext, useState } from 'react';
-import { Button, Card, Col, Container, Form } from 'react-bootstrap';
+import { Button, Card, Col, Container, Form, Spinner } from 'react-bootstrap';
 import { authenticate } from '../../services/AuthService.js';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../../contexts/AuthContext.jsx';
@@ -78,6 +78,8 @@ const Login = () => {
       fluid
       className="d-flex justify-content-center align-items-center vh-100"
     >
+      {!isLoading ? (
+      <>
       <Col md="4">
         <Card>
           <Card.Body className="my-4">
@@ -90,6 +92,7 @@ const Login = () => {
             >
               <Col md="9">
                 <Form>
+                
                   <Form.Label className="d-flex justify-content-center align-items-center">
                     <h3>Iniciar sesión</h3>
                   </Form.Label>
@@ -166,6 +169,10 @@ const Login = () => {
           </Card.Body>
         </Card>
       </Col>
+      </>
+      ) : (
+      <Spinner style={{position: 'absolute', left: 0, right: 0, bottom: 0, top: 0, margin: "auto"}}/>
+      )}
     </Container>
   );
 };
