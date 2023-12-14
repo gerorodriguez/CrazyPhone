@@ -43,7 +43,7 @@ const PriceRangeFilter = ({setFilter}) => {
                 value={maxPrice}
               />
           </Form.Group>
-          <Button disabled={maxPrice <= minPrice || (maxPrice == 0 || minPrice == 0 )} onClick={handleClick} variant="dark">Apply</Button>
+          <Button disabled={maxPrice <= minPrice || (maxPrice == 0 || minPrice == 0 )} onClick={handleClick} variant="secondary">Apply</Button>
         </div>
       </Form>
     </li>
