@@ -1,7 +1,12 @@
+import { useContext } from "react";
+import { APIContext } from "./ApiContext";
+
 const apiUrl = 'http://localhost:8080/api';
 
 export const addPublication = async (newPublication) => {
+  const { toggleLoading } = useContext(APIContext);
   try {
+    toggleLoading(true);
     const response = await fetch(apiUrl + '/publications', {
       method: 'POST',
       headers: {
@@ -20,5 +25,7 @@ export const addPublication = async (newPublication) => {
   } catch (error) {
     console.error('Error durante el registro:', error);
     throw error;
+  } finally {
+    toggleLoading(false);
   }
 };

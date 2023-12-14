@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { Button, Form, Row, Col } from 'react-bootstrap';
 import { addPublication } from '../../services/publicationService';
+import { APIContext } from '../../services/ApiContext';
 const Publication = () => {
   const [formValues, setFormValues] = useState({
     title: '',
@@ -29,6 +30,7 @@ const Publication = () => {
   const [publicationErrors, setPublicationErrors] = useState();
   const [imagePreview, setImagePreview] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
+  const { isLoading } = useContext(APIContext);
 
   const availableModels = {
     Apple: [
@@ -168,9 +170,10 @@ const Publication = () => {
       setPublicationErrors(error.message);
     }
   };
-
   return (
     <Form onSubmit={handleSubmit} className="p-3">
+      {!isLoading ? (
+      <>
       <Row>
         <Col md={6}>
           <Form.Group controlId="title" className="mb-3">
@@ -355,6 +358,10 @@ const Publication = () => {
           </Button>
         </Col>
       </Row>
+      </>
+      ) : (
+        <div>hola</div>
+      )}
     </Form>
   );
 };
