@@ -34,8 +34,8 @@ const Header = () => {
             <Nav.Item>
               <ToggleTheme />
             </Nav.Item>
-            <Nav.Item className='ms-auto mx-3'>
-              <Link to={isAuthenticated ? "/publication" : "/login"}>
+            <Nav.Item className="ms-auto mx-3">
+              <Link to={isAuthenticated ? '/publication' : '/login'}>
                 <Button variant="success">Publicar</Button>
               </Link>
             </Nav.Item>
@@ -49,7 +49,7 @@ const Header = () => {
               >
                 {isAuthenticated ? (
                   <>
-                    <NavDropdown.Item href="#action/3.1">
+                    <NavDropdown.Item as={Link} to="/myPublications">
                       Mis publicaciones
                     </NavDropdown.Item>
                     <NavDropdown.Item href="#action/3.2">
