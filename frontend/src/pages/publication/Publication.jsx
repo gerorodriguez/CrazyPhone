@@ -1,7 +1,8 @@
 import { useContext, useState } from 'react';
-import { Button, Form, Row, Col } from 'react-bootstrap';
+import { Button, Col, Form, Row } from 'react-bootstrap';
 import { addPublication } from '../../services/publicationService';
 import { APIContext } from '../../services/ApiContext';
+
 const Publication = () => {
   const [formValues, setFormValues] = useState({
     title: '',
@@ -164,12 +165,16 @@ const Publication = () => {
 
   const registerNewPublication = async (newPublication) => {
     try {
-      const savedPublication = await addPublication(newPublication);
+      const savedPublication = await addPublication(
+          newPublication,
+          selectedImages,
+      );
       console.log('Publication saved:', savedPublication);
     } catch (error) {
       setPublicationErrors(error.message);
     }
   };
+
   return (
     <Form onSubmit={handleSubmit} className="p-3">
       {!isLoading ? (
