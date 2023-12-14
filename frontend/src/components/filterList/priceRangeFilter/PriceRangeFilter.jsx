@@ -28,22 +28,20 @@ const PriceRangeFilter = ({setFilter}) => {
       <Form>
         <div className="d-grid d-block mb-3">
           <Form.Group className="mb-2">
-            <Form.Control
-              type="text"
-              placeholder="Min"
-              onChange={handleMinPriceChange}
-              value={minPrice}
-            />
             <Form.Label>Min Price</Form.Label>
+              <Form.Control
+                type="text"
+                onChange={handleMinPriceChange}
+                value={minPrice}
+              />
           </Form.Group>
           <Form.Group className="mb-2">
-            <Form.Control
-              type="text"
-              placeholder="Max"
-              onChange={handleMaxPriceChange}
-              value={maxPrice}
-            />
             <Form.Label>Max Price</Form.Label>
+              <Form.Control
+                type="text"
+                onChange={handleMaxPriceChange}
+                value={maxPrice}
+              />
           </Form.Group>
           <Button disabled={maxPrice <= minPrice || (maxPrice == 0 || minPrice == 0 )} onClick={handleClick} variant="dark">Apply</Button>
         </div>
