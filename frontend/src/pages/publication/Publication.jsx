@@ -1,12 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Button, Form, Row, Col, Alert } from 'react-bootstrap';
 import {
   addPublication,
   getPublicationById,
   updatePublication,
 } from '../../services/publicationService';
-import { redirect, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { ThemeContext } from '../../contexts/theme/theme.context';
 const Publication = () => {
+  const { theme } = useContext(ThemeContext);
+
   const { id } = useParams();
 
   const [formValues, setFormValues] = useState({
@@ -124,7 +127,7 @@ const Publication = () => {
 
     // Create an array of objects URL for image preview
     const previewImages = Array.from(files).map((file) =>
-        URL.createObjectURL(file),
+      URL.createObjectURL(file),
     );
 
     // Update the state with both selected and preview images
@@ -200,8 +203,8 @@ const Publication = () => {
   const registerNewPublication = async (newPublication) => {
     try {
       const savedPublication = await addPublication(
-          newPublication,
-          selectedImages,
+        newPublication,
+        selectedImages,
       );
       console.log('Publication saved:', savedPublication);
     } catch (error) {
@@ -210,7 +213,12 @@ const Publication = () => {
   };
 
   return (
-    <Form onSubmit={handleSubmit} className="p-3">
+    <Form
+      onSubmit={handleSubmit}
+      className={`p-3 ${
+        theme === 'dark' ? 'bg-dark text-light' : 'bg-light text-dark'
+      }`}
+    >
       <Row>
         <Col md={6}>
           <Form.Group controlId="title" className="mb-3">
