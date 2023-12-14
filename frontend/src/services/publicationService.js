@@ -1,7 +1,9 @@
+
 const apiUrl = 'http://localhost:8080/api';
 
 export const addPublication = async (newPublication, images) => {
   try {
+
     const formData = new FormData();
 
     formData.append('data', JSON.stringify(newPublication));

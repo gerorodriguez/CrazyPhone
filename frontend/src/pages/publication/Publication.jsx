@@ -1,5 +1,6 @@
+import { APIContext } from '../../services/ApiContext';
 import { useContext, useEffect, useState } from 'react';
-import { Button, Form, Row, Col, Alert } from 'react-bootstrap';
+import { Button, Form, Row, Col, Alert, Spinner } from 'react-bootstrap';
 import {
   addPublication,
   getPublicationById,
@@ -7,6 +8,7 @@ import {
 } from '../../services/publicationService';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ThemeContext } from '../../contexts/theme/theme.context';
+
 const Publication = () => {
   const { theme } = useContext(ThemeContext);
 
@@ -38,6 +40,7 @@ const Publication = () => {
 
   const [imagePreview, setImagePreview] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
+  const { isLoading, toggleLoading } = useContext(APIContext);
   const [successMessage, setSuccessMessage] = useState('');
   const [publicationErrors, setPublicationErrors] = useState('');
 
@@ -182,6 +185,8 @@ const Publication = () => {
     e.preventDefault();
 
     if (validateForm()) {
+      console.log('Form submitted:', formValues);
+      toggleLoading(true);
       try {
         if (id) {
           await updatePublication(id, formValues);
@@ -206,19 +211,26 @@ const Publication = () => {
         newPublication,
         selectedImages,
       );
+      toggleLoading(false)
       console.log('Publication saved:', savedPublication);
     } catch (error) {
       setPublicationErrors(error.message);
+      toggleLoading(false)
     }
   };
 
   return (
+    <Form onSubmit={handleSubmit} className="p-3">
+      {!isLoading ? (
+      <>
     <Form
       onSubmit={handleSubmit}
       className={`p-3 ${
         theme === 'dark' ? 'bg-dark text-light' : 'bg-light text-dark'
       }`}
     >
+      {!isLoading ? (
+      <>
       <Row>
         <Col md={6}>
           <Form.Group controlId="title" className="mb-3">
@@ -358,7 +370,7 @@ const Publication = () => {
           </Form.Group>
         </Col>
         <Col md={6}>
-          <Form.Group controlId="image" className="mb-3">
+          <Form.Group controlId="imagenes" className="mb-3">
             <Form.Label>Imágenes</Form.Label>
             <Row className="mb-2">
               <Col md={6}>
@@ -415,6 +427,10 @@ const Publication = () => {
         <Alert variant="success" className="mb-3">
           {successMessage}
         </Alert>
+      )}
+      </>
+      ) : (
+        <Spinner style={{position: 'absolute', left: 0, right: 0, bottom: 0, top: 0, margin: "auto"}}/>
       )}
     </Form>
   );
