@@ -8,6 +8,7 @@ import { Link } from 'react-router-dom';
 import ToggleTheme from '../toggleTheme/ToggleTheme.jsx';
 import { useContext } from 'react';
 import { ThemeContext } from '../../contexts/theme/theme.context.jsx';
+import { Button } from 'react-bootstrap';
 
 const Header = () => {
   const { logout, isAuthenticated } = useAuthContext();
@@ -27,16 +28,24 @@ const Header = () => {
         } border-bottom`}
       >
         <Container>
-          <Navbar.Brand href="#home">Crazy Phone</Navbar.Brand>
+          <Navbar.Brand href="/">Crazy Phone</Navbar.Brand>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav ml-auto">
+            <Nav.Item>
+              <ToggleTheme />
+            </Nav.Item>
+            <Nav.Item className='ms-auto mx-3'>
+              <Link to={isAuthenticated ? "/publication" : "/login"}>
+                <Button variant="success">Publicar</Button>
+              </Link>
+            </Nav.Item>
             <Nav>
               <NavDropdown
                 className="ms-auto d-none d-lg-block"
                 title={<BsFillPersonFill />}
                 style={{ fontSize: '20px' }}
                 id="basic-nav-dropdown"
-                drop={'start'}
+                drop={'down'}
               >
                 {isAuthenticated ? (
                   <>
@@ -83,9 +92,6 @@ const Header = () => {
                 </>
               )}
             </Nav>
-            <Nav.Item>
-              <ToggleTheme />
-            </Nav.Item>
           </Navbar.Collapse>
         </Container>
       </Navbar>
