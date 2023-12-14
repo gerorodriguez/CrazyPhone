@@ -1,93 +1,35 @@
 import { Accordion, Col, Container, Row } from 'react-bootstrap';
 
 import { ThemeContext } from '../../contexts/theme/theme.context';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import FilterList from '../../components/filterList/filterList.jsx';
 import PublicationCard from '../../components/publicationCard/PublicationCard.jsx';
+import { getAllPublications } from '../../services/publicationService.js';
 
 
 const Home = () => {
   const { theme } = useContext(ThemeContext);
 
-  const publicationsList = [
-    {
-      id: 1,
-      title: 'Iphone 15 Pro Max',
-      brand: 'Apple',
-      price: 230,
-      storage: '64 GB',
-      description:
-        'Some quick example text to build on the card title and make.',
-      phoneNumber: '123456789',
-      instagram: 'instagram',
-      state: 'Rosario',
-    },
-    {
-      id: 2,
-      title: 'Samsung S20 FE',
-      brand: 'Samsung',
-      price: 300,
-      storage: '128 GB',
-      description:
-        'Some quick example text to build on the card title and make.',
-      phoneNumber: '123456789',
-      instagram: 'instagram',
-      state: 'Santa Fe',
-    },
-    {
-      id: 3,
-      title: 'Redmi Note 10 Pro',
-      brand: 'Xiaomi',
-      price: 200,
-      storage: 64,
-      description:
-        'Some quick example text to build on the card title and make.',
-      phoneNumber: '123456789',
-      instagram: 'instagram',
-      state: 'Galvez Fe',
-    },
-    {
-      id: 4,
-      title: 'Iphone 10 Pro Max',
-      brand: 'Apple',
-      price: 100,
-      storage: 64,
-      description:
-        'Some quick example text to build on the card title and make.',
-      phoneNumber: '12341234234',
-      instagram: 'instagram',
-      state: 'Santa Fe',
-    },
-    {
-      id: 5,
-      title: 'Samsung S23 FE',
-      brand: 'Samsung',
-      price: 500,
-      storage: 128,
-      description:
-        'Some quick example text to build on the card title and make.',
-      phoneNumber: '123456789',
-      instagram: 'instagram',
-      state: 'Santa Fe',
-    },
-    {
-      id: 6,
-      title: 'Motorola G20 Pro',
-      brand: 'Motorola',
-      price: 500,
-      storage: 128,
-      description:
-        'Some quick example text to build on the card title and make.',
-      phoneNumber: '123456789',
-      instagram: 'instagram',
-      state: 'Santa Fe',
-    },
-  ];
-
   const [filteredPublications, setFilteredPublications] = useState([]);
 
-  const [publications, setPublications] = useState(publicationsList);
+  const [publications, setPublications] = useState([]);
+
+  useEffect(() => {
+    const fetchPublications = async () => {
+      try {
+        const allPublications = await getAllPublications();
+        setPublications(allPublications);
+      }
+      catch (error) {
+        console.error('Error al obtener las publicaciones:', error);
+      }
+    };
+
+    fetchPublications();
+  }, []);
+
+
 
   const publicationsMapped = filteredPublications.map((publication) => (
     <Col key={publication.id}>
@@ -101,6 +43,7 @@ const Home = () => {
         phoneNumber={publication.phoneNumber}
         instagram={publication.instagram}
         state={publication.state}
+        userId={publication.user.id}
       />
     </Col>
   ));

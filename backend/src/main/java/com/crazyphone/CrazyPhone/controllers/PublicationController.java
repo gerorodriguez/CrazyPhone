@@ -41,6 +41,17 @@ public class PublicationController {
         return new ResponseEntity<>(publicationService.findById(id), HttpStatus.OK);
     }
 
+    @GetMapping("/by-user")
+    public ResponseEntity<List<PublicationDTO>> getPublicationsForCurrentUser() {
+        return new ResponseEntity<>(publicationService.getPublicationsForCurrentUser(), HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PublicationDTO> update(@PathVariable Long id, @RequestBody PublicationDTO updatedPublicationDTO) {
+        PublicationDTO updatedPublication = publicationService.update(id, updatedPublicationDTO);
+        return new ResponseEntity<>(updatedPublication, HttpStatus.OK);
+    }
+
     @DeleteMapping("/{id}")
      public ResponseEntity<Void> deleteById(@PathVariable Long id) {
           publicationService.deleteById(id);

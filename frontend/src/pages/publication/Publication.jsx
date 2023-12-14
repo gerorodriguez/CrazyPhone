@@ -1,9 +1,17 @@
 import {useContext, useState} from 'react';
 import { Button, Col, Form, Row, Spinner } from 'react-bootstrap';
-import { addPublication } from '../../services/publicationService';
 import { APIContext } from '../../services/ApiContext';
-
+import { useEffect } from 'react';
+import { Alert } from 'react-bootstrap';
+import {
+  addPublication,
+  getPublicationById,
+  updatePublication,
+} from '../../services/publicationService';
+import { useNavigate, useParams } from 'react-router-dom';
 const Publication = () => {
+  const { id } = useParams();
+
   const [formValues, setFormValues] = useState({
     title: '',
     brand: '',
@@ -28,10 +36,11 @@ const Publication = () => {
     state: '',
   });
 
-  const [publicationErrors, setPublicationErrors] = useState();
   const [imagePreview, setImagePreview] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
   const { isLoading, toggleLoading } = useContext(APIContext);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [publicationErrors, setPublicationErrors] = useState('');
 
   const availableModels = {
     Apple: [
@@ -101,6 +110,8 @@ const Publication = () => {
     Oppo: ['Oppo Find X3', 'Oppo Reno 6', 'Oppo A94'],
   };
 
+  const navigate = useNavigate();
+
   const handleImageRemove = (index) => {
     const newSelectedImages = [...selectedImages];
     const newImagePreview = [...imagePreview];
@@ -152,13 +163,41 @@ const Publication = () => {
     return isValid;
   };
 
-  const handleSubmit = (e) => {
+  useEffect(() => {
+    // Si hay un ID en los parámetros, cargar los detalles de la publicación existente
+    if (id) {
+      const fetchPublicationDetails = async () => {
+        try {
+          const publicationDetails = await getPublicationById(id);
+          setFormValues(publicationDetails);
+        } catch (error) {
+          console.error('Error al obtener detalles de la publicación:', error);
+        }
+      };
+
+      fetchPublicationDetails();
+    }
+  }, [id]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (validateForm()) {
       console.log('Form submitted:', formValues);
       toggleLoading(true);
-      registerNewPublication(formValues);
+      try {
+        if (id) {
+          await updatePublication(id, formValues);
+          setSuccessMessage('Publicación actualizada con éxito.');
+          navigate('/myPublications');
+        } else { 
+          registerNewPublication(formValues);
+          setSuccessMessage('Nueva publicación creada con éxito.');
+          navigate('/');
+        }
+      } catch (error) {
+        console.error('Error al actualizar/crear la publicación:', error);
+      }
     } else {
       console.log('Form validation failed.');
     }
@@ -191,6 +230,7 @@ const Publication = () => {
               type="text"
               placeholder="Ingrese un título"
               onChange={handleInputChange}
+              value={formValues.title}
             />
             <Form.Text className="text-danger">{formErrors.title}</Form.Text>
           </Form.Group>
@@ -202,6 +242,7 @@ const Publication = () => {
               type="number"
               placeholder="Ingrese un precio"
               onChange={handleInputChange}
+              value={formValues.price}
             />
             <Form.Text className="text-danger">{formErrors.price}</Form.Text>
           </Form.Group>
@@ -211,7 +252,7 @@ const Publication = () => {
         <Col md={6}>
           <Form.Group controlId="brand" className="mb-3">
             <Form.Label>Marca</Form.Label>
-            <Form.Select onChange={handleInputChange}>
+            <Form.Select value={formValues.brand} onChange={handleInputChange}>
               <option value="">Seleccione una marca</option>
               <option value="Apple">Apple</option>
               <option value="Samsung">Samsung</option>
@@ -225,6 +266,7 @@ const Publication = () => {
           <Form.Group controlId="model" className="mb-3">
             <Form.Label>Modelo</Form.Label>
             <Form.Select
+              value={formValues.model}
               onChange={handleInputChange}
               disabled={!formValues.brand}
             >
@@ -242,9 +284,11 @@ const Publication = () => {
         <Col md={6}>
           <Form.Group controlId="storage" className="mb-3">
             <Form.Label>Capacidad</Form.Label>
-            <Form.Select onChange={handleInputChange}>
+            <Form.Select
+              value={formValues.storage}
+              onChange={handleInputChange}
+            >
               <option value="">Seleccione su capacidad</option>
-              <option value="32">32GB</option>
               <option value="64">64GB</option>
               <option value="128">128GB</option>
               <option value="256">256GB</option>
@@ -259,6 +303,7 @@ const Publication = () => {
               type="text"
               placeholder="@instagram"
               onChange={handleInputChange}
+              value={formValues.instagramAccount}
             />
             <Form.Text className="text-danger">
               {formErrors.instagramAccount}
@@ -274,6 +319,7 @@ const Publication = () => {
               type="text"
               placeholder="Ingrese una descripción"
               onChange={handleInputChange}
+              value={formValues.description}
             />
             <Form.Text className="text-danger">
               {formErrors.description}
@@ -287,6 +333,7 @@ const Publication = () => {
               type="tel"
               placeholder="Ingrese un número de teléfono"
               onChange={handleInputChange}
+              value={formValues.phoneNumber}
             />
             <Form.Text className="text-danger">
               {formErrors.phoneNumber}
@@ -302,7 +349,7 @@ const Publication = () => {
             onChange={handleInputChange}
           >
             <Form.Label>Provincia</Form.Label>
-            <Form.Select>
+            <Form.Select value={formValues.state}>
               <option value="">Seleccione una provincia</option>
               <option value="Santa Fe">Santa Fe</option>
               <option value="Buenos Aires">Buenos Aires</option>
@@ -362,10 +409,15 @@ const Publication = () => {
             Cancelar
           </Button>
           <Button variant="success" type="submit">
-            Publicar
+            {id ? 'Actualizar' : 'Publicar'}
           </Button>
         </Col>
       </Row>
+      {successMessage && (
+        <Alert variant="success" className="mb-3">
+          {successMessage}
+        </Alert>
+      )}
       </>
       ) : (
         <Spinner style={{position: 'absolute', left: 0, right: 0, bottom: 0, top: 0, margin: "auto"}}/>

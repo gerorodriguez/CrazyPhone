@@ -1,17 +1,27 @@
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import { Link } from 'react-router-dom';
+import { getLoggedInUserId } from '../../services/publicationService';
 
-function PublicationCard({ id, title, price, description }) {
+function PublicationCard({ id, title, price, description, userId }) {
+  const loggedInUserId = getLoggedInUserId();
+
   return (
-    <Card key={id} 
-    //style={{ width: '18rem', margin: '10px 0' }} 
-    className="rounded-3 shadow">
+    <Card key={id} className="rounded-3 shadow">
       <Card.Img
         variant="top"
         src="https://cdn.dxomark.com/wp-content/uploads/medias/post-155689/Apple-iPhone-15-Pro-Max_-blue-titanium_featured-image-packshot-review.jpg"
         style={{ height: '200px', objectFit: 'cover' }}
       />
       <Card.Body>
+        {loggedInUserId === userId && (
+          <Link
+            to={`/publication/${id}/edit`}
+            className="btn btn-outline-secondary btn-edit"
+          >
+            Editar
+          </Link>
+        )}
         <Card.Title className="d-flex justify-content-center mb-3 title">
           {title}
         </Card.Title>
