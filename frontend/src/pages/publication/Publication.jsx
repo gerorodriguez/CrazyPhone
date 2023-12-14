@@ -1,15 +1,17 @@
-import {useContext, useState} from 'react';
-import { Button, Col, Form, Row, Spinner } from 'react-bootstrap';
 import { APIContext } from '../../services/ApiContext';
-import { useEffect } from 'react';
-import { Alert } from 'react-bootstrap';
+import { useContext, useEffect, useState } from 'react';
+import { Button, Form, Row, Col, Alert, Spinner } from 'react-bootstrap';
 import {
   addPublication,
   getPublicationById,
   updatePublication,
 } from '../../services/publicationService';
 import { useNavigate, useParams } from 'react-router-dom';
+import { ThemeContext } from '../../contexts/theme/theme.context';
+
 const Publication = () => {
+  const { theme } = useContext(ThemeContext);
+
   const { id } = useParams();
 
   const [formValues, setFormValues] = useState({
@@ -206,8 +208,8 @@ const Publication = () => {
   const registerNewPublication = async (newPublication) => {
     try {
       const savedPublication = await addPublication(
-          newPublication,
-          selectedImages,
+        newPublication,
+        selectedImages,
       );
       toggleLoading(false)
       console.log('Publication saved:', savedPublication);
@@ -219,6 +221,14 @@ const Publication = () => {
 
   return (
     <Form onSubmit={handleSubmit} className="p-3">
+      {!isLoading ? (
+      <>
+    <Form
+      onSubmit={handleSubmit}
+      className={`p-3 ${
+        theme === 'dark' ? 'bg-dark text-light' : 'bg-light text-dark'
+      }`}
+    >
       {!isLoading ? (
       <>
       <Row>
