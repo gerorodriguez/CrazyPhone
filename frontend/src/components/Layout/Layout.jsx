@@ -7,7 +7,10 @@ const Layout = () => {
   const { theme } = useContext(ThemeContext);
 
   return (
-    <div className={`${theme === 'dark' ? 'bg-dark' : 'bg-light'}`}>
+    <div
+      style={{ flex: 1, height: '100vh' }}
+      className={`${theme === 'dark' ? 'bg-dark' : 'bg-light'}`}
+    >
       <Header />
       <main>
         <Outlet />

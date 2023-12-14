@@ -350,7 +350,7 @@ const Publication = () => {
           </Form.Group>
         </Col>
         <Col md={6}>
-          <Form.Group controlId="imagenes" className="mb-3">
+          <Form.Group controlId="image" className="mb-3">
             <Form.Label>Imágenes</Form.Label>
             <Row className="mb-2">
               <Col md={6}>
