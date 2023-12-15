@@ -145,21 +145,19 @@ export const deletePublication = async (publicationId) => {
     headers: {
       'Content-Type': 'application/json',
       Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('AUTH_TOKEN')),
-
-      // Aquí puedes añadir más headers si es necesario, como tokens de autenticación
     },
-    // No es necesario enviar un cuerpo (body) en una solicitud DELETE
   })
     .then((response) => {
       if (!response.ok) {
         throw new Error('Error en la solicitud DELETE');
       }
-      return;
+      return response.json();
     })
     .then((data) => {
-      console.log('Publicación eliminada con éxito:', data);
+      return data.success;
     })
     .catch((error) => {
       console.error('Hubo un error al eliminar la publicación:', error);
+      return false;
     });
 };
