@@ -57,7 +57,7 @@ public class DataInitializer  {
             user.setFullName("user");
             Authority authority = authorityRepository.findByName("ROLE_USER");
             Set<Authority> authoritySetUser = new HashSet<>();
-            authoritySet.add(authority);
+            authoritySetUser.add(authority);
             user.setAuthorities(authoritySetUser);
             userRepository.save(user);
         };
