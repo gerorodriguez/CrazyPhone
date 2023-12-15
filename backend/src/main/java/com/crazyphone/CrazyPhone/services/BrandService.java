@@ -4,9 +4,12 @@ import com.crazyphone.CrazyPhone.entities.Brand;
 import com.crazyphone.CrazyPhone.repositories.BrandRepository;
 import com.crazyphone.CrazyPhone.services.dto.BrandDTO;
 import com.crazyphone.CrazyPhone.services.mapper.BrandMapper;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 
@@ -39,7 +42,19 @@ public class BrandService {
     }
 
 
+    public BrandDTO update(Long id, BrandDTO brandDTO) {
 
+        if (brandDTO.id() == null) {
+            throw new ResponseStatusException(HttpStatusCode.valueOf(400), "ID NULL");
+        }
+        if (!Objects.equals(id, brandDTO.id())) {
+            throw new ResponseStatusException(HttpStatusCode.valueOf(400), "ID not equal");
+        }
 
+        if (!brandRepository.existsById(id)) {
+            throw new ResponseStatusException(HttpStatusCode.valueOf(404), "brand not found");
+        }
 
+        return brandMapper.toDto(brandRepository.save(brandMapper.toEntity(brandDTO)));
+    }
 }
