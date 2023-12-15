@@ -1,7 +1,7 @@
 const apiUrl = 'http://localhost:8080/api';
 
-export const getBrands = () => {
-  return fetch(`${apiUrl}/brands`, {
+export const getModels = () => {
+  return fetch(`${apiUrl}/models`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -19,8 +19,8 @@ export const getBrands = () => {
     });
 };
 
-export const createBrand = (brand) => {
-  return fetch(`${apiUrl}/brands`, {
+export const createModel = (brand) => {
+  return fetch(`${apiUrl}/models`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -39,14 +39,14 @@ export const createBrand = (brand) => {
     });
 };
 
-export const updateBrand = (id, brand) => {
-  return fetch(`${apiUrl}/brands/${id}`, {
+export const updateModel = (id, model) => {
+  return fetch(`${apiUrl}/models/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('AUTH_TOKEN')),
+      Authorization: `Bearer ${JSON.parse(localStorage.getItem('AUTH_TOKEN'))}`,
     },
-    body: JSON.stringify(brand),
+    body: JSON.stringify(model),
   })
     .then((response) => {
       if (!response.ok) {
@@ -60,8 +60,8 @@ export const updateBrand = (id, brand) => {
     });
 };
 
-export const deleteBrand = (id) => {
-  return fetch(`${apiUrl}/brands/${id}`, {
+export const deleteModel = (id) => {
+  return fetch(`${apiUrl}/models/${id}`, {
     method: 'DELETE',
     headers: {
       'Content-Type': 'application/json',

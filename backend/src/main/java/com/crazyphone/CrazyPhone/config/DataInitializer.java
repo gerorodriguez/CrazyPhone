@@ -49,6 +49,17 @@ public class DataInitializer  {
             Set<Authority> authoritySet = new HashSet<>(authorities);
             userAdmin.setAuthorities(authoritySet);
             userRepository.save(userAdmin);
+            User user = new User();
+            user.setId(2L);
+            user.setEmail("user@localhost.com");
+            String encryptedPasswordUser = passwordEncoder.encode("user");
+            user.setPassword(encryptedPasswordUser);
+            user.setFullName("user");
+            Authority authority = authorityRepository.findByName("ROLE_USER");
+            Set<Authority> authoritySetUser = new HashSet<>();
+            authoritySetUser.add(authority);
+            user.setAuthorities(authoritySetUser);
+            userRepository.save(user);
         };
     }
 }

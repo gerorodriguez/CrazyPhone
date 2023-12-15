@@ -1,8 +1,7 @@
 package com.crazyphone.CrazyPhone.config;
 
-import com.crazyphone.CrazyPhone.config.rsaKeyProperties.RsaKeyProperties;
 import com.crazyphone.CrazyPhone.services.auth.CustomUserDetailsService;
-import com.crazyphone.CrazyPhone.utils.AuthoritiesConstants;
+import com.crazyphone.CrazyPhone.utils.RSAKeyProperties;
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
@@ -38,10 +37,10 @@ import java.util.List;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final RsaKeyProperties rsaKeys;
+    private final RSAKeyProperties rsaKeys;
     private final CustomUserDetailsService customUserDetailsService;
 
-    public SecurityConfig(RsaKeyProperties rsaKeys, CustomUserDetailsService customUserDetailsService) {
+    public SecurityConfig(RSAKeyProperties rsaKeys, CustomUserDetailsService customUserDetailsService) {
         this.rsaKeys = rsaKeys;
         this.customUserDetailsService = customUserDetailsService;
     }
@@ -61,12 +60,12 @@ public class SecurityConfig {
 
     @Bean
     JwtDecoder jwtDecoder() {
-        return NimbusJwtDecoder.withPublicKey(rsaKeys.publicKey()).build();
+        return NimbusJwtDecoder.withPublicKey(rsaKeys.getPublicKey()).build();
     }
 
     @Bean
     JwtEncoder jwtEncoder() {
-        JWK jwk = new RSAKey.Builder(rsaKeys.publicKey()).privateKey(rsaKeys.privateKey()).build();
+        JWK jwk = new RSAKey.Builder(rsaKeys.getPublicKey()).privateKey(rsaKeys.getPrivateKey()).build();
         JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
         return new NimbusJwtEncoder(jwks);
     }
@@ -90,7 +89,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .requestMatchers("/swagger-ui/**", "/api/register", "/api/authenticate", "/v3/api-docs/**").permitAll()
-                        .requestMatchers("api/admin/**").hasAnyAuthority(AuthoritiesConstants.ADMIN)
+                        .requestMatchers(HttpMethod.GET, "/api/publications", "/api/brands", "/api/models").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/brands", "/api/models").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/brands", "/api/models").hasAuthority("ROLE_ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/brands", "/api/models").hasAuthority("ROLE_ADMIN")
                         .requestMatchers("/api/**").authenticated()
                         .anyRequest().authenticated()
                 )

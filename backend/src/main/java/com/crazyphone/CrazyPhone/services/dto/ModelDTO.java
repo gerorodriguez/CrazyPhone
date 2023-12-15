@@ -1,7 +1,7 @@
 package com.crazyphone.CrazyPhone.services.dto;
 
 import com.crazyphone.CrazyPhone.entities.Brand;
-import org.antlr.v4.runtime.misc.NotNull;
+import jakarta.validation.constraints.NotNull;
 
-public record ModelDTO (Long id, @NotNull String modelName) {
+public record ModelDTO (Long id, @NotNull String modelName, BrandDTO brand) {
 }

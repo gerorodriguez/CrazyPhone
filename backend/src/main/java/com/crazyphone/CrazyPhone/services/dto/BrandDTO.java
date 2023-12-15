@@ -1,7 +1,6 @@
 package com.crazyphone.CrazyPhone.services.dto;
 
-import com.crazyphone.CrazyPhone.entities.Model;
-import org.antlr.v4.runtime.misc.NotNull;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.List;
 
