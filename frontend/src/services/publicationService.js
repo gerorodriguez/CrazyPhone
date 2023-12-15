@@ -1,7 +1,9 @@
+
 const apiUrl = 'http://localhost:8080/api';
 
 export const addPublication = async (newPublication, images) => {
   try {
+
     const formData = new FormData();
 
     formData.append('data', JSON.stringify(newPublication));
@@ -28,15 +30,8 @@ export const addPublication = async (newPublication, images) => {
     console.error('Error durante el registro:', error);
     throw error;
   }
+
 };
-
-
-
-
-
-
-
-
 
 export const getPublicationById = (id) => {
   console.log(JSON.parse(localStorage.getItem('AUTH_TOKEN')));

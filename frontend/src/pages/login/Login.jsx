@@ -1,17 +1,19 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useContext, useState } from 'react';
-import { Button, Card, Col, Container, Form } from 'react-bootstrap';
+import { Button, Card, Col, Container, Form, Spinner } from 'react-bootstrap';
 import { authenticate } from '../../services/AuthService.js';
 import { useNavigate } from 'react-router-dom';
 import { useAuthContext } from '../../contexts/AuthContext.jsx';
 import { ThemeContext } from '../../contexts/theme/theme.context';
 import { getAccount } from '../../services/AccountService.js';
 import styled from 'styled-components';
+import { APIContext } from '../../services/ApiContext.jsx';
 
 const Login = () => {
   const navigate = useNavigate();
   const { login, saveAuthorities } = useAuthContext();
   const { theme } = useContext(ThemeContext);
+  const { isLoading, toggleLoading } = useContext(APIContext);
 
   const [form, setForm] = useState({
     email: '',
@@ -49,6 +51,8 @@ const Login = () => {
       return;
     }
 
+    toggleLoading(true);
+
     try {
       const token = await authenticate(form);
 
@@ -58,7 +62,10 @@ const Login = () => {
 
       saveAuthorities(account.authorities);
 
+      toggleLoading(false);
+
       navigate('/');
+
     } catch (error) {
       console.error('Error durante la autenticación');
       setAuthError(true);
@@ -71,6 +78,8 @@ const Login = () => {
       fluid
       className="d-flex justify-content-center align-items-center vh-100"
     >
+      {!isLoading ? (
+      <>
       <Col md="4">
         <Card>
           <Card.Body className="my-4">
@@ -83,6 +92,7 @@ const Login = () => {
             >
               <Col md="9">
                 <Form>
+                
                   <Form.Label className="d-flex justify-content-center align-items-center">
                     <h3>Iniciar sesión</h3>
                   </Form.Label>
@@ -159,6 +169,10 @@ const Login = () => {
           </Card.Body>
         </Card>
       </Col>
+      </>
+      ) : (
+      <Spinner style={{position: 'absolute', left: 0, right: 0, bottom: 0, top: 0, margin: "auto"}}/>
+      )}
     </Container>
   );
 };

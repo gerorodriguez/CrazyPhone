@@ -34,6 +34,7 @@ const Home = () => {
   const publicationsMapped = filteredPublications.map((publication) => (
     <Col key={publication.id}>
       <PublicationCard
+      id = {publication.id}
         className="mb-3"
         key={publication.id}
         title={publication.title}

@@ -25,6 +25,8 @@ public class PublicationDTO implements Serializable {
 
     private UserIdDTO user;
 
+    private BrandDTO brand;
+
     public Set<ImageDTO> getImages() {
         return images;
     }
@@ -103,5 +105,13 @@ public class PublicationDTO implements Serializable {
 
     public void setUser(UserIdDTO user) {
         this.user = user;
+    }
+
+    public BrandDTO getBrand() {
+        return brand;
+    }
+
+    public void setBrand(BrandDTO brand) {
+        this.brand = brand;
     }
 }

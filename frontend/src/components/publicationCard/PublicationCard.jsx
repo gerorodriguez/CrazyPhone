@@ -11,7 +11,7 @@ function PublicationCard({ id, title, price, description, userId }) {
       <Card.Img
         variant="top"
         src="https://cdn.dxomark.com/wp-content/uploads/medias/post-155689/Apple-iPhone-15-Pro-Max_-blue-titanium_featured-image-packshot-review.jpg"
-        style={{ height: '200px', objectFit: 'cover' }}
+        style={{ height: '100%', objectFit: 'cover', width: '100%' }}
       />
       <Card.Body>
         {loggedInUserId === userId && (
@@ -33,7 +33,9 @@ function PublicationCard({ id, title, price, description, userId }) {
           style={{ fontSize: '19px', margin: '1% 0' }}
         >
           ${price} USD
-          <Button className="ml-auto">Ver</Button>
+          <Link as="button" to={`/publication/${id}`} className="btn btn-primary">
+            Ver
+          </Link>
         </Card.Text>
       </Card.Body>
     </Card>
