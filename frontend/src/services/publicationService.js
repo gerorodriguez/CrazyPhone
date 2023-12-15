@@ -146,3 +146,27 @@ export const getAllPublications = async () => {
   const data = await response.json();
   return data;
 };
+
+
+export const deletePublication = async (publicationId) => {
+  await fetch(`${apiUrl}/publications/${publicationId}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${JSON.parse(localStorage.getItem('AUTH_TOKEN'))}`,
+    },
+    // No es necesario enviar un cuerpo (body) en una solicitud DELETE
+  })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Error en la solicitud DELETE');
+        }
+        return // o .text() si la respuesta no es JSON
+      })
+      .then(data => {
+        console.log('Publicación eliminada con éxito:', data);
+      })
+      .catch(error => {
+        console.error('Hubo un error al eliminar la publicación:', error);
+      });
+}
