@@ -1,11 +1,25 @@
 package com.crazyphone.CrazyPhone.services;
 
+import com.crazyphone.CrazyPhone.entities.Authority;
 import com.crazyphone.CrazyPhone.entities.Publication;
 import com.crazyphone.CrazyPhone.entities.User;
 import com.crazyphone.CrazyPhone.repositories.PublicationRepository;
 import com.crazyphone.CrazyPhone.services.dto.PublicationDTO;
 import com.crazyphone.CrazyPhone.services.mapper.PublicationMapper;
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Font;
+import com.lowagie.text.FontFactory;
+import com.lowagie.text.PageSize;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.Phrase;
+import com.lowagie.text.pdf.CMYKColor;
+import com.lowagie.text.pdf.PdfPCell;
+import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfWriter;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Objects;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
@@ -72,5 +86,61 @@ public class PublicationService {
 
     public void deleteById(Long id) {
         publicationRepository.deleteById(id);
+    }
+
+    public void generate(HttpServletResponse response) throws DocumentException, IOException {
+
+        var publicationList = publicationRepository.findAll();
+
+        Document document = new Document(PageSize.A4.rotate());
+
+        PdfWriter.getInstance(document, response.getOutputStream());
+
+        document.open();
+
+        Font fontTiltle = FontFactory.getFont(FontFactory.TIMES_ROMAN);
+        fontTiltle.setSize(20);
+
+        Paragraph paragraph = new Paragraph("Listado de Publicaciones", fontTiltle);
+
+        paragraph.setAlignment(Paragraph.ALIGN_CENTER);
+
+        document.add(paragraph);
+
+        PdfPTable table = new PdfPTable(4);
+
+        table.setWidthPercentage(100f);
+        table.setWidths(new int[] { 3, 3, 3, 3 });
+        table.setSpacingBefore(5);
+
+        PdfPCell cell = new PdfPCell();
+
+        cell.setBackgroundColor(CMYKColor.MAGENTA);
+        cell.setPadding(5);
+
+        Font font = FontFactory.getFont(FontFactory.TIMES_ROMAN);
+        font.setColor(CMYKColor.WHITE);
+
+        cell.setPhrase(new Phrase("ID", font));
+        table.addCell(cell);
+        cell.setPhrase(new Phrase("Titulo", font));
+        table.addCell(cell);
+        cell.setPhrase(new Phrase("Precio", font));
+        table.addCell(cell);
+        cell.setPhrase(new Phrase("Marca", font));
+        table.addCell(cell);
+
+        for (Publication publication : publicationList) {
+            table.addCell(String.valueOf(publication.getId()));
+            table.addCell(publication.getTitle());
+            table.addCell(publication.getPrice().toString());
+            table.addCell(publication.getBrand().getBrandName());
+
+        }
+
+        document.add(table);
+
+        document.close();
+
     }
 }
