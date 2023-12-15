@@ -24,7 +24,7 @@ export const createBrand = (brand) => {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('AUTH_TOKEN')),
+      Authorization: `Bearer ${JSON.parse(localStorage.getItem('AUTH_TOKEN'))}`,
     },
     body: JSON.stringify(brand),
   })

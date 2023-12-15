@@ -10,6 +10,7 @@ import {
 import DeleteModelModal from './components/DeleteModelModal.jsx';
 import CreateModelModal from './components/CreateModelModal.jsx';
 import { getBrands } from '../../../../services/BrandService.js';
+import DeleteBrandModal from '../BrandAdmin/components/DeleteBrandModal.jsx';
 
 const ModelsAdmin = () => {
   const [rows, setRows] = useState([]);
@@ -33,28 +34,45 @@ const ModelsAdmin = () => {
     const modelToUpdate = newRows.find(
       (r) => r.id === newRows[data.indexes[0]].id,
     );
+    console.log(modelToUpdate);
+    delete modelToUpdate.delete;
     fetchUpdateModel(modelToUpdate);
     setRows(newRows);
   };
 
+  const modelData = (model) => {
+    return {
+      id: model.id,
+      modelName: model.modelName,
+      brand: {
+        id: model.brandId,
+      },
+    };
+  };
+
   const fetchUpdateModel = (model) => {
-    updateModel(model.id, model)
+    console.log(model);
+    updateModel(model.id, modelData(model))
       .then((updateModel) => {
-        setRows([
-          ...rows,
-          {
-            ...updateModel,
-            brand: updateModel?.brand?.brandName,
-            delete: (
-              <Row>
-                <DeleteModelModal
-                  onDelete={fetchDeleteModel}
-                  id={updateModel.id}
-                />
-              </Row>
-            ),
-          },
-        ]);
+        const newRows = rows.map((row) => {
+          if (row.id === updateModel.id) {
+            return {
+              ...updateModel,
+              brand: updateModel?.brand?.brandName,
+              brandId: updateModel?.brand?.id,
+              delete: (
+                <Row>
+                  <DeleteBrandModal
+                    onDelete={fetchDeleteModel}
+                    id={updateModel.id}
+                  />
+                </Row>
+              ),
+            };
+          }
+          return row;
+        });
+        setRows(newRows);
       })
       .catch((error) => {
         console.error(error);
@@ -103,6 +121,7 @@ const ModelsAdmin = () => {
           data.map((d) => ({
             ...d,
             brand: d?.brand?.brandName,
+            brandId: d?.brand?.id,
             delete: (
               <Row>
                 <DeleteModelModal onDelete={fetchDeleteModel} id={d.id} />

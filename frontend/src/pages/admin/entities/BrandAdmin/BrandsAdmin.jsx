@@ -34,20 +34,24 @@ const BrandsAdmin = () => {
   const fetchUpdateBrand = (brand) => {
     updateBrand(brand.id, brand)
       .then((updatedBrand) => {
-        setRows([
-          ...rows,
-          {
-            ...updatedBrand,
-            delete: (
-              <Row>
-                <DeleteBrandModal
-                  onDelete={fetchDeleteBrand}
-                  id={updatedBrand.id}
-                />
-              </Row>
-            ),
-          },
-        ]);
+        const newRows = rows.map((row) => {
+          if (row.id === updatedBrand.id) {
+            return {
+              ...updatedBrand,
+              delete: (
+                <Row>
+                  <DeleteBrandModal
+                    onDelete={fetchDeleteBrand}
+                    id={updatedBrand.id}
+                  />
+                </Row>
+              ),
+            };
+          }
+          return row;
+        });
+
+        setRows(newRows);
       })
       .catch((error) => {
         console.error(error);
