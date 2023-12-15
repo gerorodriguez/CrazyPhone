@@ -1,41 +1,39 @@
-import {useState} from "react";
-import {Button, Modal} from "react-bootstrap";
+import { Button, Modal } from 'react-bootstrap';
+import { useState } from 'react';
 
-const DeleteModal = ({onDelete, onDeletionSuccess, id, name, setSelectedId}) => {
+const DeleteModal = ({ onDelete, id }) => {
+  const [show, setShow] = useState(false);
 
-    const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-    const handleDelete = async () => {
-        setSelectedId(id)
-        await onDelete(id);
-        setShow(false);
-        onDeletionSuccess();
-    }
+  const confirm = () => {
+    onDelete(id);
+    handleClose();
+  };
 
-    return (
-        <>
-            <Button variant="danger" onClick={handleShow}>
-                Eliminar
-            </Button>
+  return (
+    <>
+      <Button variant="danger" onClick={handleShow}>
+        Eliminar
+      </Button>
 
-            <Modal show={show} onHide={handleClose}>
-                <Modal.Header closeButton>
-                    <Modal.Title>{name}</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>Esta seguro de eliminar el registro?</Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Cancelar
-                    </Button>
-                    <Button variant="danger" onClick={handleDelete}>
-                        Eliminar
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-        </>
-    );
-}
+      <Modal show={show} onHide={handleClose}>
+        <Modal.Header closeButton>
+          <Modal.Title>Eliminar Publicación</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Seguro que quiere eliminar este registro?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={handleClose}>
+            Cancelar
+          </Button>
+          <Button variant="danger" onClick={confirm} type="submit">
+            Eliminar
+          </Button>
+        </Modal.Footer>
+      </Modal>
+    </>
+  );
+};
 
 export default DeleteModal;

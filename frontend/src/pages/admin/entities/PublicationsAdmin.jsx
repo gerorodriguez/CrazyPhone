@@ -1,93 +1,82 @@
-import {useEffect, useState} from "react";
-import {deletePublication, getAllPublications} from "../../../services/publicationService.js";
-import {Button, Col, Row} from "react-bootstrap";
+import { useEffect, useState } from 'react';
+import {
+  deletePublication,
+  getAllPublications,
+} from '../../../services/publicationService.js';
+import { Col, Container, Row } from 'react-bootstrap';
 import 'react-data-grid/lib/styles.css';
 
 import DataGrid from 'react-data-grid';
-import DeleteModal from "./DeleteModal.jsx";
+import DeleteModelModal from './ModelsAdmin/components/DeleteModelModal.jsx';
 
 const PublicationsAdmin = () => {
+  const [rows, setRows] = useState([]);
 
-    const [rows, setRows] = useState([]);
-    const [publicationsData, setPublicationsData] = useState([]);
+  const defaultColumnProperties = {
+    resizable: true,
+  };
 
-    const [selectedId, setSelectedId] = useState();
+  const columns = [
+    { key: 'id', name: 'ID' },
+    { key: 'title', name: 'Title' },
+    { key: 'price', name: 'Price' },
+    { key: 'storage', name: 'Storage' },
+    { key: 'description', name: 'Description' },
+    { key: 'phoneNumber', name: 'Tel' },
+    { key: 'instagramAccount', name: 'Instagram' },
+    { key: 'state', name: 'Provincia' },
+    { key: 'delete', name: 'Eliminar' },
+  ].map((c) => ({ ...c, ...defaultColumnProperties }));
 
-    const handleDeleteSuccess = async () => {
-        console.log("ondeletion")
-        await getPublications();
-    };
+  const fetchPublications = () => {
+    getAllPublications()
+      .then((data) => {
+        setRows(
+          data.map((d) => ({
+            ...d,
+            brand: d?.brand?.brandName,
+            delete: (
+              <Row>
+                <DeleteModelModal onDelete={fetchDeletePublication} id={d.id} />
+              </Row>
+            ),
+          })),
+        );
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
-    const Ondelete = async () => {
-        await deletePublication(selectedId)
-        handleDeleteSuccess()
-    }
+  const fetchDeletePublication = (id) => {
+    setRows([]);
+    deletePublication(id)
+      .then(() => {
+        fetchPublications();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
-    useEffect(() => {
-        Ondelete();
-    }, [selectedId])
+  useEffect(() => {
+    fetchPublications();
+  }, []);
 
-    const getPublications = async () => {
-        const fetchedPublications = await getAllPublications();
-        setPublicationsData(fetchedPublications);
-    }
-
-    const generateRows = () => {
-        console.log("dgdosjgfsdo")
-        const publicationsWithActions = publicationsData.map(publication => ({
-            ...publication,
-            edit:
-                <Row>
-                    <Button variant="secondary">Editar</Button>
-                </Row>,
-            delete:
-                <Row>
-                    <DeleteModal id={publication.id} onDelete={deletePublication}/>
-                </Row>
-        }));
-        setRows(publicationsWithActions);
-    }
-
-    useEffect(() => {
-        getPublications();
-    }, []);
-
-    useEffect(() => {
-        console.log(publicationsData)
-        if (publicationsData.length > 0) {
-            generateRows()
-            console.log("hola")
-        }
-    }, [publicationsData])
-
-
-    const defaultColumnProperties = {
-        resizable: true,
-        width: 120,
-    };
-
-    const columns = [
-        {key: 'id', name: 'ID'},
-        {key: 'title', name: 'Title'},
-        {key: 'price', name: 'Price'},
-        {key: 'storage', name: 'Storage'},
-        {key: 'description', name: 'Description'},
-        {key: 'phoneNumber', name: 'Tel'},
-        {key: 'instagramAccount', name: 'Instagram'},
-        {key: 'state', name: 'Provincia'},
-        {key: 'edit', name: 'Editar'},
-        {key: 'delete', name: 'Eliminar'},
-    ].map(c => ({...c, ...defaultColumnProperties}));
-
-    const handleRowsChange = (newRows) => {
-        console.log(newRows)
-        setRows(newRows); // Actualiza el estado con las nuevas filas
-    };
-    return (
-        <Col className="p-5">
-            <DataGrid style={{color: "white"}} columns={columns} rows={rows} rowHeight={38}
-                      onRowsChange={handleRowsChange}/>
-        </Col>
-    );
-}
+  return (
+    <Container>
+      <Col className="p-5">
+        <Row className="mb-3">
+          <Col></Col>
+        </Row>
+        <DataGrid
+          style={{ color: 'white' }}
+          columns={columns}
+          rows={rows}
+          rowHeight={38}
+        />
+      </Col>
+    </Container>
+  );
+};
 export default PublicationsAdmin;
