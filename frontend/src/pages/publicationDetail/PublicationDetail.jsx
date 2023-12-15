@@ -5,7 +5,6 @@ import { getPublicationById } from '../../services/publicationService';
 import { useParams } from 'react-router-dom';
 
 const PublicationDetail = () => {
-
   const { id } = useParams();
 
   const { theme } = useContext(ThemeContext);
@@ -31,7 +30,9 @@ const PublicationDetail = () => {
     const phoneNumber = publicationDetails.phoneNumber;
 
     // Reemplaza 'tu-mensaje' con el mensaje que deseas enviar por defecto
-    const message = encodeURIComponent('Hola, estoy interesado en tu publicación de CrazyPhone!');
+    const message = encodeURIComponent(
+      'Hola, estoy interesado en tu publicación de CrazyPhone!',
+    );
 
     // Construir la URL de WhatsApp
     const whatsappUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${message}`;
@@ -54,8 +55,6 @@ const PublicationDetail = () => {
     return <div>Loading...</div>;
   }
 
-
-
   return (
     <Row
       className={`mt-5 py-4 px-xl-5 mx-2 ${
@@ -68,11 +67,11 @@ const PublicationDetail = () => {
             {Array.from({ length: 6 }, (x, i) => {
               let selected = i !== 1 ? 'opacity-6' : '';
               return (
-                <a key={i} href="!#">
+                <a key={i} >
                   <img
                     className={'rounded mb-2 ratio ' + selected}
                     alt=""
-                    src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-finish-select-202309-6-7inch-naturaltitanium?wid=2560&hei=1440&fmt=p-jpg&qlt=80&.v=1692845702708"
+                    src="https://cdn.dxomark.com/wp-content/uploads/medias/post-155689/Apple-iPhone-15-Pro-Max_-blue-titanium_featured-image-packshot-review.jpg"
                   />
                 </a>
               );
@@ -87,7 +86,7 @@ const PublicationDetail = () => {
             <img
               className="border rounded ratio ratio-1x1"
               alt=""
-              src="https://store.storeimages.cdn-apple.com/4982/as-images.apple.com/is/iphone-15-pro-finish-select-202309-6-7inch-naturaltitanium?wid=2560&hei=1440&fmt=p-jpg&qlt=80&.v=1692845702708"
+              src="https://cdn.dxomark.com/wp-content/uploads/medias/post-155689/Apple-iPhone-15-Pro-Max_-blue-titanium_featured-image-packshot-review.jpg"
             />
           </Col>
         </Row>
@@ -115,13 +114,13 @@ const PublicationDetail = () => {
           <dl className="row">
             <Col sm={4}>Marca</Col>
             <Col sm={8} as="dd" className="mb-3">
-              {publicationDetails?.brand?.brandName}	
+              {publicationDetails?.brand?.brandName}
             </Col>
 
             <Col sm={4} className="mb-3">
               Almacenamiento
             </Col>
-            
+
             <Col sm={8} className="mb-3">
               {publicationDetails.storage}GB
             </Col>
@@ -143,9 +142,7 @@ const PublicationDetail = () => {
           <h4 className="mb-0">Descripcion</h4>
           <hr />
           <p className="lead flex-shrink-0">
-            <small>
-              {publicationDetails.description}
-            </small>
+            <small>{publicationDetails.description}</small>
           </p>
         </div>
       </Col>

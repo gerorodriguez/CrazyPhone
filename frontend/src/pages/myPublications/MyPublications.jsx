@@ -5,7 +5,7 @@ import { Alert, Col, Container, Row, Spinner } from 'react-bootstrap';
 import { ThemeContext } from '../../contexts/theme/theme.context';
 import { APIContext } from '../../services/ApiContext';
 
-const MyPublication = () => {
+const MyPublications = () => {
   const { theme } = useContext(ThemeContext);
 
   const [myPublications, setMyPublications] = useState([]);
@@ -63,4 +63,4 @@ const MyPublication = () => {
   );
 };
 
-export default MyPublication;
+export default MyPublications;
