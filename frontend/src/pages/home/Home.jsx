@@ -7,7 +7,6 @@ import FilterList from '../../components/filterList/filterList.jsx';
 import PublicationCard from '../../components/publicationCard/PublicationCard.jsx';
 import { getAllPublications } from '../../services/publicationService.js';
 
-
 const Home = () => {
   const { theme } = useContext(ThemeContext);
 
@@ -15,13 +14,14 @@ const Home = () => {
 
   const [publications, setPublications] = useState([]);
 
+  const [selectedId, setselectedId] = useState(null);
+
   useEffect(() => {
     const fetchPublications = async () => {
       try {
         const allPublications = await getAllPublications();
         setPublications(allPublications);
-      }
-      catch (error) {
+      } catch (error) {
         console.error('Error al obtener las publicaciones:', error);
       }
     };
@@ -29,11 +29,28 @@ const Home = () => {
     fetchPublications();
   }, []);
 
+  useEffect(() => {
+    const fetchPublications = async () => {
+      try {
+        const allPublications = await getAllPublications();
+        setPublications(allPublications);
+      } catch (error) {
+        console.error('Error al obtener las publicaciones:', error);
+      }
+    };
 
+    fetchPublications();
+  }, [selectedId]);
+
+  useEffect(() => {
+    setFilteredPublications(publications);
+  }, [publications]);
 
   const publicationsMapped = filteredPublications.map((publication) => (
     <Col key={publication.id}>
       <PublicationCard
+        setselectedId={setselectedId}
+        id={publication.id}
         className="mb-3"
         key={publication.id}
         title={publication.title}

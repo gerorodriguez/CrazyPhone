@@ -1,9 +1,24 @@
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import { Link } from 'react-router-dom';
-import { getLoggedInUserId } from '../../services/publicationService';
+import Col from 'react-bootstrap/Card';
 
-function PublicationCard({ id, title, price, description, userId }) {
+import { Link } from 'react-router-dom';
+
+import {
+  deletePublication,
+  getLoggedInUserId,
+} from '../../services/publicationService';
+import DeleteModal from '../deleteModal/DeleteModal';
+import { useState } from 'react';
+
+function PublicationCard({
+  id,
+  title,
+  price,
+  description,
+  userId,
+  setselectedId,
+}) {
   const loggedInUserId = getLoggedInUserId();
 
   return (
@@ -34,6 +49,23 @@ function PublicationCard({ id, title, price, description, userId }) {
         >
           ${price} USD
           <Button className="ml-auto">Ver</Button>
+          <Col
+            className="mx-2"
+            style={{
+              fontSize: '19px',
+              margin: '1% 0 2',
+              position: 'absolute',
+              right: 0,
+              top: 0,
+              backgroundColor: 'red',
+            }}
+          >
+            <DeleteModal
+              setselectedId={setselectedId}
+              deletePublication={deletePublication}
+              id={id}
+            />
+          </Col>
         </Card.Text>
       </Card.Body>
     </Card>

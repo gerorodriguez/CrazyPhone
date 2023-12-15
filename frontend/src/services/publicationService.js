@@ -14,7 +14,7 @@ export const addPublication = async (newPublication, images) => {
       method: 'POST',
       headers: {
         Authorization:
-            'Bearer ' + JSON.parse(localStorage.getItem('AUTH_TOKEN')),
+          'Bearer ' + JSON.parse(localStorage.getItem('AUTH_TOKEN')),
       },
       body: formData,
     });
@@ -29,14 +29,6 @@ export const addPublication = async (newPublication, images) => {
     throw error;
   }
 };
-
-
-
-
-
-
-
-
 
 export const getPublicationById = (id) => {
   console.log(JSON.parse(localStorage.getItem('AUTH_TOKEN')));
@@ -59,14 +51,14 @@ export const getPublicationById = (id) => {
     });
 };
 
-
 export const updatePublication = async (publicationId, updatedPublication) => {
   try {
     const response = await fetch(`${apiUrl}/publications/${publicationId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('AUTH_TOKEN')),
+        Authorization:
+          'Bearer ' + JSON.parse(localStorage.getItem('AUTH_TOKEN')),
       },
       body: JSON.stringify(updatedPublication),
     });
@@ -104,13 +96,13 @@ export const getLoggedInUserId = () => {
 };
 
 export const getMyPublications = async () => {
-
   try {
     const response = await fetch(`${apiUrl}/publications/by-user`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('AUTH_TOKEN')),
+        Authorization:
+          'Bearer ' + JSON.parse(localStorage.getItem('AUTH_TOKEN')),
       },
     });
 
@@ -128,7 +120,7 @@ export const getMyPublications = async () => {
 
 export const getAllPublications = async () => {
   const response = await fetch(`${apiUrl}/publications`, {
-    method: "GET",
+    method: 'GET',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${JSON.parse(localStorage.getItem('AUTH_TOKEN'))}`,
@@ -137,7 +129,7 @@ export const getAllPublications = async () => {
 
   if (!response.ok) {
     if (response.status === 401) {
-      throw new Error("No autorizado. Por favor, inicia sesión.");
+      throw new Error('No autorizado. Por favor, inicia sesión.');
     } else {
       throw new Error(`Error ${response.status}: ${response.statusText}`);
     }
@@ -145,4 +137,29 @@ export const getAllPublications = async () => {
 
   const data = await response.json();
   return data;
+};
+
+export const deletePublication = async (publicationId) => {
+  await fetch(`${apiUrl}/publications/${publicationId}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('AUTH_TOKEN')),
+
+      // Aquí puedes añadir más headers si es necesario, como tokens de autenticación
+    },
+    // No es necesario enviar un cuerpo (body) en una solicitud DELETE
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Error en la solicitud DELETE');
+      }
+      return;
+    })
+    .then((data) => {
+      console.log('Publicación eliminada con éxito:', data);
+    })
+    .catch((error) => {
+      console.error('Hubo un error al eliminar la publicación:', error);
+    });
 };
