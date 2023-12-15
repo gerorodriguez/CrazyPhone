@@ -42,7 +42,6 @@ public class ModelController {
         return new ResponseEntity<>(modelService.findById(id), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         modelService.deleteById(id);

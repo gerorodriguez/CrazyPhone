@@ -21,13 +21,11 @@ public class BrandController {
         this.brandService = brandService;
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<BrandDTO> save(@RequestBody BrandDTO brandDTO) {
         return new ResponseEntity<>(brandService.save(brandDTO), HttpStatus.CREATED);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<BrandDTO> update(@PathVariable Long id, @RequestBody BrandDTO brandDTO) {
         return new ResponseEntity<>(brandService.update(id, brandDTO), HttpStatus.OK);
@@ -43,7 +41,6 @@ public class BrandController {
         return new ResponseEntity<>(brandService.findById(id), HttpStatus.OK);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
         brandService.deleteById(id);
