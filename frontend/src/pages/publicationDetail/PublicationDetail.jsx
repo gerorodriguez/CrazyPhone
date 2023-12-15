@@ -4,7 +4,7 @@ import { ThemeContext } from '../../contexts/theme/theme.context';
 import { getPublicationById } from '../../services/publicationService';
 import { useParams } from 'react-router-dom';
 
-const PublicationDetail = () => {
+const PublicationDetail = (brand) => {
 
   const { id } = useParams();
 
@@ -101,12 +101,7 @@ const PublicationDetail = () => {
           <dl className="row">
             <Col sm={4}>Marca</Col>
             <Col sm={8} as="dd" className="mb-3">
-              {publicationDetails.brand}
-            </Col>
-
-            <Col sm={4}>Modelo</Col>
-            <Col sm={8} className="mb-3">
-              {publicationDetails.model}
+              {publicationDetails?.brand?.brandName}	
             </Col>
 
             <Col sm={4} className="mb-3">

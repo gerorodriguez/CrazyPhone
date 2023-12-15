@@ -46,74 +46,6 @@ const Publication = () => {
   const [publicationErrors, setPublicationErrors] = useState('');
   const [brands, setBrands] = useState([]);
 
-  const availableModels = {
-    Apple: [
-      'Iphone 15 Pro Max',
-      'Iphone 15 Pro',
-      'Iphone 15 Plus',
-      'Iphone 15',
-      'Iphone 14 Pro Max',
-      'Iphone 14 Pro',
-      'Iphone 14 Plus',
-      'Iphone 14',
-      'iPhone 13 Pro Max',
-      'iPhone 13 Pro',
-      'iPhone 13',
-      'iPhone 13 mini',
-      'iPhone 12 Pro Max',
-      'iPhone 12 Pro',
-      'iPhone 12',
-      'iPhone 12 mini',
-      'iPhone SE (segunda generación)',
-      'iPhone 11 Pro Max',
-      'iPhone 11 Pro',
-      'iPhone 11',
-      'iPhone XR',
-      'iPhone XS Max',
-      'iPhone XS',
-      'iPhone X',
-      'iPhone 8 Plus',
-      'iPhone 8',
-      'iPhone 7 Plus',
-      'iPhone 7',
-      'iPhone SE (primera generación)',
-      'iPhone 6s Plus',
-      'iPhone 6s',
-      'iPhone 6 Plus',
-      'iPhone 6',
-      'iPhone 5c',
-      'iPhone 5s',
-      'iPhone 5',
-    ],
-    Samsung: [
-      'Samsung Galaxy Z Fold 3',
-      'Samsung Galaxy Z Flip',
-      'Samsung Galaxy Z Fold 2',
-      'Samsung Galaxy S21 Ultra',
-      'Samsung Galaxy S21+',
-      'Samsung Galaxy S21',
-      'Samsung Galaxy Note 20 Ultra',
-      'Samsung Galaxy Note 20',
-      'Samsung Galaxy S20 Ultra',
-      'Samsung Galaxy S20+',
-      'Samsung Galaxy S20',
-      'Samsung Galaxy Note 10+',
-      'Samsung Galaxy Note 10',
-      'Samsung Galaxy S10+',
-      'Samsung Galaxy S10',
-      'Samsung Galaxy S10e',
-      'Samsung Galaxy Note 9',
-      'Samsung Galaxy S9+',
-      'Samsung Galaxy S9',
-      'Samsung Galaxy Note 8',
-      'Samsung Galaxy S8+',
-      'Samsung Galaxy S8',
-      'Samsung Galaxy Note 7',
-    ],
-    Xiaomi: ['Mi 11', 'Mi 10', 'Redmi Note 10'],
-    Oppo: ['Oppo Find X3', 'Oppo Reno 6', 'Oppo A94'],
-  };
-
   const navigate = useNavigate();
 
   const handleImageRemove = (index) => {
@@ -203,13 +135,21 @@ const Publication = () => {
     if (validateForm()) {
       console.log('Form submitted:', formValues);
       toggleLoading(true);
+      const data = {
+        ...formValues,
+        brand: {
+          id: brands.find((b) => b.brandName === formValues.brand).id,
+          brandName: formValues.brand,
+        },
+      };
+      console.log(brands.find((b) => b.name === formValues.brand));
       try {
         if (id) {
-          await updatePublication(id, formValues);
+          await updatePublication(id, data);
           setSuccessMessage('Publicación actualizada con éxito.');
           navigate('/myPublications');
         } else {
-          registerNewPublication(formValues);
+          await registerNewPublication(data);
           setSuccessMessage('Nueva publicación creada con éxito.');
           navigate('/');
         }
