@@ -9,9 +9,10 @@ import ToggleTheme from '../toggleTheme/ToggleTheme.jsx';
 import { useContext } from 'react';
 import { ThemeContext } from '../../contexts/theme/theme.context.jsx';
 import { Button } from 'react-bootstrap';
+import {ROLE} from "../../utils/constants.js";
 
 const Header = () => {
-  const { logout, isAuthenticated } = useAuthContext();
+  const { logout, isAuthenticated, userRole } = useAuthContext();
   const { theme } = useContext(ThemeContext);
 
   const exit = () => {
@@ -40,6 +41,21 @@ const Header = () => {
               </Link>
             </Nav.Item>
             <Nav>
+              {userRole.includes(ROLE.admin) &&
+                  <NavDropdown as="button" title="Datos" className="mx-5 p-0 btn btn-success" data-bs-theme={theme}>
+                    <NavDropdown.Item data-bs-theme={theme}>
+                      <Link to="/admin/publications"  className={`${theme === "dark" ? "link-light" : "link-dark"} text-decoration-none`}>Publicaciones</Link>
+                    </NavDropdown.Item>
+                    <NavDropdown.Item>
+                      <Link to="/admin/brands" className={`${theme === "dark" ? "link-light" : "link-dark"} text-decoration-none`}>Marcas</Link>
+                    </NavDropdown.Item>
+                    <NavDropdown.Item>
+                      <Link to="/admin/models"  className={`${theme === "dark" ? "link-light" : "link-dark"} text-decoration-none`}>Modelos</Link>
+                    </NavDropdown.Item>
+                  </NavDropdown>
+              }
+            </Nav>
+              <Nav>
               <NavDropdown
                 className="ms-auto d-none d-lg-block"
                 title={<BsFillPersonFill />}
