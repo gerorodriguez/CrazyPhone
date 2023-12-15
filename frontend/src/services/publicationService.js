@@ -145,13 +145,12 @@ export const deletePublication = async (publicationId) => {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${JSON.parse(localStorage.getItem('AUTH_TOKEN'))}`,
     },
-    // No es necesario enviar un cuerpo (body) en una solicitud DELETE
   })
     .then((response) => {
       if (!response.ok) {
         throw new Error('Error en la solicitud DELETE');
       }
-      return; // o .text() si la respuesta no es JSON
+      return;
     })
     .then((data) => {
       console.log('Publicación eliminada con éxito:', data);
