@@ -20,6 +20,7 @@ const Register = () => {
 
   const [errors, setErrors] = useState({});
   const [registerError, setRegisterError] = useState();
+  const [successMessage, setSuccessMessage] = useState('');
 
   const handleChange = (e) => {
     setForm({
@@ -66,6 +67,7 @@ const Register = () => {
 
     if (Object.keys(newErrors).length === 0) {
       console.log('Form submitted', form);
+      setSuccessMessage('Usuario registrado con éxito!');
       registerNewUser(form);
     }
   };
@@ -79,93 +81,92 @@ const Register = () => {
     }
   };
 
-  useEffect(() => {
-    const parent = document.getElementById('container-alert');
-    if (parent) autoAnimate(parent);
-  }, []);
+  // useEffect(() => {
+  //   const parent = document.getElementById('container-alert');
+  //   if (parent) autoAnimate(parent);
+  // }, []);
 
   return (
     <Container
       data-bs-theme={theme}
       fluid
-      className={`d-flex justify-content-center align-items-center vh-100 ${
+      className={`d-flex justify-content-center align-items-center min-vh-100 ${
         theme === 'dark' ? 'bg-dark' : 'bg-light'
       }`}
     >
-      <Col md="4">
+      <Col md="4" className="mt-4 mb-4">
         <Card>
-          <Card.Body>
-            <Container
-              fluid
-              className="d-flex justify-content-center align-items-center"
-              direction="vertical"
-              boxShadow="0 4px 8px 0 rgba(0, 0, 0, 0.2)"
-            >
-              <Col md="9" id="container-alert">
-                <h3 className="d-flex justify-content-center align-items-center">
-                  Registrarse
-                </h3>
-                {registerError && (
-                  <Alert
-                    className="mt-4 d-flex justify-content-center align-items-center"
-                    variant="danger"
-                    onClose={() => setRegisterError(false)}
-                    dismissible
+          <Card.Body className="d-flex">
+            <Col id="container-alert">
+              <h3 className="d-flex justify-content-center align-items-center">
+                Registrarse
+              </h3>
+              {successMessage && (
+                <Alert variant="success" className="mb-3">
+                  {successMessage}
+                </Alert>
+              )}
+
+              {/* {registerError && (
+                <Alert
+                  className="mt-4 d-flex justify-content-center align-items-center"
+                  variant="danger"
+                  onClose={() => setRegisterError(false)}
+                  dismissible
+                >
+                  {registerError}
+                </Alert>
+              )} */}
+
+              <Form onSubmit={handleSubmit}>
+                <Form.Group style={{ position: 'relative' }} className="mt-5">
+                  {formFields.map((field) => (
+                    <div key={field.name} className="mb-4">
+                      <Form.Label className="mb-0">{field.label}</Form.Label>
+                      <Form.Control
+                        type={field.type}
+                        name={field.name}
+                        placeholder={field.placeholder}
+                        pattern={field.pattern}
+                        minLength={field.minLength}
+                        maxLength={field.maxLength}
+                        onChange={handleChange}
+                        onInput={() => {
+                          const updatedErrors = { ...errors };
+                          delete updatedErrors[field.name];
+                          setErrors(updatedErrors);
+                        }}
+                        className={errors[field.name] ? 'is-invalid' : ''}
+                      />
+                      {errors[field.name] && (
+                        <Form.Control.Feedback
+                          className="mb-3 mt-0"
+                          style={{ position: 'absolute' }}
+                          type="invalid"
+                        >
+                          {errors[field.name]}
+                        </Form.Control.Feedback>
+                      )}
+                    </div>
+                  ))}
+                </Form.Group>
+
+                <div className="mt-3">
+                  <Button
+                    variant="primary"
+                    type="submit"
+                    className="mb-4 w-100 mt-3"
                   >
-                    {registerError}
-                  </Alert>
-                )}
+                    Entrar
+                  </Button>
+                </div>
 
-                <Form onSubmit={handleSubmit}>
-                  <Form.Group style={{ position: 'relative' }} className="mt-5">
-                    {formFields.map((field) => (
-                      <div key={field.name} className="mb-4">
-                        <Form.Label className="mb-0">{field.label}</Form.Label>
-                        <Form.Control
-                          type={field.type}
-                          name={field.name}
-                          placeholder={field.placeholder}
-                          pattern={field.pattern}
-                          minLength={field.minLength}
-                          maxLength={field.maxLength}
-                          onChange={handleChange}
-                          onInput={() => {
-                            const updatedErrors = { ...errors };
-                            delete updatedErrors[field.name];
-                            setErrors(updatedErrors);
-                          }}
-                          className={errors[field.name] ? 'is-invalid' : ''}
-                        />
-                        {errors[field.name] && (
-                          <Form.Control.Feedback
-                            className="mb-3 mt-0"
-                            style={{ position: 'absolute' }}
-                            type="invalid"
-                          >
-                            {errors[field.name]}
-                          </Form.Control.Feedback>
-                        )}
-                      </div>
-                    ))}
-                  </Form.Group>
-
-                  <div className="mt-3">
-                    <Button
-                      variant="primary"
-                      type="submit"
-                      className="mb-4 w-100 mt-3"
-                    >
-                      Entrar
-                    </Button>
-                  </div>
-
-                  <div className="d-flex justify-content-between align-items-center">
-                    <span>¿Ya tienes una cuenta?</span>
-                    <a href="/login">Iniciar sesión</a>
-                  </div>
-                </Form>
-              </Col>
-            </Container>
+                <div className="d-flex justify-content-between align-items-center">
+                  <span>¿Ya tienes una cuenta?</span>
+                  <a href="/login">Iniciar sesión</a>
+                </div>
+              </Form>
+            </Col>
           </Card.Body>
         </Card>
       </Col>

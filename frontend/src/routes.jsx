@@ -9,6 +9,7 @@ import Admin from './pages/admin/admin.jsx';
 import ProtectedRoute from './router/ProtectedRoute.jsx';
 import { ROLE } from './utils/constants.js';
 import Layout from './components/Layout/Layout.jsx';
+import MyPublications from './pages/myPublications/MyPublications.jsx';
 import PublicationDetail from './pages/publicationDetail/PublicationDetail.jsx';
 
 const router = createBrowserRouter([
@@ -31,6 +32,13 @@ const router = createBrowserRouter([
       {
         path: '/publication',
         element: <Publication />,
+      },
+      {path: '/myPublications',
+      element: <MyPublications/>,
+      },
+      {
+        path:"/publication/:id/edit",
+        element: <Publication/>,
       },
       {
         path: '/publication/:id',
