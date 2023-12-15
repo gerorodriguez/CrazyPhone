@@ -4,6 +4,12 @@ import com.crazyphone.CrazyPhone.services.PublicationService;
 import com.crazyphone.CrazyPhone.services.dto.PublicationDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lowagie.text.DocumentException;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -57,5 +63,20 @@ public class PublicationController {
           publicationService.deleteById(id);
           return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
+
+    @GetMapping("/pdf")
+    public void generatePdf(HttpServletResponse response) throws DocumentException, IOException {
+
+        response.setContentType("application/pdf");
+        DateFormat dateFormat = new SimpleDateFormat("YYYY-MM-DD:HH:MM:SS");
+        String currentDateTime = dateFormat.format(new Date());
+        String headerkey = "Content-Disposition";
+        String headervalue = "attachment; filename=ListadoPublicaciones_" + currentDateTime + ".pdf";
+        response.setHeader(headerkey, headervalue);
+
+        publicationService.generate(response);
+
+    }
+
 
 }
