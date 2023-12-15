@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { getMyPublications } from '../../services/publicationService';
 import PublicationCard from '../../components/publicationCard/PublicationCard';
-import { Col, Container, Row, Spinner } from 'react-bootstrap';
+import { Alert, Col, Container, Row, Spinner } from 'react-bootstrap';
 import { ThemeContext } from '../../contexts/theme/theme.context';
 import { APIContext } from '../../services/ApiContext';
 
@@ -30,33 +30,35 @@ const MyPublication = () => {
     fetchMyPublications();
   }, []);
 
-  const publicationsMapped = myPublications.map((publication) => (
-    <Col key={publication.id} className="mb-2">
-      <PublicationCard
-        key={publication.id}
-        id={publication.id}
-        title={publication.title}
-        price={publication.price}
-        description={publication.description}
-      />
-    </Col>
-  ));
+  let content;
+
+  if (isLoading) {
+    content = <Spinner style={{ position: 'absolute', left: 0, right: 0, bottom: 0, top: 0, margin: 'auto' }} />;
+  } else if (myPublications.length === 0) {
+    content = <Alert variant="info">No tienes ninguna publicación.</Alert>;
+  } else {
+    const publicationsMapped = myPublications.map((publication) => (
+      <Col key={publication.id} className="mb-2">
+        <PublicationCard
+          key={publication.id}
+          id={publication.id}
+          title={publication.title}
+          price={publication.price}
+          description={publication.description}
+        />
+      </Col>
+    ));
+
+    content = (
+      <Row className="row row-cols-1 row-cols-md-2 row-cols-lg-2 g-3 mb-4 flex-shrink-0 row-cols-xl-3 w-auto-l">
+        {publicationsMapped}
+      </Row>
+    );
+  }
 
   return (
-    <Container
-      data-bs-theme={theme}
-      fluid
-      className="mt-5 mb-0 py-4 px-xl-5 mb-2"
-    >
-      {!isLoading ? (
-      <>
-        <Row className="row row-cols-1 row-cols-md-2 row-cols-lg-2 g-3 mb-4 flex-shrink-0 row-cols-xl-3 w-auto-l">
-          {publicationsMapped}
-        </Row>
-      </>
-      ) : (
-      <Spinner style={{position: 'absolute', left: 0, right: 0, bottom: 0, top: 0, margin: "auto"}}/>
-      )}
+    <Container data-bs-theme={theme} fluid className="mt-5 mb-0 py-4 px-xl-5 mb-2">
+      {content}
     </Container>
   );
 };

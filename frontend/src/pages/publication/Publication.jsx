@@ -9,6 +9,7 @@ import {
 import { useNavigate, useParams } from 'react-router-dom';
 import { ThemeContext } from '../../contexts/theme/theme.context';
 import { getBrands } from '../../services/BrandService';
+import PublicationDetail from '../publicationDetail/PublicationDetail';
 
 const Publication = () => {
   const { theme } = useContext(ThemeContext);
@@ -119,7 +120,10 @@ const Publication = () => {
       const fetchPublicationDetails = async () => {
         try {
           const publicationDetails = await getPublicationById(id);
-          setFormValues(publicationDetails);
+          setFormValues({
+            ...publicationDetails,
+            brand: publicationDetails.brand.brandName,
+          });
         } catch (error) {
           console.error('Error al obtener detalles de la publicación:', error);
         }
@@ -134,16 +138,16 @@ const Publication = () => {
 
     if (validateForm()) {
       console.log('Form submitted:', formValues);
-      toggleLoading(true);
       const data = {
         ...formValues,
         brand: {
-          id: brands.find((b) => b.brandName === formValues.brand).id,
+          id: brands.find((b) => b.brandName === formValues.brand)?.id,
           brandName: formValues.brand,
         },
       };
       console.log(brands.find((b) => b.name === formValues.brand));
       try {
+        toggleLoading(true);
         if (id) {
           await updatePublication(id, data);
           setSuccessMessage('Publicación actualizada con éxito.');
@@ -271,6 +275,7 @@ const Publication = () => {
                   <option value="64">64GB</option>
                   <option value="128">128GB</option>
                   <option value="256">256GB</option>
+                  <option value="512">512GB</option>
                 </Form.Select>
                 <Form.Text className="text-danger">
                   {formErrors.storage}

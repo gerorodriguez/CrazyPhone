@@ -5,7 +5,7 @@ import PriceRangeFilter from './priceRangeFilter/PriceRangeFilter';
 import { getBrands } from '../../services/BrandService';
 
 function FilterList({ publications, setFilteredPublications }) {
-  const storages = ['64 GB', '128 GB', '256 GB', '512 GB'];
+  const storages = [{key: 64, value: "64 GB"}, {key: 128, value: "128 GB"}, {key: 256, value: "256 GB"}, {key: 512, value: "512 GB"}];
   const [brands, setBrands] = useState([]);
 
   useEffect(() => {
@@ -102,7 +102,7 @@ function FilterList({ publications, setFilteredPublications }) {
             filter={filter}
             setFilter={setFilter}
             name={'storage'}
-            options={storages}
+            options={storages.map((storage) => storage.key)}
             onChange={handleFilterChange}
           />
         </div>

@@ -4,7 +4,7 @@ import { ThemeContext } from '../../contexts/theme/theme.context';
 import { getPublicationById } from '../../services/publicationService';
 import { useParams } from 'react-router-dom';
 
-const PublicationDetail = (brand) => {
+const PublicationDetail = () => {
 
   const { id } = useParams();
 

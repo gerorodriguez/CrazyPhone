@@ -14,7 +14,7 @@ const FilterItem = ({ filter, name, options, onChange }) => {
               onChange={() => handleCheckBox(option)}
               type="radio"
               id={`radio-${index}`}
-              label={option}
+              label={`${option} `}
               checked={filter[name] === option}
             />
           </div>
