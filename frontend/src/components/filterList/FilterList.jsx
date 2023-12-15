@@ -2,10 +2,25 @@ import { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
 import FilterItem from './filterItem/FilterItem';
 import PriceRangeFilter from './priceRangeFilter/PriceRangeFilter';
+import { getBrands } from '../../services/BrandService';
 
 function FilterList({ publications, setFilteredPublications }) {
   const storages = ['64 GB', '128 GB', '256 GB', '512 GB'];
-  const BRANDS = ['Apple', 'Samsung', 'Motorola', 'Xiaomi'];
+  const [brands, setBrands] = useState([]);
+
+  useEffect(() => {
+    const fetchBrands = async () => {
+      try {
+        const brands = await getBrands();
+        console.log('Brands:', brands);
+        setBrands(brands);
+      } catch (error) {
+        console.error('Error al obtener las marcas:', error);
+      }
+    };
+
+    fetchBrands();
+  }, []);
 
   const initialState = {
     brand: '',
@@ -17,10 +32,10 @@ function FilterList({ publications, setFilteredPublications }) {
 
   const applyFilters = () => {
     let result = publications;
-
+    console.log(result);
     if (filter.brand) {
       result = result.filter(
-        (publication) => filter.brand === publication.brand,
+        (publication) => filter.brand === publication?.brand?.brandName,
       );
     }
 
@@ -75,7 +90,7 @@ function FilterList({ publications, setFilteredPublications }) {
             filter={filter}
             setFilter={setFilter}
             name={'brand'}
-            options={BRANDS}
+            options={brands.map((brand) => brand.brandName)}
             onChange={handleFilterChange}
           />
         </div>

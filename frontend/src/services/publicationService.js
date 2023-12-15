@@ -30,15 +30,8 @@ export const addPublication = async (newPublication, images) => {
     console.error('Error durante el registro:', error);
     throw error;
   }
+
 };
-
-
-
-
-
-
-
-
 
 export const getPublicationById = (id) => {
   console.log(JSON.parse(localStorage.getItem('AUTH_TOKEN')));
