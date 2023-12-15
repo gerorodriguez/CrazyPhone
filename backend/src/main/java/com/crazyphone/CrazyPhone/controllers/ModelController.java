@@ -20,7 +20,6 @@ public class ModelController {
         this.modelService = modelService;
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<ModelDTO> save(@RequestBody ModelDTO modelDTO) {
         return new ResponseEntity<>(modelService.save(modelDTO), HttpStatus.CREATED);
