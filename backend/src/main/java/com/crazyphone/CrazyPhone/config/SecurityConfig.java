@@ -91,8 +91,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/publications").permitAll()
                         .requestMatchers("/swagger-ui/**", "/api/register", "/api/authenticate", "/v3/api-docs/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/publications", "/api/brands").permitAll()
                         .requestMatchers("api/admin/**").hasAnyAuthority(AuthoritiesConstants.ADMIN)
                         .requestMatchers("/api/**").authenticated()
                         .anyRequest().authenticated()

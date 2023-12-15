@@ -1,9 +1,7 @@
-
 const apiUrl = 'http://localhost:8080/api';
 
 export const addPublication = async (newPublication, images) => {
   try {
-
     const formData = new FormData();
 
     formData.append('data', JSON.stringify(newPublication));
@@ -16,7 +14,7 @@ export const addPublication = async (newPublication, images) => {
       method: 'POST',
       headers: {
         Authorization:
-            'Bearer ' + JSON.parse(localStorage.getItem('AUTH_TOKEN')),
+          'Bearer ' + JSON.parse(localStorage.getItem('AUTH_TOKEN')),
       },
       body: formData,
     });
@@ -30,7 +28,6 @@ export const addPublication = async (newPublication, images) => {
     console.error('Error durante el registro:', error);
     throw error;
   }
-
 };
 
 export const getPublicationById = (id) => {
@@ -54,14 +51,14 @@ export const getPublicationById = (id) => {
     });
 };
 
-
 export const updatePublication = async (publicationId, updatedPublication) => {
   try {
     const response = await fetch(`${apiUrl}/publications/${publicationId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('AUTH_TOKEN')),
+        Authorization:
+          'Bearer ' + JSON.parse(localStorage.getItem('AUTH_TOKEN')),
       },
       body: JSON.stringify(updatedPublication),
     });
@@ -99,13 +96,13 @@ export const getLoggedInUserId = () => {
 };
 
 export const getMyPublications = async () => {
-
   try {
     const response = await fetch(`${apiUrl}/publications/by-user`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + JSON.parse(localStorage.getItem('AUTH_TOKEN')),
+        Authorization:
+          'Bearer ' + JSON.parse(localStorage.getItem('AUTH_TOKEN')),
       },
     });
 
@@ -123,16 +120,15 @@ export const getMyPublications = async () => {
 
 export const getAllPublications = async () => {
   const response = await fetch(`${apiUrl}/publications`, {
-    method: "GET",
+    method: 'GET',
     headers: {
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${JSON.parse(localStorage.getItem('AUTH_TOKEN'))}`,
     },
   });
 
   if (!response.ok) {
     if (response.status === 401) {
-      throw new Error("No autorizado. Por favor, inicia sesión.");
+      throw new Error('No autorizado. Por favor, inicia sesión.');
     } else {
       throw new Error(`Error ${response.status}: ${response.statusText}`);
     }
@@ -141,7 +137,6 @@ export const getAllPublications = async () => {
   const data = await response.json();
   return data;
 };
-
 
 export const deletePublication = async (publicationId) => {
   await fetch(`${apiUrl}/publications/${publicationId}`, {
@@ -152,16 +147,16 @@ export const deletePublication = async (publicationId) => {
     },
     // No es necesario enviar un cuerpo (body) en una solicitud DELETE
   })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Error en la solicitud DELETE');
-        }
-        return // o .text() si la respuesta no es JSON
-      })
-      .then(data => {
-        console.log('Publicación eliminada con éxito:', data);
-      })
-      .catch(error => {
-        console.error('Hubo un error al eliminar la publicación:', error);
-      });
-}
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Error en la solicitud DELETE');
+      }
+      return; // o .text() si la respuesta no es JSON
+    })
+    .then((data) => {
+      console.log('Publicación eliminada con éxito:', data);
+    })
+    .catch((error) => {
+      console.error('Hubo un error al eliminar la publicación:', error);
+    });
+};
