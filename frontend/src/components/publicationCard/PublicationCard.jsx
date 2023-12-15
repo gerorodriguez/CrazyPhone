@@ -11,7 +11,7 @@ function PublicationCard({ id, title, price, description, userId }) {
       <Card.Img
         variant="top"
         src="https://cdn.dxomark.com/wp-content/uploads/medias/post-155689/Apple-iPhone-15-Pro-Max_-blue-titanium_featured-image-packshot-review.jpg"
-        style={{ height: '200px', objectFit: 'cover' }}
+        style={{ height: '100%', objectFit: 'cover', width: '100%' }}
       />
       <Card.Body>
         {loggedInUserId === userId && (
