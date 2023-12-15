@@ -27,6 +27,19 @@ const PublicationDetail = (brand) => {
     }
   };
 
+  const handleContactarClick = () => {
+    const phoneNumber = publicationDetails.phoneNumber;
+
+    // Reemplaza 'tu-mensaje' con el mensaje que deseas enviar por defecto
+    const message = encodeURIComponent('Hola, estoy interesado en tu publicación de CrazyPhone!');
+
+    // Construir la URL de WhatsApp
+    const whatsappUrl = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${message}`;
+
+    // Abrir la URL en una nueva ventana o pestaña
+    window.open(whatsappUrl, '_blank');
+  };
+
   useEffect(() => {
     if (id) {
       getPublication(id);
@@ -90,6 +103,7 @@ const PublicationDetail = (brand) => {
               <Button
                 variant="primary"
                 className={`py-2 w-100 ${buttonClasses}`}
+                onClick={handleContactarClick} // Agregar evento de clic
               >
                 Contactar
               </Button>
