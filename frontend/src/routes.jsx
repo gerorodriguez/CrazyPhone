@@ -5,12 +5,14 @@ import './App.css';
 import Home from './pages/home/Home.jsx';
 import Detail from './pages/publicationDetail/PublicationDetail.jsx';
 import Publication from './pages/publication/Publication.jsx';
-import Admin from './pages/admin/admin.jsx';
 import ProtectedRoute from './router/ProtectedRoute.jsx';
 import { ROLE } from './utils/constants.js';
 import Layout from './components/Layout/Layout.jsx';
 import MyPublications from './pages/myPublications/MyPublications.jsx';
 import PublicationDetail from './pages/publicationDetail/PublicationDetail.jsx';
+import PublicationsAdmin from "./pages/admin/entities/PublicationsAdmin.jsx";
+import BrandsAdmin from "./pages/admin/entities/BrandAdmin/BrandsAdmin.jsx";
+import ModelsAdmin from "./pages/admin/entities/ModelsAdmin/ModelsAdmin.jsx";
 
 const router = createBrowserRouter([
   {
@@ -45,11 +47,27 @@ const router = createBrowserRouter([
         element: <PublicationDetail />,
       },
       {
-        path: '/admin',
+        path: '/admin/publications',
         element: (
           <ProtectedRoute requiredRole={ROLE.admin}>
-            <Admin />
+            <PublicationsAdmin />
           </ProtectedRoute>
+        ),
+      },
+        {
+            path: '/admin/brands',
+            element: (
+                <ProtectedRoute requiredRole={ROLE.admin}>
+                    <BrandsAdmin />
+                </ProtectedRoute>
+            ),
+        },
+      {
+        path: '/admin/models',
+        element: (
+            <ProtectedRoute requiredRole={ROLE.admin}>
+              <ModelsAdmin />
+            </ProtectedRoute>
         ),
       },
     ],
